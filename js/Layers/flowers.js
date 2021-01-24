@@ -11,6 +11,7 @@ addLayer("flowers", {
 			points: new Decimal(1),
 			total: new Decimal(1),
 			xp: new Decimal(0),
+			lastLevel: new Decimal(1),
 			realTime: 0
 		};
 	},
@@ -86,6 +87,16 @@ addLayer("flowers", {
 	update(diff) {
 		if (player.tab === this.layer) {
 			player[this.layer].realTime += diff;
+		}
+		let jobLevel = new Decimal(getJobLevel(this.layer));
+		if (jobLevel.neq(player[this.layer].lastLevel)) {
+			doPopup("none", `Level ${jobLevel}`, "Level Up!", 3, layers[this.layer].color);
+			player[this.layer].lastLevel = jobLevel;
+			if (jobLevel.eq(10) && player.chapter === 1) {
+				player.chapter = 2;
+				player.autosave = false;
+				save();
+			}
 		}
 	},
 	onAddPoints(gain) {
