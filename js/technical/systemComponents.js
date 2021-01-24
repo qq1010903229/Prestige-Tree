@@ -1,6 +1,6 @@
 var systemComponents = {
-	'tab-buttons': {
-		props: ['layer', 'data', 'name'],
+	"tab-buttons": {
+		props: ["layer", "data", "name"],
 		template: `
 			<div class="upgRow">
 				<div v-for="tab in Object.keys(data)">
@@ -11,8 +11,8 @@ var systemComponents = {
 		`
 	},
 
-	'tree-node': {
-		props: ['layer', 'abb', 'size'],
+	"tree-node": {
+		props: ["layer", "abb", "size"],
 		template: `
 		<button v-if="nodeShown(layer)"
 			v-bind:id="layer"
@@ -48,9 +48,9 @@ var systemComponents = {
 		`
 	},
 
-	
-	'layer-tab': {
-		props: ['layer', 'back', 'spacing', 'embedded'],
+
+	"layer-tab": {
+		props: ["layer", "back", "spacing", "embedded"],
 		template: `<div v-bind:style="[tmp[layer].style ? tmp[layer].style : {}, (tmp[layer].tabFormat && !Array.isArray(tmp[layer].tabFormat)) ? tmp[layer].tabFormat[player.subtabs[layer].mainTabs].style : {}]">
 		<div v-if="back"><button v-bind:class="back == 'big' ? 'other-back' : 'back'" v-on:click="goBack()">←</button></div>
 		<div v-if="!tmp[layer].tabFormat">
@@ -87,8 +87,8 @@ var systemComponents = {
 			`
 	},
 
-	'overlay-head': {
-		template: `			
+	"overlay-head": {
+		template: `
 		<div class="overlayThing" style="padding-bottom:7px; width: 90%">
 		<span v-if="player.devSpeed && player.devSpeed != 1" class="overlayThing">
 			<br>Dev Speed: {{format(player.devSpeed)}}x<br>
@@ -99,26 +99,20 @@ var systemComponents = {
 		<span v-if="false && !player.keepGoing"  class="overlayThing">
 			<br>Reach {{formatWhole(ENDGAME)}} to beat the game!<br>
 		</span>
-		<br>
-		<span v-if="player.points.lt('1e1000')"  class="overlayThing">You have </span>
-		<h2  class="overlayThing" id="points">{{format(player.points)}}</h2>
-		<span v-if="player.points.lt('1e1e6')"  class="overlayThing"> {{modInfo.pointsName}}</span>
-		<br>
-		<span v-if="canGenPoints()"  class="overlayThing">({{format(getPointGen())}}/sec)</span>
 		<div v-for="thing in tmp.displayThings" class="overlayThing"><span v-if="thing" v-html="thing"></span></div>
 	</div>
 	`
-    },
+	},
 
-    'info-tab': {
-        template: `
+	"info-tab": {
+		template: `
         <div>
         <h2>{{modInfo.name}}</h2>
         <br>
         <h3>{{VERSION.withName}}</h3>
         <span v-if="modInfo.author">
             <br>
-            Made by {{modInfo.author}}	
+            Made by {{modInfo.author}}
         </span>
         <br>
         The Modding Tree <a v-bind:href="'https://github.com/Acamaeda/The-Modding-Tree/blob/master/changelog.md'" target="_blank" class="link" v-bind:style = "{'font-size': '14px', 'display': 'inline'}" >{{TMT_VERSION.tmtNum}}</a> by Acamaeda
@@ -136,10 +130,10 @@ var systemComponents = {
         <h3>Hotkeys</h3><br>
         <span v-for="key in hotkeys" v-if="player[key.layer].unlocked && tmp[key.layer].hotkeys[key.id].unlocked"><br>{{key.description}}</span></div>
     `
-    },
+	},
 
-    'options-tab': {
-        template: `
+	"options-tab": {
+		template: `
         <table>
             <tr>
                 <td><button class="opt" onclick="save()">Save</button></td>
@@ -152,20 +146,15 @@ var systemComponents = {
                 <td><button class="opt" onclick="toggleOpt('offlineProd')">Offline Prod: {{ player.offlineProd?"ON":"OFF" }}</button></td>
             </tr>
             <tr>
-                <td><button class="opt" onclick="switchTheme()">Theme: {{ getThemeName() }}</button></td>
+                <td><button class="opt" onclick="toggleOpt('hideChallenges')">Completed Challenges: {{ player.hideChallenges?"HIDDEN":"SHOWN" }}</button></td>
                 <td><button class="opt" onclick="adjustMSDisp()">Show Milestones: {{ player.msDisplay.toUpperCase() }}</button></td>
                 <td><button class="opt" onclick="toggleOpt('hqTree')">High-Quality Tree: {{ player.hqTree?"ON":"OFF" }}</button></td>
-            </tr>
-                <tr>
-                    <td><button class="opt" onclick="toggleOpt('hideChallenges')">Completed Challenges: {{ player.hideChallenges?"HIDDEN":"SHOWN" }}</button></td>
-                <!--	<td><button class="opt" onclick="toggleOpt('oldStyle')">Style: {{ player.oldStyle?"v1.0":"NEW" }}</button></td>-->
-            </tr> 
         </table>`
-    },
+	},
 
-    'back-button': {
-        template: `
+	"back-button": {
+		template: `
         <button v-bind:class="back" onclick="goBack()">←</button>
         `
-    }
-}
+	}
+};

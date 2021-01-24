@@ -1,0 +1,1221 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"createl",
+				"createElement(tagName) -> Element\tfn "
+			],
+			[
+				"cr",
+				"createElement\t( localName: DOMString ): Element Document"
+			],
+			[
+				"curr",
+				"currentItemsCount"
+			],
+			[
+				"PRE",
+				"PREV_PAGE_BUTTON"
+			],
+			[
+				"Wait",
+				"WaitForObject"
+			],
+			[
+				"itemS",
+				"itemSetID"
+			],
+			[
+				"Da",
+				"DATA_MANAGER"
+			],
+			[
+				"open",
+				"openSlotType"
+			],
+			[
+				"PLO",
+				"PLOT_OWNER_LABEL"
+			],
+			[
+				"Eff",
+				"EFFECT_SUFFIX"
+			],
+			[
+				"TRE",
+				"TREE_ID"
+			],
+			[
+				"S",
+				"SKILL_POINTS_NAME"
+			],
+			[
+				"ski",
+				"SKILL_POINTS_NAME"
+			],
+			[
+				"presti",
+				"prestigeMult"
+			],
+			[
+				"pick",
+				"pickupMultiplier"
+			],
+			[
+				"pres",
+				"prestigable"
+			],
+			[
+				"prest",
+				"prestigeMultText"
+			],
+			[
+				"inmed",
+				"inMeditationStart"
+			],
+			[
+				"medi",
+				"meditationStart"
+			],
+			[
+				"medit",
+				"meditationStart"
+			],
+			[
+				"FOR",
+				"FORCE_OFF"
+			],
+			[
+				"Upd",
+				"UpdateProgressBar"
+			],
+			[
+				"GetMA",
+				"GetMaxLevel"
+			],
+			[
+				"GetMa",
+				"GetMaxLevel"
+			],
+			[
+				"BUYO",
+				"BUY_ONE_CONTROLLER"
+			],
+			[
+				"dec",
+				"decoded"
+			],
+			[
+				"de",
+				"decrypt"
+			],
+			[
+				"requ",
+				"requirement"
+			],
+			[
+				"skill",
+				"skillTreeData"
+			],
+			[
+				"propA",
+				"propAffectedAmount"
+			],
+			[
+				"prop",
+				"propRequiredAmount"
+			],
+			[
+				"propRe",
+				"propRequiredResource"
+			],
+			[
+				"propAff",
+				"propAffectedResource"
+			],
+			[
+				"propP",
+				"propParentSkill"
+			],
+			[
+				"propPa",
+				"propParentNode"
+			],
+			[
+				"Find",
+				"FindAncestorByType"
+			],
+			[
+				"pare",
+				"parentContainer"
+			],
+			[
+				"paren",
+				"parentContainer"
+			],
+			[
+				"chil",
+				"childContainer"
+			],
+			[
+				"par",
+				"parentScript"
+			],
+			[
+				"Lo",
+				"LoaderContext.Provider"
+			],
+			[
+				"oppo",
+				"oppositeCornerY〔variable〕"
+			],
+			[
+				"opp",
+				"oppositeCornerX〔variable〕"
+			],
+			[
+				"Re",
+				"React.Fragment"
+			],
+			[
+				"summ",
+				"summary〔variable〕"
+			],
+			[
+				"fr",
+				"fromJS"
+			],
+			[
+				"sum",
+				"summarizeEffects"
+			],
+			[
+				"di",
+				"disconnected"
+			],
+			[
+				"SET",
+				"SET_SKILL_DISCONNECTED〔variable〕"
+			],
+			[
+				"FI",
+				"FireTexture"
+			],
+			[
+				"parti",
+				"particleCount"
+			],
+			[
+				"layer",
+				"layerCenterToOppositeCornerX〔variable〕"
+			],
+			[
+				"startMou",
+				"startMouseToOppositeCornerX"
+			],
+			[
+				"sta",
+				"startPosition〔namespace〕"
+			],
+			[
+				"op",
+				"oppositeCornerY"
+			],
+			[
+				"opps",
+				"oppositeCornerX〔variable〕"
+			],
+			[
+				"ori",
+				"originY"
+			],
+			[
+				"origin",
+				"originX〔variable〕"
+			],
+			[
+				"time",
+				"timeFluxColor"
+			],
+			[
+				"dipl",
+				"diplomaColor"
+			],
+			[
+				"lectur",
+				"lecturesColor"
+			],
+			[
+				"upgra",
+				"upgradeEffect〔function〕"
+			],
+			[
+				"mei",
+				"meierLevel"
+			],
+			[
+				"challeng",
+				"challengeCompletions"
+			],
+			[
+				"upgr",
+				"upgradeEffect〔function〕"
+			],
+			[
+				"gab",
+				"gabenExp"
+			],
+			[
+				"gaben",
+				"gabenExp"
+			],
+			[
+				"gabe",
+				"gabenLevel"
+			],
+			[
+				"buyab",
+				"buyableEffect"
+			],
+			[
+				"buy",
+				"buyableEffect"
+			],
+			[
+				"auto-up",
+				"auto-upgradehardware"
+			],
+			[
+				"auto-",
+				"auto-update"
+			],
+			[
+				"slow",
+				"slowDownModifier〔variable〕"
+			],
+			[
+				"refac",
+				"refactoringColor"
+			],
+			[
+				"ex",
+				"experienceColor"
+			],
+			[
+				"good",
+				"goodwillColor"
+			],
+			[
+				"go",
+				"goodwillColor"
+			],
+			[
+				"goo",
+				"goodwill"
+			],
+			[
+				"l",
+				"  Get the list of objects at the specified room position."
+			],
+			[
+				"resi",
+				"resizeCanvas"
+			],
+			[
+				"transit",
+				"transition-duration\tproperty"
+			],
+			[
+				"displ",
+				"display-text"
+			],
+			[
+				"milest",
+				"hasMilestone"
+			],
+			[
+				"produc",
+				"productivityMult"
+			],
+			[
+				"prod",
+				"productivityMult"
+			],
+			[
+				"reset",
+				"resettingLayer"
+			],
+			[
+				"renam",
+				"renameVariablesHoursWorked"
+			],
+			[
+				"currMou",
+				"currMouseY"
+			],
+			[
+				"currMo",
+				"currMouseX"
+			],
+			[
+				"start",
+				"startMouse"
+			],
+			[
+				"currM",
+				"currMouseY"
+			],
+			[
+				"rot",
+				"rotationHistory"
+			],
+			[
+				"rota",
+				"rotationPointer"
+			],
+			[
+				"sele",
+				"selected"
+			],
+			[
+				"noRot",
+				"noRotToRotOffset"
+			],
+			[
+				"rotation",
+				"rotationHistory"
+			],
+			[
+				"rotati",
+				"rotationPointer"
+			],
+			[
+				"center",
+				"centerX"
+			],
+			[
+				"automa",
+				"autoMaxAllToggle"
+			],
+			[
+				"autom",
+				"autoMaxAllToggle"
+			],
+			[
+				"automaxAl",
+				"autoMaxAllContainer"
+			],
+			[
+				"crea",
+				"createChildElement"
+			],
+			[
+				"ascensionRo",
+				"ascensionRow"
+			],
+			[
+				"creat",
+				"createChildElement"
+			],
+			[
+				"occ",
+				"occupation"
+			],
+			[
+				"majro",
+				"majorPrestigeRow"
+			],
+			[
+				"chang",
+				"changeGlobalSpeedInputContainer"
+			],
+			[
+				"cur",
+				"currentLevel"
+			],
+			[
+				"ascen",
+				"ascensionUpgrades"
+			],
+			[
+				"categ",
+				"categoryMutationObservers"
+			],
+			[
+				"get",
+				"getElementsByClassName"
+			],
+			[
+				"add",
+				"addedNodes"
+			],
+			[
+				"asce",
+				"ascensionSlideoutObserver"
+			],
+			[
+				"change",
+				"changeGlobalSpeedInput"
+			],
+			[
+				"global",
+				"globalSpeedRow"
+			],
+			[
+				"ce",
+				"centerY"
+			],
+			[
+				"cet",
+				"centerX"
+			],
+			[
+				"just",
+				"justSelectedSuggestion"
+			],
+			[
+				"in",
+				"inputField"
+			],
+			[
+				"mess",
+				"messageHeight"
+			],
+			[
+				"end",
+				"endID"
+			],
+			[
+				"mes",
+				"messageHeight"
+			],
+			[
+				"attrib",
+				"attributeId"
+			],
+			[
+				"coll",
+				"tileColliders"
+			],
+			[
+				"lower",
+				"lowerY"
+			],
+			[
+				"pi",
+				"pixelUVHeight"
+			],
+			[
+				"inTi",
+				"inTileSize"
+			],
+			[
+				"pixel",
+				"pixelUVWidth"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "js/Layers/flowers.js",
+			"settings":
+			{
+				"buffer_size": 1605,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/mod.js",
+			"settings":
+			{
+				"buffer_size": 1893,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 5736,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/tree.js",
+			"settings":
+			{
+				"buffer_size": 361,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/../.eslintrc.js",
+			"settings":
+			{
+				"buffer_size": 404,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/technical/canvas.js",
+			"settings":
+			{
+				"buffer_size": 1995,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pasc",
+				"Convert Case: PascalCase"
+			],
+			[
+				"linter",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"defini",
+				"tern_for_sublime: Jump to Definition"
+			],
+			[
+				"theme",
+				"UI: Select Theme"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"lint thi",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"tern",
+				"tern_for_sublime: Enable Project"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"enable",
+				"Package Control: Enable Package"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"isntall",
+				"Package Control: Install Package"
+			],
+			[
+				"eslint",
+				"ESLint Formatter: Format this file"
+			],
+			[
+				"eslin",
+				"ESLint Formatter: Format this file"
+			],
+			[
+				"lint",
+				"Preferences: SublimeLinter Settings"
+			],
+			[
+				"error",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"snipp",
+				"Snippet: React: class component"
+			],
+			[
+				"packa",
+				"Package Control: List Packages"
+			],
+			[
+				"babel",
+				"Set Syntax: JavaScript (Babel)"
+			],
+			[
+				"snippet",
+				"Snippet: for-()-{}-(faster)"
+			],
+			[
+				"flow",
+				"JavaScript Enhancements Flow: Next Error"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Object-key-key-value"
+			],
+			[
+				"objec",
+				"Snippet: Object-Value-JS"
+			],
+			[
+				"tabs",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"disab",
+				"Package Control: Disable Package"
+			],
+			[
+				"markdo",
+				"MarkdownLivePreview: Open Preview"
+			],
+			[
+				"stone",
+				"Set Syntax: stonescript"
+			],
+			[
+				"jav",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"space",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"rich",
+				"Preferences: Discord Rich Presence Settings"
+			],
+			[
+				"minif",
+				"Pretty JSON: Minify (compress) JSON"
+			],
+			[
+				"mini",
+				"Minify Javascript/CSS to file"
+			],
+			[
+				"glsl",
+				"Set Syntax: GLSL"
+			],
+			[
+				"plain",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"plai",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"cmake",
+				"Set Syntax: CMake"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 165.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/projects/The-Modding-Tree",
+		"/D/projects/The-Modding-Tree/js",
+		"/D/projects/The-Modding-Tree/js/Layers",
+		"/D/projects/The-Modding-Tree/js/technical"
+	],
+	"file_history":
+	[
+		"/D/projects/The-Modding-Tree/kronos-changelog.md",
+		"/D/projects/Cult Sim Test/Assets/Resources/persistent.json",
+		"/C/Users/thepa/AppData/LocalLow/DefaultCompany/Cult Sim Test/persistent",
+		"/D/projects/Cult Sim Test/Assets/StreamingAssets/DataboxExamples/04_Advanced/Save/1",
+		"/D/projects/Cult Sim Test/Assets/StreamingAssets/DataboxExamples/01_Basic/Database.json",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/core-dimensions.sublime-project",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/fairweather-faire.sublime-workspace",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/fairweather-faire.sublime-project",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/core-dimensions.sublime-project",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/core-dimensions.sublime-workspace",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/RingManager.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/RingController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/.luacheckrc",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Subfolders/EaseUI/Scripts/EaseUI.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/fairweather-faire.sublime-project",
+		"/C/Users/thepa/projects/topaz-interview/topaz-interview.sublime-project",
+		"/C/Users/thepa/projects/topaz-interview/index.js",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/User/javascript.sublime-build",
+		"/D/projects/topaz-interview/test2.js",
+		"/C/Users/thepa/projects/topaz-interview/.eslintrc.js",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/tern_for_sublime/Tern.sublime-settings",
+		"/C/Users/thepa/projects/topaz-interview/test.js",
+		"/D/projects/topaz-interview/.tern-project",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/User/Tern.sublime-settings",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript Completions/JavaScript-Completions.sublime-settings",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/Object-key-key-value.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/if-___-else.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/if.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/Get-Elements.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/function.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/function-(fun).sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/for-()-{}.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/for-()-{}-(faster).sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/Object-Method.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/Object-Value-JS.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/Prototype-(proto).sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/JavaScript/Snippets/setTimeout-function.sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/Babel Snippets/react_componentWillReceiveProps_(class).sublime-snippet",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/User/JavaScript (Babel).sublime-settings",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/User/JavaScript.sublime-settings",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Packages/User/stonescript.sublime-syntax",
+		"/C/Users/thepa/AppData/Roaming/Sublime Text 3/Installed Packages/SublimeLinter-eslint.sublime-package",
+		"/D/projects/topaz-interview/test.js",
+		"/C/Users/thepa/projects/topaz-interview/.flowconfig",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/ItemGiver_1.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/ItemsData.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/SlotController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/UpgradeMenuController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/ItemGiver.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/InventoryItemController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/DataManagerClient.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/PlotController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/SlotManager.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/SelectorGun.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/ItemSet.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/ItemsManager.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/PlotManager.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/DataManager.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/NewItemController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/Utils.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/PlotsManager.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/SelectorController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/json.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/EquipSelectorGun.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/EquipmentStanceServer.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/EquipInArea.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/Item.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Scripts/DataManagerServer.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Fairweather Faire/Data/Templates/DataMessenger.pbt",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/ProductionPickup.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/AscensionController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/BuyOneController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/BuyMaxController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/ScreenScoreboardControllerClient.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/RingControllerClient.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/MeditationDisplay.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/MeditationController.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Templates/Ring_3.pbt",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/BuyMaxController.asset.pbt",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/ProductionPickup.asset.pbt",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/RingControllerClient.asset.pbt",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/Utils.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/ResourceDisplayClient.lua",
+		"/C/Users/thepa/AppData/Local/Temp/7zO083F6E26/lpack.c",
+		"/C/Users/thepa/AppData/Local/Temp/7zO083EE8E7/pack.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/luatexts.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/lualzw.lua",
+		"/C/Users/thepa/Downloads/large_data.luabins",
+		"/C/Users/thepa/Downloads/assets.json",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Core Dimensions/Data/Scripts/SyncPointsPerFill.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Testing/Data/Scripts/ResourceDisplay.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Testing/Data/Templates/SkillNode Button.pbt",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Testing/Data/Scripts/Tooltip.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Testing/Data/Scripts/skilltreedata.lua",
+		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Testing/Data/Scripts/OpenSkillTreeAbility.lua",
+		"/D/projects/Babble-Buds/client/src/components/panels/BrokenPanel.jsx",
+		"/D/projects/Babble-Buds/client/src/components/stage/Stage.jsx",
+		"/D/projects/Babble-Buds/client/node_modules/babble.js/lib/core/stage.js",
+		"/D/projects/Babble-Buds/client/node_modules/babble.js/lib/core/puppet.js",
+		"/D/projects/Babble-Buds/client/package.json",
+		"/C/Users/thepa/AppData/Local/Temp/Temp1_MyProject1.zip/MyProject1/characters/2.json",
+		"/D/projects/Babble-Buds/client/src/components/editor/Selector.jsx",
+		"/D/ownCloud/archive/discord backup 2020-11-12/servers/280806472928198656/guild.json",
+		"/D/ownCloud/archive/discord backup 2020-11-12/messages/83917313761378304/channel.json",
+		"/D/ownCloud/archive/discord backup 2020-11-12/account/user.json",
+		"/C/Users/thepa/AppData/Roaming/BetterDiscord/themes/Dusk_to_Dawn.theme.css",
+		"/D/projects/The-Modding-Tree/js/layers/t.js",
+		"/D/projects/The-Modding-Tree/js/v.js",
+		"/D/projects/The-Modding-Tree/js/layers/l.js",
+		"/D/projects/The-Modding-Tree/js/layers/f.js",
+		"/D/projects/The-Modding-Tree/js/colors.js",
+		"/D/projects/The-Modding-Tree/index.html",
+		"/D/projects/The-Modding-Tree/style.css",
+		"/D/projects/The-Modding-Tree/js/layers/d.js",
+		"/D/projects/The-Modding-Tree/js/game.js",
+		"/D/projects/The-Modding-Tree/js/mod.js",
+		"/D/projects/The-Modding-Tree/changelog.md",
+		"/D/projects/The-Modding-Tree/js/layers/s.js",
+		"/D/projects/The-Modding-Tree/js/layers/e.js",
+		"/D/projects/The-Modding-Tree/js/layers/c.js",
+		"/D/projects/The-Modding-Tree/js/layers/a.js",
+		"/D/projects/The-Modding-Tree/js/layers/u.js",
+		"/D/projects/The-Modding-Tree/js/layers/g.js",
+		"/D/projects/The-Modding-Tree/js/utils.js",
+		"/D/projects/The-Modding-Tree/js/temp.js",
+		"/D/projects/thepaperpilot.github.io/.git/COMMIT_EDITMSG",
+		"/D/projects/The-Modding-Tree/js/layers/r.js"
+	],
+	"find":
+	{
+		"height": 43.0
+	},
+	"find_in_files":
+	{
+		"height": 187.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"\"></"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "js/Layers/flowers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1605,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								448,
+								455
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/mod.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1893,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								72,
+								72
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5736,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								522,
+								522
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/tree.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 361,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								361,
+								361
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "js/../.eslintrc.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 404,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								404,
+								404
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/zzz A File Icon zzz/aliases/JavaScript (ESLint).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "js/technical/canvas.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1995,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1850,
+								1850
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 819.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 65.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 133.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "kronos.sublime-project",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 249.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

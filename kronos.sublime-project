@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "path": "./",
+      "folder_exclude_patterns": [
+      	"node_modules",
+      	"js/Demo",
+      	"Old Things",
+      	"docs"
+      ],
+      "file_exclude_patterns": [
+        ".eslintrc.js",
+        ".tern-project",
+        "package.json",
+        "package-lock.json"
+      ]
+    }
+  ],
+  "settings": {
+    "buildview.enabled": true,
+        "buildview.scroll": "top"
+  },
+  "build_systems": []
+}
