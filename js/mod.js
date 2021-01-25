@@ -12,14 +12,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.1",
+	name: "Chapter 2",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`;
+		- Chapter 1 Demo`;
 
 let winText = "Congratulations! You have reached the end and beaten this game, but for now...";
 
@@ -50,7 +49,9 @@ function getPointGen() {
 function addedPlayerData() {
 	return {
 		hqTree: true,
-		chapter: 1
+		chapter: 1,
+		timeSlots: new Decimal(0),
+		usedTimeSlots: new Decimal(0)
 	};
 }
 
@@ -75,4 +76,8 @@ function maxTickLength() {
 // Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
 // you can cap their current resources with this.
 function fixOldSave(oldVersion){
+	if (oldVersion === "0.0") {
+		player.chapter = 1;
+	}
+	console.log(oldVersion, player.chapter);
 }

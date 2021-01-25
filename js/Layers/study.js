@@ -1,17 +1,18 @@
-addLayer("flowers", {
-	name: "flowers",
-	resource: "flowers",
-	image: "images/white-orchid-1974498_1920.jpg",
-	color: flowersColor,
-	jobName: "Collecting flowers",
-	showJobDelay: 0,
-	layerShown: true,
+addLayer("study", {
+	name: "study",
+	resource: "properties studied",
+	image: "images/orchid_sketch.jpg",
+	color: studyColor,
+	jobName: "Study flowers",
+	showJobDelay: 0.25,
+	layerShown: () => player.chapter > 1 && hasMilestone("flowers", 4),
 	startData() {
 		return {
 			unlocked: true,
-			points: new Decimal(1),
-			xp: new Decimal(1),
-			lastLevel: new Decimal(1),
+			points: new Decimal(0),
+			total: new Decimal(0),
+			xp: new Decimal(0),
+			lastLevel: new Decimal(0),
 			realTime: 0,
 			timeLoopActive: false
 		};
@@ -20,22 +21,7 @@ addLayer("flowers", {
 		if (!tmp[this.layer].layerShown || (player.tab !== this.layer && !player[this.layer].timeLoopActive)) {
 			return new Decimal(0);
 		}
-		if (player.chapter === 1 && hasMilestone("flowers", "4")) {
-			return new Decimal(0);
-		}
 		let gain = new Decimal(1);
-		gain = gain.times(new Decimal(1.1).pow(getJobLevel(this.layer)));
-		if (hasUpgrade("flowers", 11)) {
-			gain = gain.times(upgradeEffect("flowers", 11));
-		}
-		if (hasUpgrade("flowers", 12)) {
-			gain = gain.times(upgradeEffect("flowers", 12));
-		}
-		if (hasUpgrade("flowers", 14)) {
-			gain = gain.times(upgradeEffect("flowers", 14));
-		}
-		gain = gain.times(buyableEffect("flowers", 11));
-		gain = gain.pow(buyableEffect("flowers", 13));
 		return gain;
 	},
 	passiveGeneration: new Decimal(1),
@@ -90,9 +76,7 @@ addLayer("flowers", {
 		"blank",
 		"buyables",
 		"blank",
-		"upgrades",
-		"blank",
-		["milestones-filtered", [4, 5]]
+		"upgrades"
 	],
 	update(diff) {
 		if (player.tab === this.layer || player[this.layer].timeLoopActive) {
@@ -100,7 +84,7 @@ addLayer("flowers", {
 		}
 		let jobLevel = new Decimal(getJobLevel(this.layer));
 		if (jobLevel.neq(player[this.layer].lastLevel)) {
-			doPopup("none", `Level ${formatWhole(jobLevel)}`, "Level Up!", 3, layers[this.layer].color);
+			doPopup("none", `Level ${jobLevel}`, "Level Up!", 3, layers[this.layer].color);
 			player[this.layer].lastLevel = jobLevel;
 		}
 	},
@@ -130,18 +114,8 @@ addLayer("flowers", {
 			done: () => player.flowers.xp.gte(1e7)
 		},
 		4: {
-			title: "The story was so fantastic and incredible,",
 			requirementDescription: "Level 10",
-			"effectDescription": "Unlock study flowers job",
-			done: () => player.flowers.xp.gte(1e9),
-			unlocked: () => player.chapter > 1
-		},
-		5: {
-			title: "the telling so credible and sober",
-			requirementDescription: "Level 25",
-			"effectDescription": "Unlock ???",
-			done: () => player.flowers.xp.gte(1e24),
-			unlocked: () => player.chapter > 1
+			done: () => player.flowers.xp.gte(1e9)
 		}
 	},
 	buyables: {
@@ -153,12 +127,7 @@ addLayer("flowers", {
 				return `Each casting of this spell increases its cost, and makes collecting flowers 50% faster.<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} flowers`;
 			},
 			cost(x) {
-				const amount = x || getBuyableAmount(this.layer, this.id);
-				if (amount.gte(10)) {
-					// goes up 10x instead of 3x after 10 levels
-					return new Decimal(1000).times(new Decimal(3).pow(10)).add(Decimal.pow(10, amount.sub(10)));
-				}
-				return new Decimal(1000).times(new Decimal(3).pow(amount));
+				return new Decimal(1000).times(new Decimal(3).pow(x || getBuyableAmount(this.layer, this.id)));
 			},
 			effect() {
 				return new Decimal(1.5).pow(getBuyableAmount(this.layer, this.id));
@@ -195,13 +164,13 @@ addLayer("flowers", {
 		13: {
 			title: "And there was Weena dancing at my side!<br/>",
 			display() {
-				return `Each casting of this spell increases its cost, and raises flower collection rate to an additive +.05 power (softcapped immediately).<br/><br/>Currently: ^${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} flowers`;
+				return `Each casting of this spell increases its cost, and raises flower collection rate to an additive +.05 power.<br/><br/>Currently: ^${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} flowers`;
 			},
 			cost(x) {
 				return new Decimal(250000).times(new Decimal(10).pow(x || getBuyableAmount(this.layer, this.id)));
 			},
 			effect() {
-				return new Decimal(.05).times(getBuyableAmount(this.layer, this.id).pow(.6)).add(1);
+				return new Decimal(.05).times(getBuyableAmount(this.layer, this.id)).add(1);
 			},
 			canAfford() {
 				return player[this.layer].points.gte(this.cost());
@@ -268,19 +237,3 @@ addLayer("flowers", {
 		}
 	}
 });
-
-// Names to use
-// - https://www.shmoop.com/study-guides/literature/time-machine-hg-wells/quotes
-//
-// - delicate flowers
-// - waste garden
-// - subjugation of nature
-//
-// - common sense of the morning
-//
-// - pain and necessity
-// - languor and decay
-// - abominable desolation
-//
-// - Time is only a kind of Space
-// - Futility of all ambition
