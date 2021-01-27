@@ -7,7 +7,7 @@ function exponentialFormat(num, precision, mantissa = true) {
 		m = new Decimal(1);
 		e = e.add(1);
 	}
-	e = (e.gte(10000) ? commaFormat(e, 0) : e.toStringWithDecimalPlaces(0));
+	e = commaFormat(e);
 	if (mantissa) {
 		return m.toStringWithDecimalPlaces(precision)+"e"+e;
 	} else {
@@ -21,6 +21,17 @@ function commaFormat(num, precision) {
 	}
 	if (num.mag < 0.001) {
 		return (0).toFixed(precision);
+	}
+	if (precision === null || precision === undefined) {
+		if (num.layer > 1) {
+			firstPart = new Decimal(num);
+			firstPart.mag = Math.floor(num.mag);
+			secondPart = new Decimal(num);
+			secondPart.layer = 0;
+			secondPart.mag = num.mag - firstPart.mag;
+			return firstPart.floor().toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + secondPart.toStringWithDecimalPlaces(2).substr(1);
+		}
+		return num.floor().toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 	}
 	return num.toStringWithDecimalPlaces(precision).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
 }
