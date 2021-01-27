@@ -78,6 +78,6 @@ function maxTickLength() {
 function fixOldSave(oldVersion){
 	if (oldVersion === "0.0") {
 		player.chapter = 1;
+		player.flowers.points = player.flowers.points.clampMax(1e9);
 	}
-	console.log(oldVersion, player.chapter);
 }

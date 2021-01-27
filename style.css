@@ -730,9 +730,59 @@ button > * {
 	}
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 1200px) {
 	.col.right {
 		min-width: 100%;
 		background: var(--background);
+	}
+}
+
+.card {
+	padding: 10px;
+	background: darkcyan;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	box-shadow: black 4px 4px 8px 0px;
+	border-radius: 10px;
+	position: relative;
+    margin: 10px auto;
+}
+
+.card:hover {
+	transform: scale(1.1);
+}
+
+.card > span {
+	flex-basis: 30%;
+	display: flex;
+}
+
+.card > img {
+	max-width: 50%;
+	position: absolute;
+	bottom: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	opacity: .5;
+}
+
+.card h3 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-height: 100%;
+}
+
+.flipCard {
+	animation: flip 1s;
+}
+
+@keyframes flip {
+	0% {
+		transform: rotateY(90deg);
+	}
+
+	100% {
+		transform: rotateY(0deg);
 	}
 }
