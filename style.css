@@ -756,6 +756,7 @@ button > * {
 .card > span {
 	flex-basis: 30%;
 	display: flex;
+	z-index: 1;
 }
 
 .card > img {

@@ -12,13 +12,16 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1",
+	num: "0.11",
 	name: "Chapter 2",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Chapter 1 Demo`;
+	<br><h3>v0.1</h3><br>
+		- Beginning of Chapter 2<br>
+		- Cards mechanic in Study Flowers job<br>
+	<br><h3>v0.0</h3><br>
+		- Chapter 1 Demo<br>`;
 
 let winText = "Congratulations! You have reached the end and beaten this game, but for now...";
 
@@ -79,5 +82,10 @@ function fixOldSave(oldVersion){
 	if (oldVersion === "0.0") {
 		player.chapter = 1;
 		player.flowers.points = player.flowers.points.clampMax(1e9);
+		player.flowers.points = player.flowers.points.clampMax(player.flowers.xp);
+	} else if (oldVersion === "0.1") {
+		player.flowers.xp = player.flowers.xp.clampMax(1e15);
+		player.flowers.points = player.flowers.points.clampMax(player.flowers.xp);
+		player.study.cards = baseCards();
 	}
 }
