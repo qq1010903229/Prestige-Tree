@@ -22,9 +22,30 @@ const cards = {
 			cards[nextCard[0]].onDraw(false);
 		}
 	}),
-	increasePointsGain: createCard("Have another drink, enjoy yourself.", () => `Permanently increase studied properties gain by 10%.<br/><br/>Currently: +${formatWhole(player.study.increasePointsGain.times(10))}%`, () => player.study.increasePointsGain = player.study.increasePointsGain.add(1)),
-	multiplyPointsGain: createCard("Reality is frequently inaccurate.", () => `Permanently multiply studied properties gain by x1.01<br/><br/>Currently: x${format(new Decimal(1.01).pow(player.study.multiplyPointsGain))}`, () => player.study.multiplyPointsGain = player.study.multiplyPointsGain.add(1)),
-	sellDiscount: createCard("It doesn't grow on trees you know.", () => `Permanently multiply sell cost by 0.9<br/><br/>Currently: x${format(new Decimal(0.9).pow(player.study.sellDiscount))}`, () => player.study.sellDiscount = player.study.sellDiscount.add(1)),
+	increasePointsGain: createCard("Have another drink, enjoy yourself.", () => {
+		const effect = softcap(player.study.increasePointsGain, new Decimal(100), .25).times(10);
+		let text = `Permanently increase studied properties gain by 10%.<br/><br/>Currently: +${formatWhole(effect)}%`;
+		if (player.study.increasePointsGain.gt(100)) {
+			text = text + "<br/>(softcapped)";
+		}
+		return text;
+	}, () => player.study.increasePointsGain = player.study.increasePointsGain.add(1)),
+	multiplyPointsGain: createCard("Reality is frequently inaccurate.", () => {
+		const effect = new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100), .2));
+		let text = `Permanently multiply studied properties gain by x1.02<br/><br/>Currently: x${format(effect)}`;
+		if (player.study.multiplyPointsGain.gt(100)) {
+			text = text + "<br/>(softcapped)";
+		}
+		return text;
+	}, () => player.study.multiplyPointsGain = player.study.multiplyPointsGain.add(1)),
+	sellDiscount: createCard("It doesn't grow on trees you know.", () => {
+		const effect = new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100), .5));
+		let text = `Permanently multiply sell cost by 0.98<br/><br/>Currently: x${format(effect)}`;
+		if (player.study.sellDiscount.gt(100)) {
+			text = text + "<br/>(softcapped)";
+		}
+		return text;
+	}, () => player.study.sellDiscount = player.study.sellDiscount.add(1)),
 	soldOut: createCard("Out of Stock!")
 };
 
@@ -68,6 +89,14 @@ function purchaseCard(index) {
 	}
 }
 
+function toggleSelectCard(index) {
+	if (player.study.selected === index) {
+		player.study.selected = -1;
+	} else {
+		player.study.selected = index;
+	}
+}
+
 const DRAW_PERIOD = 10;
 const REFRESH_PERIOD = 300;
 
@@ -96,7 +125,9 @@ addLayer("study", {
 			shop: getShop(),
 			increasePointsGain: new Decimal(0),
 			multiplyPointsGain: new Decimal(0),
-			sellDiscount: new Decimal(0)
+			sellDiscount: new Decimal(0),
+			cardsSold: new Decimal(0),
+			selected: -1
 		};
 	},
 	getResetGain() {
@@ -105,8 +136,8 @@ addLayer("study", {
 		}
 		let gain = new Decimal(10);
 		gain = gain.times(new Decimal(1.1).pow(getJobLevel(this.layer)));
-		gain = gain.times(player.study.increasePointsGain.times(0.1).add(1));
-		gain = gain.times(new Decimal(1.01).pow(player.study.multiplyPointsGain));
+		gain = gain.times(softcap(player.study.increasePointsGain, new Decimal(100), .25).times(0.1).add(1));
+		gain = gain.times(new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100), .2)));
 		return gain;
 	},
 	tabFormat: {
@@ -155,12 +186,13 @@ addLayer("study", {
 			],
 			unlocked: () => hasMilestone("study", 0)
 		},
-		"Sell Cards": {
+		"Destroy Cards": {
 			content: () => [
 				["display-text", `<span>You have <h2 style="color: ${studyColor}; text-shadow: ${studyColor} 0 0 10px">${formatWhole(player.study.points)}</h2> properties studied`],
 				"blank",
 				["clickable", 11],
 				"blank",
+				["row", player.study.cards.map((card, i) => cardFormat(card[0], "", player.study.selected === i ? "selectedCard cursor" : "cursor", `toggleSelectCard(${i})`)), { width: "100%" }]
 			],
 			unlocked: () => hasMilestone("study", 1)
 		}
@@ -258,23 +290,27 @@ addLayer("study", {
 				height: "200px"
 			},
 			display() {
-				return `Remove a card from your deck. Cost multiplies by 100 for each card sold.<br/><br/>Cost: ${formatWhole(this.cost())} properties studied`;
+				return `Remove a card from your deck. Cost multiplies by 100 for each card destroyed.<br/><br/>Cost: ${formatWhole(this.cost())} properties studied`;
 			},
 			cost(x) {
 				let cost = new Decimal(1e3).times(new Decimal(100).pow(player[this.layer].cardsSold));
-				cost = cost.times(new Decimal(0.9).pow(player[this.layer].sellDiscount));
+				cost = cost.times(new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100), .5)));
 				return cost;
 			},
 			canClick() {
 				if (player[this.layer].cards.length <= 1) {
 					return false;
 				}
-				return false;
+				if (player[this.layer].selected < 0 || player[this.layer].selected >= player[this.layer].cards.length) {
+					return false;
+				}
 				return player[this.layer].points.gte(this.cost());
 			},
 			onClick() {
 				player[this.layer].points = player[this.layer].points.sub(this.cost());
-				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
+				player[this.layer].cardsSold = player[this.layer].cardsSold.add(1);
+				player[this.layer].cards.splice(player[this.layer].selected, 1);
+				player[this.layer].selected = -1;
 			},
 			unlocked: () => hasMilestone("study", 1)
 		}

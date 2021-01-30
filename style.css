@@ -411,6 +411,7 @@ a {
 .col.right {
 	top: 50px;
 	right: 0;
+	z-index: 999999;
 }
 
 #app {
@@ -765,13 +766,19 @@ button > * {
 	bottom: 10px;
 	left: 50%;
 	transform: translateX(-50%);
-	opacity: .5;
+	opacity: .25;
 }
 
 .card h3 {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-height: 100%;
+}
+
+.selectedCard, .selectedCard:hover {
+	transform: scale(1.2);
+	box-shadow: black 0 0 16px 8px;
+	z-index: 2;
 }
 
 .flipCard {
@@ -786,4 +793,8 @@ button > * {
 	100% {
 		transform: rotateY(0deg);
 	}
+}
+
+.cursor {
+	cursor: pointer;
 }

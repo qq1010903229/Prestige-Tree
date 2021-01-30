@@ -12,11 +12,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.11",
+	num: "0.12",
 	name: "Chapter 2",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
+	<br><h3>v0.11</h3><br>
+		- Implemented Card Shop<br>
 	<br><h3>v0.1</h3><br>
 		- Beginning of Chapter 2<br>
 		- Cards mechanic in Study Flowers job<br>
@@ -87,5 +89,8 @@ function fixOldSave(oldVersion){
 		player.flowers.xp = player.flowers.xp.clampMax(1e15);
 		player.flowers.points = player.flowers.points.clampMax(player.flowers.xp);
 		player.study.cards = baseCards();
+	} else if (oldVersion === "0.11") {
+		player.study.xp = player.study.xp.clampMax(1e6);
+		player.study.points = player.study.points.clampMax(player.study.xp);
 	}
 }

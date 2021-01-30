@@ -41,8 +41,11 @@ function regularFormat(num, precision) {
 	if (num === null || num === undefined) {
 		return "NaN";
 	}
-	if (num.mag < 0.001) {
+	if (num.eq(0)) {
 		return (0).toFixed(precision);
+	}
+	if (num.mag < 0.001) {
+		return num.toExponential(precision);
 	}
 	return num.toStringWithDecimalPlaces(precision);
 }
