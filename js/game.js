@@ -1,11 +1,12 @@
 var player;
 var needCanvasUpdate = true;
 var gameEnded = false;
+var scrolled = false;
 
 // Don't change this
 const TMT_VERSION = {
-	tmtNum: "2.3.5",
-	tmtName: "Cooler and Newer Edition"
+	tmtNum: "2.π",
+	tmtName: "Incrementally Updated"
 };
 
 function getResetGain(layer, useType = null) {
@@ -131,11 +132,9 @@ function shouldNotify(layer){
 			}
 		}
 	}
-	if (tmp[layer].shouldNotify){
-		return tmp[layer].shouldNotify;
-	} else {
-		return false;
-	}
+
+	return tmp[layer].shouldNotify;
+
 }
 
 function canReset(layer) {
@@ -359,13 +358,16 @@ function completeChallenge(layer, x) {
 	if (!x) {
 		return;
 	}
-	if (! canCompleteChallenge(layer, x)){
+
+	let completions = canCompleteChallenge(layer, x);
+	if (!completions){
 		 player[layer].activeChallenge = null;
 		return;
 	}
 	if (player[layer].challenges[x] < tmp[layer].challenges[x].completionLimit) {
 		needCanvasUpdate = true;
-		player[layer].challenges[x] += 1;
+		player[layer].challenges[x] += completions;
+		player[layer].challenges[x] = Math.min(player[layer].challenges[x], tmp[layer].challenges[x].completionLimit);
 		if (layers[layer].challenges[x].onComplete) {
 			run(layers[layer].challenges[x].onComplete, layers[layer].challenges[x]);
 		}
@@ -464,6 +466,7 @@ function gameLoop(diff) {
 			if (layers[layer].automate) {
 				layers[layer].automate();
 			}
+			player[layer].best = player[layer].best.max(player[layer].points);
 			if (layers[layer].autoUpgrade) {
 				autobuyUpgrades(layer);
 			}
@@ -526,10 +529,11 @@ var interval = setInterval(function() {
 		resizeCanvas();
 		needCanvasUpdate = false;
 	}
+	tmp.scrolled = document.getElementById("treeTab").scrollTop > 30;
 	updateTemp();
 	gameLoop(diff);
 	fixNaNs();
-	adjustPopupTime(diff);
+	adjustPopupTime(0.05);
 	ticking = false;
 }, 50);
 

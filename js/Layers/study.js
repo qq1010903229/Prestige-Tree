@@ -163,7 +163,7 @@ addLayer("study", {
 				"blank",
 				["display-text", `Next draw in ${new Decimal(DRAW_PERIOD - player.study.drawProgress).clampMax(DRAW_PERIOD - 0.01).toFixed(2)} seconds`],
 				"blank",
-				cardFormat(player.study.lastCard[0], "mainCard", "flipCard"),
+				cardFormat(player.study.lastCard && player.study.lastCard[0], "mainCard", "flipCard"),
 				"blank",
 				["milestones-filtered", [2, 5, 6]]
 			]
@@ -195,6 +195,12 @@ addLayer("study", {
 				["row", player.study.cards.map((card, i) => cardFormat(card[0], "", player.study.selected === i ? "selectedCard cursor" : "cursor", `toggleSelectCard(${i})`)), { width: "100%" }]
 			],
 			unlocked: () => hasMilestone("study", 1)
+		},
+		"Upgrade Cards": {
+			content: () => [
+
+			],
+			unlocked: () => hasMilestone("study", 3)
 		}
 	},
 	update(diff) {
