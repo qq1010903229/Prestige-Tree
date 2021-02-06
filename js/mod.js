@@ -17,6 +17,8 @@ let VERSION = {
 };
 
 let changelog = `<h1>Changelog:</h1><br>
+	<br><h3>v0.12</h3><br>
+		- Fixed some issues with new players not being able to play<br>
 	<br><h3>v0.11</h3><br>
 		- Implemented Card Shop<br>
 	<br><h3>v0.1</h3><br>

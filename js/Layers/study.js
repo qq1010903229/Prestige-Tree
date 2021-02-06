@@ -210,7 +210,7 @@ addLayer("study", {
 			if (player[this.layer].drawProgress > DRAW_PERIOD) {
 				player[this.layer].drawProgress = 0;
 				const newCard = player[this.layer].cards[Math.floor(Math.random() * player.study.cards.length)];
-				if (player[this.layer].lastCard[0] in cards && cards[player[this.layer].lastCard[0]].modifyNextCard) {
+				if (player[this.layer].lastCard && player[this.layer].lastCard[0] in cards && cards[player[this.layer].lastCard[0]].modifyNextCard) {
 					cards[player[this.layer].lastCard[0]].modifyNextCard(newCard);
 				} else if (cards[newCard[0]].onDraw) {
 					cards[newCard[0]].onDraw();
