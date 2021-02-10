@@ -12,7 +12,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.12",
+	num: "0.13",
 	name: "Chapter 2",
 };
 
@@ -94,5 +94,10 @@ function fixOldSave(oldVersion){
 	} else if (oldVersion === "0.11") {
 		player.study.xp = player.study.xp.clampMax(1e6);
 		player.study.points = player.study.points.clampMax(player.study.xp);
+		player.study.cards = player.study.cards.map(c => c[0]);
+		player.study.lastCard = player.study.lastCard[0];
+	} else if (oldVersion === "0.12") {
+		player.study.cards = player.study.cards.map(c => c[0]);
+		player.study.lastCard = player.study.lastCard[0];
 	}
 }

@@ -4,9 +4,9 @@ function createCard(title, description = "", onDraw = null, modifyNextCard = nul
 
 const cards = {
 	nothing: createCard("His job is not to wield power but to draw attention away from it.", "Do nothing."),
-	gainPoints: createCard("Don't Panic.", "Successfully study some properties.", () => addPoints("study", getResetGain("study"))),
-	gainBigPoints: createCard("In his experience the Universe simply didn't work like that.", "Successfully study a very large amount of properties. Destroy this card.", (canDestroy = true) => {
-		addPoints("study", getResetGain("study").pow(1.5));
+	gainPoints: createCard("Don't Panic.", level => `Successfully study ${format(getResetGain("study").times((level).add(1)))} properties.`, level => addPoints("study", getResetGain("study").times(level.add(1)))),
+	gainBigPoints: createCard("In his experience the Universe simply didn't work like that.", level => `Successfully study ${format(getResetGain("study").times(level.add(1)).pow(1.2))} properties. Destroy this card.`, (level, canDestroy = true) => {
+		addPoints("study", getResetGain("study").times(level.add(1)).pow(1.2));
 		if (canDestroy) {
 			const index = player.study.cards.findIndex(el => el[0] === "gainBigPoints");
 			if (index >= 0) {
@@ -14,34 +14,34 @@ const cards = {
 			}
 		}
 	}),
-	gainInsight: createCard("And it shall be called... the Earth.", "Gain a key insight.", () => player.study.insights = player.study.insights.add(1)),
-	gainBigInsight: createCard("Yes! I shall design this computer for you.", "Gain key insights based on the number of cards in the deck.", () => player.study.insights = player.study.insights.add(new Decimal(player.study.cards.length).sqrt().floor())),
-	playTwice: createCard("Oh no, not again.", "Play the next card twice.", null, nextCard => {
-		if (nextCard[0] in cards && cards[nextCard[0]].onDraw) {
-			cards[nextCard[0]].onDraw();
-			cards[nextCard[0]].onDraw(false);
+	gainInsight: createCard("And it shall be called... the Earth.", level => level == 0 ? "Gain a key insight." : `Gain ${formatWhole(level.add(1))} key insights.`, level => player.study.insights = player.study.insights.add(level).add(1)),
+	gainBigInsight: createCard("Yes! I shall design this computer for you.", level => `Gain ${new Decimal(player.study.cards.length).times(level.add(1)).sqrt().floor()} key insights.<br/>(based on number of cards in the deck)`, level => player.study.insights = player.study.insights.add(new Decimal(player.study.cards.length).times(level.add(1)).sqrt().floor())),
+	playTwice: createCard("Oh no, not again.", level => level == 0 ? "Play the next card twice." : `Play the next card twice, with the effect boosted by ${level.div(4)} levels.`, null, (nextCard, level) => {
+		if (nextCard in cards && cards[nextCard].onDraw) {
+			cards[nextCard].onDraw((getBuyableAmount("study", nextCard) || new Decimal(0)).add(level.div(4)));
+			cards[nextCard].onDraw((getBuyableAmount("study", nextCard) || new Decimal(0)).add(level.div(4)), false);
 		}
 	}),
-	increasePointsGain: createCard("Have another drink, enjoy yourself.", () => {
-		const effect = softcap(player.study.increasePointsGain, new Decimal(100), .25).times(10);
+	increasePointsGain: createCard("Have another drink, enjoy yourself.", level => {
+		const effect = softcap(player.study.increasePointsGain, new Decimal(100).times(level.add(1)), .25).times(10);
 		let text = `Permanently increase studied properties gain by 10%.<br/><br/>Currently: +${formatWhole(effect)}%`;
-		if (player.study.increasePointsGain.gt(100)) {
+		if (player.study.increasePointsGain.gt(new Decimal(100).times(level.add(1)))) {
 			text = text + "<br/>(softcapped)";
 		}
 		return text;
 	}, () => player.study.increasePointsGain = player.study.increasePointsGain.add(1)),
-	multiplyPointsGain: createCard("Reality is frequently inaccurate.", () => {
-		const effect = new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100), .2));
+	multiplyPointsGain: createCard("Reality is frequently inaccurate.", level => {
+		const effect = new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100).times(level.div(4).add(1)), .2));
 		let text = `Permanently multiply studied properties gain by x1.02<br/><br/>Currently: x${format(effect)}`;
-		if (player.study.multiplyPointsGain.gt(100)) {
+		if (player.study.multiplyPointsGain.gt(new Decimal(100).times(level.div(4).add(1)))) {
 			text = text + "<br/>(softcapped)";
 		}
 		return text;
 	}, () => player.study.multiplyPointsGain = player.study.multiplyPointsGain.add(1)),
-	sellDiscount: createCard("It doesn't grow on trees you know.", () => {
-		const effect = new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100), .5));
+	sellDiscount: createCard("It doesn't grow on trees you know.", level => {
+		const effect = new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100).times(level.div(2).add(1)), .5));
 		let text = `Permanently multiply sell cost by 0.98<br/><br/>Currently: x${format(effect)}`;
-		if (player.study.sellDiscount.gt(100)) {
+		if (player.study.sellDiscount.gt(new Decimal(100).times(level.div(2).add(1)))) {
 			text = text + "<br/>(softcapped)";
 		}
 		return text;
@@ -61,31 +61,56 @@ const shopCards = [
 ];
 
 const baseCards = () => {
-	return [ ["nothing", 0], ["nothing", 0], ["nothing", 0], ["nothing", 0], ["gainPoints", 0], ["gainPoints", 0], ["gainPoints", 0], ["gainPoints", 0], ["gainInsight", 0], ["gainInsight", 0] ];
+	return [ "nothing", "nothing", "nothing", "nothing", "gainPoints", "gainPoints", "gainPoints", "gainPoints", "gainInsight", "gainInsight" ];
 };
 
 const getShop = (numCards = 3) => {
 	return new Array(numCards).fill(1).map(() => shopCards[Math.floor(Math.random() * shopCards.length)]);
 };
 
-const cardFormat = (card, id = "", className = "", onclick = "", width = "200px", height = "300px") => {
+const cardFormat = (card, id = "", className = "", onclick = "", overrideLevel = "", width = "200px", height = "300px") => {
 	return card == null ? null : ["display-text", `
 		<div id="${id}" class="card ${className}" style="width: ${width}; height: ${height};" onclick="${onclick}">
 			<span style="border-bottom: 1px solid white; margin: 0; max-height: calc(50% - 30px); padding-bottom: 10px;">
-				<h3>${cards[card].title}</h3>
+				<h3>${isFunction(cards[card].title) ? cards[card].title(overrideLevel || getBuyableAmount("study", card) || new Decimal(0)) : cards[card].title}</h3>
 			</span>
-			<span style="flex-basis: 0%;"><span>${isFunction(cards[card].description) ? cards[card].description() : cards[card].description}</span></span>
+			<span style="flex-basis: 0%;"><span>${isFunction(cards[card].description) ? cards[card].description(overrideLevel || getBuyableAmount("study", card) || new Decimal(0)) : cards[card].description}</span></span>
 			<span style="flex-shrink: 1"></span>
 			<img src="images/Time2wait.svg"/>
 		</div>`];
 };
+
+function getCardUpgradeBuyable(id) {
+	const cost = x => {
+		const amount = x || getBuyableAmount("study", id);
+		return new Decimal(100).pow(amount.add(1)).times(10);
+	};
+	return {
+		title: "Upgrade card<br/>",
+		style: {
+			width: "150px",
+			height: "150px"
+		},
+		display() {
+			return `Cost: ${format(cost())} insights`;
+		},
+		canAfford() {
+			return player.study.insights.gte(cost());
+		},
+		buy() {
+			player.study.insights = player.study.insights.sub(cost());
+			setBuyableAmount("study", id, getBuyableAmount("study", id).add(1));
+		},
+		unlocked: true
+	};
+}
 
 function purchaseCard(index) {
 	const { card, price } = player.study.shop[index];
 	if (card && player.study.insights.gte(price)) {
 		player.study.insights = player.study.insights.sub(price);
 		player.study.shop[index] = { card: null, price: "" };
-		player.study.cards.push([card, 0]);
+		player.study.cards.push(card);
 	}
 }
 
@@ -136,8 +161,8 @@ addLayer("study", {
 		}
 		let gain = new Decimal(10);
 		gain = gain.times(new Decimal(1.1).pow(getJobLevel(this.layer)));
-		gain = gain.times(softcap(player.study.increasePointsGain, new Decimal(100), .25).times(0.1).add(1));
-		gain = gain.times(new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100), .2)));
+		gain = gain.times(softcap(player.study.increasePointsGain, new Decimal(100).times((getBuyableAmount("study", "increasePointsGain") || new Decimal(0)).add(1)), .25).times(0.1).add(1));
+		gain = gain.times(new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100).times((getBuyableAmount("study", "multiplyPointsGain") || new Decimal(0)).div(4).add(1)), .2)));
 		return gain;
 	},
 	tabFormat: {
@@ -163,13 +188,13 @@ addLayer("study", {
 				"blank",
 				["display-text", `Next draw in ${new Decimal(DRAW_PERIOD - player.study.drawProgress).clampMax(DRAW_PERIOD - 0.01).toFixed(2)} seconds`],
 				"blank",
-				cardFormat(player.study.lastCard && player.study.lastCard[0], "mainCard", "flipCard"),
+				cardFormat(player.study.lastCard, "mainCard", "flipCard"),
 				"blank",
 				["milestones-filtered", [2, 5, 6]]
 			]
 		},
 		"Deck": {
-			content: () => [["row", player.study.cards.map(card => cardFormat(card[0]))]]
+			content: () => [["row", player.study.cards.map(cardFormat)]]
 		},
 		"Buy Cards": {
 			content: () => [
@@ -192,13 +217,19 @@ addLayer("study", {
 				"blank",
 				["clickable", 11],
 				"blank",
-				["row", player.study.cards.map((card, i) => cardFormat(card[0], "", player.study.selected === i ? "selectedCard cursor" : "cursor", `toggleSelectCard(${i})`)), { width: "100%" }]
+				["row", player.study.cards.map((card, i) => cardFormat(card, "", player.study.selected === i ? "selectedCard cursor" : "cursor", `toggleSelectCard(${i})`)), { width: "100%" }]
 			],
 			unlocked: () => hasMilestone("study", 1)
 		},
 		"Upgrade Cards": {
 			content: () => [
-
+				["column", Object.keys(cards).filter(card => player.study.cards.includes(card) && card in layers.study.buyables).map(card => ["row", [
+					cardFormat(card),
+					["display-text", "〉〉", { fontSize: "36px", margin: "10px" }],
+					["buyable", card],
+					["display-text", "〉〉", { fontSize: "36px", margin: "10px" }],
+					cardFormat(card, "", "", "", getBuyableAmount("study", card).add(1))
+				]])]
 			],
 			unlocked: () => hasMilestone("study", 3)
 		}
@@ -210,10 +241,10 @@ addLayer("study", {
 			if (player[this.layer].drawProgress > DRAW_PERIOD) {
 				player[this.layer].drawProgress = 0;
 				const newCard = player[this.layer].cards[Math.floor(Math.random() * player.study.cards.length)];
-				if (player[this.layer].lastCard && player[this.layer].lastCard[0] in cards && cards[player[this.layer].lastCard[0]].modifyNextCard) {
-					cards[player[this.layer].lastCard[0]].modifyNextCard(newCard);
-				} else if (cards[newCard[0]].onDraw) {
-					cards[newCard[0]].onDraw();
+				if (player[this.layer].lastCard && player[this.layer].lastCard in cards && cards[player[this.layer].lastCard].modifyNextCard) {
+					cards[player[this.layer].lastCard].modifyNextCard(newCard, getBuyableAmount("study", newCard) || new Decimal(0));
+				} else if (cards[newCard].onDraw) {
+					cards[newCard].onDraw(getBuyableAmount("study", newCard) || new Decimal(0));
 				}
 				player[this.layer].lastCard = newCard;
 				const card = document.getElementById("mainCard");
@@ -300,7 +331,7 @@ addLayer("study", {
 			},
 			cost(x) {
 				let cost = new Decimal(1e3).times(new Decimal(100).pow(player[this.layer].cardsSold));
-				cost = cost.times(new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100), .5)));
+				cost = cost.times(new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100).times((getBuyableAmount("study", "multiplyPointsGain") || new Decimal(0)).div(4).add(1)), .5)));
 				return cost;
 			},
 			canClick() {
@@ -320,5 +351,15 @@ addLayer("study", {
 			},
 			unlocked: () => hasMilestone("study", 1)
 		}
+	},
+	buyables: {
+		gainPoints: getCardUpgradeBuyable("gainPoints"),
+		gainBigPoints: getCardUpgradeBuyable("gainBigPoints"),
+		gainInsight: getCardUpgradeBuyable("gainInsight"),
+		gainBigInsight: getCardUpgradeBuyable("gainBigInsight"),
+		playTwice: getCardUpgradeBuyable("playTwice"),
+		increasePointsGain: getCardUpgradeBuyable("increasePointsGain"),
+		multiplyPointsGain: getCardUpgradeBuyable("multiplyPointsGain"),
+		sellDiscount: getCardUpgradeBuyable("sellDiscount")
 	}
 });
