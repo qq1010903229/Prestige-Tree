@@ -135,13 +135,12 @@ addLayer("study", {
 	layerShown: () => player.chapter > 1 && hasMilestone("flowers", 4),
 	startData() {
 		return {
-			unlocked: true,
+			unlocked: false,
 			points: new Decimal(0),
 			insights: new Decimal(0),
 			total: new Decimal(0),
 			xp: new Decimal(0),
 			lastLevel: new Decimal(0),
-			realTime: 0,
 			timeLoopActive: false,
 			drawProgress: 0,
 			refreshProgress: 0,
@@ -236,7 +235,6 @@ addLayer("study", {
 	},
 	update(diff) {
 		if (player.tab === this.layer || player[this.layer].timeLoopActive) {
-			player[this.layer].realTime += diff;
 			player[this.layer].drawProgress += diff;
 			if (player[this.layer].drawProgress > DRAW_PERIOD) {
 				player[this.layer].drawProgress = 0;
@@ -291,7 +289,7 @@ addLayer("study", {
 		2: {
 			title: "And all dared to brave unknown terrors, to do mighty deeds,",
 			requirementDescription: "Level 5",
-			"effectDescription": "Unlock ??? job",
+			"effectDescription": "Unlock time experiments job",
 			done: () => player.study.xp.gte(1e4)
 		},
 		3: {
@@ -363,3 +361,7 @@ addLayer("study", {
 		sellDiscount: getCardUpgradeBuyable("sellDiscount")
 	}
 });
+
+// Names references:
+// https://www.shmoop.com/study-guides/literature/hitchhikers-guide-to-the-galaxy/quotes
+// https://en.wikiquote.org/wiki/The_Hitchhiker's_Guide_to_the_Galaxy

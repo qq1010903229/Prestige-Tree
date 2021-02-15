@@ -317,14 +317,31 @@ function loadVue() {
 		props: ["layer", "data", "size"],
 		template: `
 		<button
-			v-if="tmp[layer].clickables && tmp[layer].clickables[data]!== undefined && tmp[layer].clickables[data].unlocked"
-			v-bind:class="{ upg: true, can: tmp[layer].clickables[data].canClick, locked: !tmp[layer].clickables[data].canClick}"
-			v-bind:style="[tmp[layer].clickables[data].canClick ? {'background-color': tmp[layer].color} : {}, size ? {'height': size, 'width': size} : {}, tmp[layer].clickables[data].style]"
-			v-on:click="clickClickable(layer, data)">
+			v-if="tmp[layer].clickables && tmp[layer].clickables[data]!== undefined && tmp[layer].clickables[data].unlocked !== false"
+			v-bind:class="{ upg: true, can: tmp[layer].clickables[data].canClick !== false, locked: tmp[layer].clickables[data].canClick === false}"
+			v-bind:style="[tmp[layer].clickables[data].canClick !== false ? {'background-color': tmp[layer].color} : {}, size ? {'height': size, 'width': size} : {}, tmp[layer].clickables[data].style]"
+			v-on="handlers">
 			<span v-if= "tmp[layer].clickables[data].title"><h2 v-html="tmp[layer].clickables[data].title"></h2><br></span>
 			<span v-bind:style="{'white-space': 'pre-line'}" v-html="tmp[layer].clickables[data].display"></span>
 		</button>
-		`
+		`,
+		data() {
+			const { layer, data } = this;
+			const handlers = {
+				click: () => clickClickable(layer, data),
+				mousedown: layers[layer].clickables[data].touchstart,
+				touchstart: layers[layer].clickables[data].touchstart,
+				mouseup: layers[layer].clickables[data].touchend,
+				touchend: layers[layer].clickables[data].touchend,
+				mouseleave: layers[layer].clickables[data].touchend
+			};
+			for (cb in handlers) {
+				if (handlers[cb] == null) {
+					delete handlers[cb];
+				}
+			}
+			return { handlers };
+		}
 	});
 
 	Vue.component("master-button", {
@@ -360,7 +377,7 @@ function loadVue() {
 	Vue.component("bar", {
 		props: ["layer", "data"],
 		template: `
-		<div v-if="tmp[layer].bars && tmp[layer].bars[data].unlocked" v-bind:style="{'position': 'relative'}"><div v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].dims, {'display': 'table', 'borderRadius': '10px', 'boxShadow': '0 0 10px 2px var(--shadowColor), inset 0 0 10px 4px var(--innerShadowColor)'}]">
+		<div v-if="tmp[layer].bars && tmp[layer].bars[data].unlocked !== false" v-bind:style="{'position': 'relative'}"><div v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].dims, {'display': 'table', 'borderRadius': '10px', 'boxShadow': '0 0 10px 2px var(--shadowColor), inset 0 0 10px 4px var(--innerShadowColor)'}]">
 			<div class = "overlayTextContainer barBorder" v-bind:style="[tmp[layer].bars[data].borderStyle, tmp[layer].bars[data].dims]">
 				<span class = "overlayText" v-bind:style="[tmp[layer].bars[data].style, tmp[layer].bars[data].textStyle]" v-html="tmp[layer].bars[data].display"></span>
 			</div>

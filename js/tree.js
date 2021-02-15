@@ -42,7 +42,6 @@ function getJobProgressBar(job) {
 			let progress = player[job].xp.clampMin(1).sub(previousLevelRequirement).div(level.pow10().sub(previousLevelRequirement));
 			return progress;
 		},
-		unlocked: true,
 		fillStyle: { backgroundColor: layers[job].color },
 		borderStyle: { borderColor: layers[job].color }
 	};
@@ -61,7 +60,8 @@ function toggleTimeLoop(layer) {
 addLayer("tree-tab", {
 	bars: {
 		flowers: getJobProgressBar("flowers"),
-		study: getJobProgressBar("study")
+		study: getJobProgressBar("study"),
+		sands: getJobProgressBar("sands")
 	},
 	tabFormat: () => player.chapter < 3 ?
 		[
@@ -73,7 +73,8 @@ addLayer("tree-tab", {
 			player.chapter === 2 ? ["display-text", `You have <span style="color: white; text-shadow: white 0 0 10px">${formatWhole(player.timeSlots.sub(player.usedTimeSlots))}</span> free time slots`] : null,
 			player.chapter === 2 ? "blank" : null,
 			["job", "flowers"],
-			["job", "study"]
+			["job", "study"],
+			["job", "sands"]
 		] :
 		{
 			"Main": {
@@ -84,7 +85,8 @@ addLayer("tree-tab", {
 					"blank",
 					"blank",
 					["job", "flowers"],
-					["job", "study"]
+					["job", "study"],
+					["job", "sands"]
 				]
 			}
 		},

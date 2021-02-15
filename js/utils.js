@@ -197,10 +197,10 @@ function clickClickable(layer, id) {
 	if (!player[layer].unlocked) {
 		return;
 	}
-	if (!tmp[layer].clickables[id].unlocked) {
+	if (tmp[layer].clickables[id].unlocked === false) {
 		return;
 	}
-	if (!tmp[layer].clickables[id].canClick) {
+	if (tmp[layer].clickables[id].canClick === false) {
 		return;
 	}
 
@@ -364,6 +364,9 @@ function updateMilestones(layer) {
 	for (id in layers[layer].milestones) {
 		if (!(hasMilestone(layer, id)) && layers[layer].milestones[id].done()) {
 			player[layer].milestones.push(id);
+			if (isFunction(layers[layer].milestones[id].onComplete)) {
+				layers[layer].milestones[id].onComplete();
+			}
 			if (tmp[layer].milestonePopups || tmp[layer].milestonePopups === undefined) {
 				doPopup("milestone", tmp[layer].milestones[id].requirementDescription, "Milestone Gotten!", 3, tmp[layer].color);
 			}

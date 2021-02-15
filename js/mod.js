@@ -13,7 +13,7 @@ let modInfo = {
 // Set your version in num and name
 let VERSION = {
 	num: "0.13",
-	name: "Chapter 2",
+	name: "Chapter 2 (Time Experiments)",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -31,7 +31,7 @@ let winText = "Congratulations! You have reached the end and beaten this game, b
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
-var doNotCallTheseFunctionsEveryTick = ["onAddPoints"];
+var doNotCallTheseFunctionsEveryTick = ["onAddPoints", "touchstart", "touchend"];
 
 function getStartPoints(){
 	return new Decimal(modInfo.initialStartPoints);
