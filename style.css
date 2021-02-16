@@ -820,7 +820,7 @@ button > * {
 
 .hourglass {
 	--polygonH: polygon(0% 0%,100% 0%,100% 5.55%,95% 5.55%,95% 28%,60% 46%,60% 54%,95% 72%,95% 94.45%,100% 94.45%,100% 100%,0% 100%,0% 94.45%,5% 94.45%,5% 72%,40% 54%,40% 46%,5% 28%,5% 5.55%,0% 5.55%);
-	animation-name: flip;
+	animation-name: flipHourglass;
 	animation-duration: var(--flip-duration);
 	animation-delay: 0;
 	animation-play-state: var(--flip-state);
@@ -906,7 +906,7 @@ button > * {
 		transform: translateX(3em);
 	}
 }
-@keyframes flip {
+@keyframes flipHourglass {
 	from {
 		transform: rotate(0);
 	}
