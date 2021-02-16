@@ -12,7 +12,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.13",
+	num: "0.14",
 	name: "Chapter 2 (Time Experiments)",
 };
 
@@ -99,5 +99,8 @@ function fixOldSave(oldVersion){
 	} else if (oldVersion === "0.12") {
 		player.study.cards = player.study.cards.map(c => c[0]);
 		player.study.lastCard = player.study.lastCard[0];
+	} else if (oldVersion === "0.13") {
+		player.study.unlocked = true;
+		player.sands.unlocked = true;
 	}
 }

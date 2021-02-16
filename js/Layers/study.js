@@ -135,7 +135,7 @@ addLayer("study", {
 	layerShown: () => player.chapter > 1 && hasMilestone("flowers", 4),
 	startData() {
 		return {
-			unlocked: false,
+			unlocked: true,
 			points: new Decimal(0),
 			insights: new Decimal(0),
 			total: new Decimal(0),
