@@ -286,7 +286,7 @@ addLayer("sands", {
 			requirementDescription: "Level 25",
 			"effectDescription": "Unlock ???",
 			done: () => player.sands.xp.gte(1e24),
-			unlocked: () => hasMilestone("sands", 5)
+			unlocked: () => hasMilestone("sands", 5) && player.chapter > 2
 		}
 	},
 	clickables: {

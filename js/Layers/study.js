@@ -337,7 +337,7 @@ addLayer("study", {
 			requirementDescription: "Level 25",
 			"effectDescription": "Unlock ???",
 			done: () => player.study.xp.gte(1e24),
-			unlocked: () => hasMilestone("study", 5)
+			unlocked: () => hasMilestone("study", 5) && player.chapter > 2
 		}
 	},
 	clickables: {

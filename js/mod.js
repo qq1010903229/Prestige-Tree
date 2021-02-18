@@ -12,11 +12,19 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.14",
+	num: "0.15",
 	name: "Chapter 2 (Time Experiments)",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
+	<br><h3>v.0.15</h3><br>
+		- Finishing naming time experiments job upgrades<br>
+		- Rebalanced time experiments job<br>
+		- Added deep though mechanic to study job<br>
+	<br><h3>v.0.14</h3><br>
+		- Implemented time experiments job<br>
+	<br><h3>v.0.13</h3><br>
+		- Implemented selling and upgrading cards<br>
 	<br><h3>v0.12</h3><br>
 		- Fixed some issues with new players not being able to play<br>
 	<br><h3>v0.11</h3><br>

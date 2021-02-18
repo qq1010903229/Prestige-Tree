@@ -141,7 +141,7 @@ addLayer("flowers", {
 			requirementDescription: "Level 25",
 			"effectDescription": "Unlock ???",
 			done: () => player.flowers.xp.gte(1e24),
-			unlocked: () => player.chapter > 1
+			unlocked: () => player.chapter > 2
 		}
 	},
 	buyables: {
