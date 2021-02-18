@@ -4,12 +4,32 @@
 		"selected_items":
 		[
 			[
-				"createl",
-				"createElement(tagName) -> Element\tfn "
+				"buyabl",
+				"buyableEffect"
+			],
+			[
+				"getJob",
+				"getJobProgressBar(job) -> {}\tfn "
+			],
+			[
+				"to",
+				"toFixed(digits) -> string\tfn "
+			],
+			[
+				"ind",
+				"findIndex(callback) -> number\tfn "
 			],
 			[
 				"cr",
-				"createElement\t( localName: DOMString ): Element Document"
+				"createCard(title, description, onDraw) -> {}\tfn "
+			],
+			[
+				"tra",
+				"translateY()\ttransform"
+			],
+			[
+				"createl",
+				"createElement(tagName) -> Element\tfn "
 			],
 			[
 				"curr",
@@ -494,80 +514,105 @@
 			[
 				"attrib",
 				"attributeId"
-			],
-			[
-				"coll",
-				"tileColliders"
-			],
-			[
-				"lower",
-				"lowerY"
-			],
-			[
-				"pi",
-				"pixelUVHeight"
-			],
-			[
-				"inTi",
-				"inTileSize"
-			],
-			[
-				"pixel",
-				"pixelUVWidth"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "js/Layers/flowers.js",
-			"settings":
-			{
-				"buffer_size": 1605,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "js/mod.js",
 			"settings":
 			{
-				"buffer_size": 1893,
+				"buffer_size": 3241,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "index.html",
+			"contents": "Searching 21 files for \"info-tab\"\n\nD:\\projects\\The-Modding-Tree\\js\\components.js:\n  457  \tVue.component(\"layer-tab\", systemComponents[\"layer-tab\"]);\n  458  \tVue.component(\"overlay-head\", systemComponents[\"overlay-head\"]);\n  459: \tVue.component(\"info-tab\", systemComponents[\"info-tab\"]);\n  460  \tVue.component(\"options-tab\", systemComponents[\"options-tab\"]);\n  461  \n\nD:\\projects\\The-Modding-Tree\\js\\technical\\layerSupport.js:\n  241  \n  242  \n  243: addLayer(\"info-tab\", {\n  244:     tabFormat: [\"info-tab\"],\n  245      row: \"otherside\"\n  246  })\n\nD:\\projects\\The-Modding-Tree\\js\\technical\\systemComponents.js:\n  105  \t},\n  106  \n  107: \t\"info-tab\": {\n  108  \t\ttemplate: `\n  109          <div>\n\n5 matches across 3 files\n",
 			"settings":
 			{
-				"buffer_size": 5736,
+				"buffer_size": 719,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "js/technical/systemComponents.js",
+			"settings":
+			{
+				"buffer_size": 8681,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/utils.js",
+			"settings":
+			{
+				"buffer_size": 13082,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/game.js",
+			"settings":
+			{
+				"buffer_size": 13708,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/Layers/study.js",
+			"settings":
+			{
+				"buffer_size": 15500,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/Layers/flowers.js",
+			"settings":
+			{
+				"buffer_size": 9227,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "js/tree.js",
 			"settings":
 			{
-				"buffer_size": 361,
+				"buffer_size": 4648,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/../.eslintrc.js",
-			"settings":
-			{
-				"buffer_size": 404,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "js/technical/canvas.js",
+			"file": "js/Layers/sands.js",
 			"settings":
 			{
-				"buffer_size": 1995,
+				"buffer_size": 18095,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/components.js",
+			"settings":
+			{
+				"buffer_size": 24205,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "style.css",
+			"settings":
+			{
+				"buffer_size": 16046,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -770,12 +815,33 @@
 	"expanded_folders":
 	[
 		"/D/projects/The-Modding-Tree",
+		"/D/projects/The-Modding-Tree/images",
 		"/D/projects/The-Modding-Tree/js",
-		"/D/projects/The-Modding-Tree/js/Layers",
-		"/D/projects/The-Modding-Tree/js/technical"
+		"/D/projects/The-Modding-Tree/js/Layers"
 	],
 	"file_history":
 	[
+		"/D/projects/The-Modding-Tree/.git/COMMIT_EDITMSG",
+		"/D/projects/The-Modding-Tree/js/Layers/study.js",
+		"/D/projects/The-Modding-Tree/js/Layers/flowers.js",
+		"/D/projects/The-Modding-Tree/js/colors.js",
+		"/D/projects/The-Modding-Tree/index.html",
+		"/D/projects/The-Modding-Tree/js/technical/systemComponents.js",
+		"/D/projects/The-Modding-Tree/js/utils/themes.js",
+		"/D/projects/The-Modding-Tree/js/utils/NumberFormating.js",
+		"/D/projects/The-Modding-Tree/style.css",
+		"/D/projects/The-Modding-Tree/js/components.js",
+		"/D/projects/OptiSpeech 2/.git/COMMIT_EDITMSG",
+		"/D/projects/The-Modding-Tree/js/game.js",
+		"/D/projects/thepaperpilot.github.io/.git/COMMIT_EDITMSG",
+		"/D/projects/The-Modding-Tree/README.md",
+		"/C/Users/thepa/Downloads/SandsOfTime/resources/manifest.lua",
+		"/D/projects/The-Modding-Tree/js/utils.js",
+		"/D/projects/The-Modding-Tree/js/technical/canvas.js",
+		"/D/projects/The-Modding-Tree/kronos.sublime-project",
+		"/D/projects/The-Modding-Tree/.tern-project.",
+		"/D/projects/The-Modding-Tree/js/../package.json",
+		"/D/projects/The-Modding-Tree/js/../.eslintrc.js",
 		"/D/projects/The-Modding-Tree/kronos-changelog.md",
 		"/D/projects/Cult Sim Test/Assets/Resources/persistent.json",
 		"/C/Users/thepa/AppData/LocalLow/DefaultCompany/Cult Sim Test/persistent",
@@ -882,38 +948,21 @@
 		"/D/ownCloud/archive/discord backup 2020-11-12/servers/280806472928198656/guild.json",
 		"/D/ownCloud/archive/discord backup 2020-11-12/messages/83917313761378304/channel.json",
 		"/D/ownCloud/archive/discord backup 2020-11-12/account/user.json",
-		"/C/Users/thepa/AppData/Roaming/BetterDiscord/themes/Dusk_to_Dawn.theme.css",
-		"/D/projects/The-Modding-Tree/js/layers/t.js",
-		"/D/projects/The-Modding-Tree/js/v.js",
-		"/D/projects/The-Modding-Tree/js/layers/l.js",
-		"/D/projects/The-Modding-Tree/js/layers/f.js",
-		"/D/projects/The-Modding-Tree/js/colors.js",
-		"/D/projects/The-Modding-Tree/index.html",
-		"/D/projects/The-Modding-Tree/style.css",
-		"/D/projects/The-Modding-Tree/js/layers/d.js",
-		"/D/projects/The-Modding-Tree/js/game.js",
-		"/D/projects/The-Modding-Tree/js/mod.js",
-		"/D/projects/The-Modding-Tree/changelog.md",
-		"/D/projects/The-Modding-Tree/js/layers/s.js",
-		"/D/projects/The-Modding-Tree/js/layers/e.js",
-		"/D/projects/The-Modding-Tree/js/layers/c.js",
-		"/D/projects/The-Modding-Tree/js/layers/a.js",
-		"/D/projects/The-Modding-Tree/js/layers/u.js",
-		"/D/projects/The-Modding-Tree/js/layers/g.js",
-		"/D/projects/The-Modding-Tree/js/utils.js",
-		"/D/projects/The-Modding-Tree/js/temp.js",
-		"/D/projects/thepaperpilot.github.io/.git/COMMIT_EDITMSG",
-		"/D/projects/The-Modding-Tree/js/layers/r.js"
+		"/C/Users/thepa/AppData/Roaming/BetterDiscord/themes/Dusk_to_Dawn.theme.css"
 	],
 	"find":
 	{
-		"height": 43.0
+		"height": 30.0
 	},
 	"find_in_files":
 	{
 		"height": 187.0,
 		"where_history":
 		[
+			"D:\\projects\\The-Modding-Tree\\js",
+			"D:\\projects\\The-Modding-Tree",
+			"D:\\projects\\The-Modding-Tree\\js",
+			"D:\\projects\\The-Modding-Tree\\js\\technical"
 		]
 	},
 	"find_state":
@@ -921,6 +970,53 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"addpoints",
+			"grainsRemaining",
+			"amount",
+			"updatemilestone",
+			"de",
+			"updatemilestone",
+			"devspeed",
+			"filling",
+			"var(--primary)",
+			"info-tab",
+			"input[type='range']",
+			"realTime",
+			"new decimal(100)",
+			"\",",
+			"cardlevels",
+			", 0",
+			"0",
+			"increasePointsGain",
+			"12",
+			"card",
+			" [\"",
+			"2px",
+			"shadowColor",
+			"innerShadowColor",
+			"shadowColor",
+			"hadowColor",
+			"innerShadowColor",
+			"tab",
+			"timeslots",
+			"toggle",
+			"margin-bottom",
+			"upgrade",
+			"doPopup",
+			"milestone",
+			"Added",
+			"function",
+			"resettime",
+			"upg",
+			".flowers",
+			"player[data].level",
+			"overlay-",
+			"points",
+			"options",
+			"overlayThing",
+			"version",
+			"drawTree",
+			"resizeCanvas",
 			"\"></"
 		],
 		"highlight": true,
@@ -939,55 +1035,24 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 8,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "js/Layers/flowers.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1605,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								448,
-								455
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "js/mod.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1893,
+						"buffer_size": 3241,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								72,
-								72
+								3236,
+								3236
 							]
 						],
 						"settings":
@@ -997,57 +1062,90 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1765.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "index.html",
+					"buffer": 1,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5736,
+						"buffer_size": 719,
 						"regions":
 						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										245,
+										253
+									],
+									[
+										274,
+										282
+									],
+									[
+										459,
+										467
+									],
+									[
+										496,
+										504
+									],
+									[
+										638,
+										646
+									]
+								],
+								"scope": ""
+							}
 						},
 						"selection":
 						[
 							[
-								522,
-								522
+								641,
+								641
 							]
 						],
 						"settings":
 						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"detect_indentation": false,
+							"git_gutter_is_enabled": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "js/tree.js",
+					"buffer": 2,
+					"file": "js/technical/systemComponents.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 361,
+						"buffer_size": 8681,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								361,
-								361
+								5951,
+								5951
 							]
 						],
 						"settings":
@@ -1056,57 +1154,147 @@
 							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1906.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/utils.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13082,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8503,
+								8503
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6988.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "js/game.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13708,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6779,
+								6794
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4531.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "js/Layers/study.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15500,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6503,
+								6503
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6952.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "js/../.eslintrc.js",
-					"semi_transient": false,
+					"buffer": 6,
+					"file": "js/Layers/flowers.js",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 404,
+						"buffer_size": 9227,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								404,
-								404
+								725,
+								735
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/zzz A File Icon zzz/aliases/JavaScript (ESLint).sublime-syntax",
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "js/technical/canvas.js",
+					"buffer": 7,
+					"file": "js/tree.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1995,
+						"buffer_size": 4648,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1850,
-								1850
+								2144,
+								2131
 							]
 						],
 						"settings":
@@ -1115,10 +1303,100 @@
 							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 819.0,
+						"translation.y": 10.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "js/Layers/sands.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18095,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15909,
+								15909
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6994.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "js/components.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24205,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								17517,
+								17517
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 6064.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16046,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								13199,
+								13199
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 16780.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
 					"type": "text"
 				}
 			]

@@ -6,13 +6,20 @@ function getFallSpeed() {
 	let fallSpeed = new Decimal(1);
 	fallSpeed = fallSpeed.times(new Decimal(1.1).pow(getJobLevel("sands")));
 	fallSpeed = fallSpeed.times(buyableEffect("sands", 12));
+	if (player.sands.chipping && hasUpgrade("sands", 15)) {
+		if (hasUpgrade("sands", 13)) {
+			fallSpeed = fallSpeed.times(upgradeEffect("sands", 13).add(1));
+		} else {
+			fallSpeed = fallSpeed.times(2);
+		}
+	}
 	return fallSpeed;
 }
 
 function getFlipSpeed() {
 	let flipSpeed = new Decimal(1);
 	flipSpeed = flipSpeed.times(new Decimal(1.1).pow(getJobLevel("sands")));
-	flipSpeed = flipSpeed.times(buyableEffect("sands", 13));
+	flipSpeed = flipSpeed.times(buyableEffect("sands", 22));
 	return flipSpeed;
 }
 
@@ -25,13 +32,23 @@ function getTotalGrains() {
 
 function getFallMult() {
 	let fallAmount = new Decimal(1);
-	fallAmount = fallAmount.times(buyableEffect("sands", 22));
+	fallAmount = fallAmount.times(buyableEffect("sands", 13));
 	return fallAmount;
 }
 
 function getPotentiaMult() {
 	let gain = new Decimal(1);
 	gain = gain.times(buyableEffect("sands", 23));
+	if (hasUpgrade("sands", 14)) {
+		gain = gain.times(upgradeEffect("sands", 14));
+	}
+	if (player.sands.chipping && hasUpgrade("sands", 25)) {
+		if (hasUpgrade("sands", 13)) {
+			gain = gain.times(upgradeEffect("sands", 13).add(1));
+		} else {
+			gain = gain.times(2);
+		}
+	}
 	return gain;
 }
 
@@ -157,19 +174,23 @@ addLayer("sands", {
 		if (player.tab === this.layer || player[this.layer].timeLoopActive) {
 			let shrinkGain = new Decimal(0);
 			if (hasUpgrade("sands", 11)) {
-				shrinkGain = shrinkGain.add(.05);
-			}
-			if (hasUpgrade("sands", 12)) {
 				shrinkGain = shrinkGain.add(.1);
 			}
-			if (hasUpgrade("sands", 13)) {
-				shrinkGain = shrinkGain.add(.15);
-			}
-			if (hasUpgrade("sands", 14)) {
+			if (hasUpgrade("sands", 12)) {
 				shrinkGain = shrinkGain.add(.2);
 			}
+			if (hasUpgrade("sands", 21)) {
+				shrinkGain = shrinkGain.add(.3);
+			}
+			if (hasUpgrade("sands", 22)) {
+				shrinkGain = shrinkGain.add(.4);
+			}
 			if (player[this.layer].chipping) {
-				shrinkGain = shrinkGain.add(1);
+				if (hasUpgrade("sands", 13)) {
+					shrinkGain = shrinkGain.add(upgradeEffect("sands", 13));
+				} else {
+					shrinkGain = shrinkGain.add(1);
+				}
 			}
 			if (shrinkGain.gt(0)) {
 				shrinkGain = shrinkGain.times(diff);
@@ -294,32 +315,11 @@ addLayer("sands", {
 		11: {
 			title: "It's my dad's motto.<br/>",
 			display() {
-				return `Additively increases chipping speed by 10%<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
+				return `Additively increases chipping speed by 25%<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
 			},
 			cost(x) {
 				const amount = x || getBuyableAmount(this.layer, this.id);
 				return new Decimal(10).times(new Decimal(2).pow(amount));
-			},
-			effect() {
-				return new Decimal(.1).times(getBuyableAmount(this.layer, this.id)).add(1);
-			},
-			canAfford() {
-				return player[this.layer].points.gte(this.cost());
-			},
-			buy() {
-				player[this.layer].points = player[this.layer].points.sub(this.cost());
-				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
-			},
-			unlocked: () => hasMilestone("sands", 0)
-		},
-		12: {
-			title: "That's strange. She usually takes the Harley.<br/>",
-			display() {
-				return `Additively increases how quickly grains of sand fall by 25%<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
-			},
-			cost(x) {
-				const amount = x || getBuyableAmount(this.layer, this.id);
-				return new Decimal(2).pow(Decimal.add(amount, 3));
 			},
 			effect() {
 				return new Decimal(.25).times(getBuyableAmount(this.layer, this.id)).add(1);
@@ -333,70 +333,28 @@ addLayer("sands", {
 			},
 			unlocked: () => hasMilestone("sands", 0)
 		},
+		12: {
+			title: "That's strange. She usually takes the Harley.<br/>",
+			display() {
+				return `Additively increases how quickly grains of sand fall by 100%<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
+			},
+			cost(x) {
+				const amount = x || getBuyableAmount(this.layer, this.id);
+				return new Decimal(2).pow(Decimal.add(amount, 3));
+			},
+			effect() {
+				return new Decimal(1).times(getBuyableAmount(this.layer, this.id)).add(1);
+			},
+			canAfford() {
+				return player[this.layer].points.gte(this.cost());
+			},
+			buy() {
+				player[this.layer].points = player[this.layer].points.sub(this.cost());
+				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
+			},
+			unlocked: () => hasMilestone("sands", 0)
+		},
 		13: {
-			title: "From failure, you learn; from success not so much.<br/>",
-			display() {
-				return `Multiplicatively increases how quickly the hourglass flips by 25%<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
-			},
-			cost(x) {
-				const amount = x || getBuyableAmount(this.layer, this.id);
-				return new Decimal(3).times(new Decimal(2).pow(Decimal.add(amount, 1)));
-			},
-			effect() {
-				return new Decimal(1.25).pow(getBuyableAmount(this.layer, this.id));
-			},
-			canAfford() {
-				return player[this.layer].points.gte(this.cost());
-			},
-			buy() {
-				player[this.layer].points = player[this.layer].points.sub(this.cost());
-				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
-			},
-			unlocked: () => hasMilestone("sands", 0)
-		},
-		14: {
-			title: "I have a big head, and little arms.<br/>",
-			display() {
-				return `Additively and retroactively increases how many grains of sand you gather from each completely chipped stone by 1<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
-			},
-			cost(x) {
-				const amount = x || getBuyableAmount(this.layer, this.id);
-				return new Decimal(75).times(new Decimal(10).pow(amount));
-			},
-			effect() {
-				return getBuyableAmount(this.layer, this.id).add(1);
-			},
-			canAfford() {
-				return player[this.layer].points.gte(this.cost());
-			},
-			buy() {
-				player[this.layer].points = player[this.layer].points.sub(this.cost());
-				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
-			},
-			unlocked: () => hasMilestone("sands", 0)
-		},
-		21: {
-			title: "I'm ignoring you for time reasons.<br/>",
-			display() {
-				return `Multiplicatively increases chipping speed by 10%<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
-			},
-			cost(x) {
-				const amount = x || getBuyableAmount(this.layer, this.id);
-				return new Decimal(2).times(new Decimal(5).pow(Decimal.add(amount, 1)));
-			},
-			effect() {
-				return new Decimal(1.1).pow(getBuyableAmount(this.layer, this.id));
-			},
-			canAfford() {
-				return player[this.layer].points.gte(this.cost());
-			},
-			buy() {
-				player[this.layer].points = player[this.layer].points.sub(this.cost());
-				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
-			},
-			unlocked: () => hasMilestone("sands", 3)
-		},
-		22: {
 			title: "You're smart, you fix it!<br/>",
 			display() {
 				return `Additively increases how many grains of sand can fall through the hourglass at once by 1<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
@@ -415,6 +373,69 @@ addLayer("sands", {
 				player[this.layer].points = player[this.layer].points.sub(this.cost());
 				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
 			},
+			unlocked: () => hasMilestone("sands", 0)
+		},
+		14: {
+			title: "I have a big head, and little arms.<br/>",
+			display() {
+				return `Additively and retroactively increases how many grains of sand you gather from each completely chipped stone by 1<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
+			},
+			cost(x) {
+				const amount = x || getBuyableAmount(this.layer, this.id);
+				return new Decimal(25).times(new Decimal(10).pow(amount));
+			},
+			effect() {
+				return getBuyableAmount(this.layer, this.id).add(1);
+			},
+			canAfford() {
+				return player[this.layer].points.gte(this.cost());
+			},
+			buy() {
+				player[this.layer].points = player[this.layer].points.sub(this.cost());
+				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
+			},
+			unlocked: () => hasMilestone("sands", 0)
+		},
+		21: {
+			title: "I'm ignoring you for time reasons.<br/>",
+			display() {
+				return `Multiplicatively increases chipping speed by 50%<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
+			},
+			cost(x) {
+				const amount = x || getBuyableAmount(this.layer, this.id);
+				return new Decimal(2).times(new Decimal(5).pow(Decimal.add(amount, 1)));
+			},
+			effect() {
+				return new Decimal(1.5).pow(getBuyableAmount(this.layer, this.id));
+			},
+			canAfford() {
+				return player[this.layer].points.gte(this.cost());
+			},
+			buy() {
+				player[this.layer].points = player[this.layer].points.sub(this.cost());
+				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
+			},
+			unlocked: () => hasMilestone("sands", 3)
+		},
+		22: {
+			title: "From failure, you learn; from success not so much.<br/>",
+			display() {
+				return `Multiplicatively increases how quickly the hourglass flips by 20%<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} potentia`;
+			},
+			cost(x) {
+				const amount = x || getBuyableAmount(this.layer, this.id);
+				return new Decimal(3).times(new Decimal(2).pow(Decimal.add(amount, 1)));
+			},
+			effect() {
+				return new Decimal(1.2).pow(getBuyableAmount(this.layer, this.id));
+			},
+			canAfford() {
+				return player[this.layer].points.gte(this.cost());
+			},
+			buy() {
+				player[this.layer].points = player[this.layer].points.sub(this.cost());
+				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
+			},
 			unlocked: () => hasMilestone("sands", 3)
 		},
 		23: {
@@ -424,7 +445,7 @@ addLayer("sands", {
 			},
 			cost(x) {
 				const amount = x || getBuyableAmount(this.layer, this.id);
-				return new Decimal(50).times(new Decimal(3).pow(amount));
+				return new Decimal(50).times(new Decimal(2).pow(amount));
 			},
 			effect() {
 				return getBuyableAmount(this.layer, this.id).add(1);
@@ -445,6 +466,9 @@ addLayer("sands", {
 			},
 			cost(x) {
 				const amount = x || getBuyableAmount(this.layer, this.id);
+				if (hasUpgrade("sands", 24)) {
+					return new Decimal(75).times(new Decimal(8).pow(amount));
+				}
 				return new Decimal(75).times(new Decimal(10).pow(amount));
 			},
 			effect() {
@@ -462,31 +486,78 @@ addLayer("sands", {
 	},
 	upgrades: {
 		rows: 2,
-		cols: 4,
+		cols: 5,
 		11: {
-			title: "???<br>",
-			description: "Automatically chip the stone at +5% efficiency",
-			cost: new Decimal(800),
+			title: "I have a big head,<br>",
+			description: "Automatically chip the stone at +10% efficiency",
+			cost: new Decimal(400),
 			unlocked: () => hasMilestone("sands", 1)
 		},
 		12: {
-			title: "???<br>",
-			description: "Automatically chip the stone at +10% efficiency",
-			cost: new Decimal(1600),
+			title: "and little arms!<br>",
+			description: "Automatically chip the stone at +20% efficiency",
+			cost: new Decimal(800),
 			unlocked: () => hasMilestone("sands", 1)
 		},
 		13: {
-			title: "???<br>",
-			description: "Automatically chip the stone at +15% efficiency",
-			cost: new Decimal(3200),
-			unlocked: () => hasMilestone("sands", 1)
+			title: "I'm not sure how well<br>",
+			description: "Multiply <b>\"Keep Moving Forward\"</b>'s effect by this job's level<br/>",
+			cost: new Decimal(1600),
+			unlocked: () => hasMilestone("sands", 1),
+			effect: () => getJobLevel("sands"),
+			effectDisplay() {
+				return `x${format(this.effect())}`;
+			}
 		},
 		14: {
-			title: "???<br>",
-			description: "Automatically chip the stone at +20% efficiency",
+			title: "this plan was thought through.<br>",
+			description: "Potentia gain is increased based on total number of grains<br/>",
 			cost: new Decimal(6400),
+			unlocked: () => hasMilestone("sands", 1),
+			effect: () => getTotalGrains().sqrt().div(10).add(1),
+			effectDisplay() {
+				return `x${format(this.effect())}`;
+			}
+		},
+		15: {
+			title: "Master?<br>",
+			description: "<b>\"Keep Moving Forward\"</b> also speeds up grains falling through the hourglass<br/>",
+			cost: new Decimal(25600),
 			unlocked: () => hasMilestone("sands", 1)
 		},
-		// TODO row 2 is advanced store unlocked at level 8 (m4)
+		21: {
+			title: "I'll take two!<br>",
+			description: "Automatically chip the stone at +30% efficiency",
+			cost: new Decimal(1e6),
+			unlocked: () => hasMilestone("sands", 4)
+		},
+		22: {
+			title: "Bake them cookies, Lucille!<br>",
+			description: "Automatically chip the stone at +40% efficiency",
+			cost: new Decimal(2e6),
+			unlocked: () => hasMilestone("sands", 4)
+		},
+		23: {
+			title: "You are now under my control<br>",
+			description: "Flip speed affects fall speed at 5% efficiency<br/>",
+			cost: new Decimal(5e6),
+			unlocked: () => hasMilestone("sands", 4),
+			effect: () => getFlipSpeed().sub(1).div(20).add(1),
+			effectDisplay() {
+				return `x${format(this.effect())}`;
+			}
+		},
+		24: {
+			title: "Stop laughing<br>",
+			description: "Reduce the cost scaling of <b>\"Or, what's left of it.\"</b><br/>",
+			cost: new Decimal(2.5e7),
+			unlocked: () => hasMilestone("sands", 4)
+		},
+		25: {
+			title: "Excellent<br>",
+			description: "<b>\"Keep Moving Forward\"</b> also increases potentia gain<br/>",
+			cost: new Decimal(1e8),
+			unlocked: () => hasMilestone("sands", 4)
+		}
 	}
 });

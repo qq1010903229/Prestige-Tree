@@ -914,3 +914,7 @@ button > * {
 		transform: rotate(180deg);
 	}
 }
+
+b, h3 {
+	text-shadow: 0 0 black;
+}

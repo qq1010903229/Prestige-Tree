@@ -2,9 +2,13 @@ function createCard(title, description = "", onDraw = null, modifyNextCard = nul
 	return { title, description, onDraw, modifyNextCard };
 }
 
+const cardLevel = (card) => {
+	return (getBuyableAmount("study", card) || new Decimal(0)).add(player.study.deep);
+};
+
 const cards = {
 	nothing: createCard("His job is not to wield power but to draw attention away from it.", "Do nothing."),
-	gainPoints: createCard("Don't Panic.", level => `Successfully study ${format(getResetGain("study").times((level).add(1)))} properties.`, level => addPoints("study", getResetGain("study").times(level.add(1)))),
+	gainPoints: createCard("Don't Panic.", level => `Successfully study ${format(getResetGain("study").times(level.add(1)))} properties.`, level => addPoints("study", getResetGain("study").times(level.add(1)))),
 	gainBigPoints: createCard("In his experience the Universe simply didn't work like that.", level => `Successfully study ${format(getResetGain("study").times(level.add(1)).pow(1.2))} properties. Destroy this card.`, (level, canDestroy = true) => {
 		addPoints("study", getResetGain("study").times(level.add(1)).pow(1.2));
 		if (canDestroy) {
@@ -18,8 +22,8 @@ const cards = {
 	gainBigInsight: createCard("Yes! I shall design this computer for you.", level => `Gain ${new Decimal(player.study.cards.length).times(level.add(1)).sqrt().floor()} key insights.<br/>(based on number of cards in the deck)`, level => player.study.insights = player.study.insights.add(new Decimal(player.study.cards.length).times(level.add(1)).sqrt().floor())),
 	playTwice: createCard("Oh no, not again.", level => level == 0 ? "Play the next card twice." : `Play the next card twice, with the effect boosted by ${level.div(4)} levels.`, null, (nextCard, level) => {
 		if (nextCard in cards && cards[nextCard].onDraw) {
-			cards[nextCard].onDraw((getBuyableAmount("study", nextCard) || new Decimal(0)).add(level.div(4)));
-			cards[nextCard].onDraw((getBuyableAmount("study", nextCard) || new Decimal(0)).add(level.div(4)), false);
+			cards[nextCard].onDraw(cardLevel(nextCard).add(level.div(4)));
+			cards[nextCard].onDraw(cardLevel(nextCard).add(level.div(4)), false);
 		}
 	}),
 	increasePointsGain: createCard("Have another drink, enjoy yourself.", level => {
@@ -72,9 +76,9 @@ const cardFormat = (card, id = "", className = "", onclick = "", overrideLevel =
 	return card == null ? null : ["display-text", `
 		<div id="${id}" class="card ${className}" style="width: ${width}; height: ${height};" onclick="${onclick}">
 			<span style="border-bottom: 1px solid white; margin: 0; max-height: calc(50% - 30px); padding-bottom: 10px;">
-				<h3>${isFunction(cards[card].title) ? cards[card].title(overrideLevel || getBuyableAmount("study", card) || new Decimal(0)) : cards[card].title}</h3>
+				<h3>${isFunction(cards[card].title) ? cards[card].title(overrideLevel || cardLevel(card)) : cards[card].title}</h3>
 			</span>
-			<span style="flex-basis: 0%;"><span>${isFunction(cards[card].description) ? cards[card].description(overrideLevel || getBuyableAmount("study", card) || new Decimal(0)) : cards[card].description}</span></span>
+			<span style="flex-basis: 0%;"><span>${isFunction(cards[card].description) ? cards[card].description(overrideLevel || cardLevel(card)) : cards[card].description}</span></span>
 			<span style="flex-shrink: 1"></span>
 			<img src="images/Time2wait.svg"/>
 		</div>`];
@@ -92,7 +96,7 @@ function getCardUpgradeBuyable(id) {
 			height: "150px"
 		},
 		display() {
-			return `Cost: ${format(cost())} insights`;
+			return `Currently: Level ${formatWhole(cardLevel(id))}<br/><br/>Cost: ${format(cost())} insights`;
 		},
 		canAfford() {
 			return player.study.insights.gte(cost());
@@ -122,7 +126,13 @@ function toggleSelectCard(index) {
 	}
 }
 
-const DRAW_PERIOD = 10;
+function getDrawDuration() {
+	let drawSpeed = new Decimal(10);
+	drawSpeed = drawSpeed.div(new Decimal(1.1).pow(getJobLevel("study")));
+	drawSpeed = drawSpeed.times(new Decimal(2).pow(player.study.deep));
+	return drawSpeed;
+}
+
 const REFRESH_PERIOD = 300;
 
 addLayer("study", {
@@ -151,7 +161,8 @@ addLayer("study", {
 			multiplyPointsGain: new Decimal(0),
 			sellDiscount: new Decimal(0),
 			cardsSold: new Decimal(0),
-			selected: -1
+			selected: -1,
+			deep: new Decimal(0)
 		};
 	},
 	getResetGain() {
@@ -159,9 +170,8 @@ addLayer("study", {
 			return new Decimal(0);
 		}
 		let gain = new Decimal(10);
-		gain = gain.times(new Decimal(1.1).pow(getJobLevel(this.layer)));
-		gain = gain.times(softcap(player.study.increasePointsGain, new Decimal(100).times((getBuyableAmount("study", "increasePointsGain") || new Decimal(0)).add(1)), .25).times(0.1).add(1));
-		gain = gain.times(new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100).times((getBuyableAmount("study", "multiplyPointsGain") || new Decimal(0)).div(4).add(1)), .2)));
+		gain = gain.times(softcap(player.study.increasePointsGain, new Decimal(100).times(cardLevel("increasePointsGain").add(1)), .25).times(0.1).add(1));
+		gain = gain.times(new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100).times(cardLevel("multiplyPointsGain").div(4).add(1)), .2)));
 		return gain;
 	},
 	tabFormat: {
@@ -185,7 +195,7 @@ addLayer("study", {
 					return "";
 				})()],
 				"blank",
-				["display-text", `Next draw in ${new Decimal(DRAW_PERIOD - player.study.drawProgress).clampMax(DRAW_PERIOD - 0.01).toFixed(2)} seconds`],
+				["display-text", `Next draw in ${new Decimal(getDrawDuration() - player.study.drawProgress).clampMax(getDrawDuration() - 0.01).toFixed(2)} seconds`],
 				"blank",
 				cardFormat(player.study.lastCard, "mainCard", "flipCard"),
 				"blank",
@@ -214,7 +224,7 @@ addLayer("study", {
 			content: () => [
 				["display-text", `<span>You have <h2 style="color: ${studyColor}; text-shadow: ${studyColor} 0 0 10px">${formatWhole(player.study.points)}</h2> properties studied`],
 				"blank",
-				["clickable", 11],
+				["clickable", "sell"],
 				"blank",
 				["row", player.study.cards.map((card, i) => cardFormat(card, "", player.study.selected === i ? "selectedCard cursor" : "cursor", `toggleSelectCard(${i})`)), { width: "100%" }]
 			],
@@ -222,12 +232,26 @@ addLayer("study", {
 		},
 		"Upgrade Cards": {
 			content: () => [
+				hasMilestone("study", 4) ? ["column", [
+					["display-text", `Deep Thought is currently giving <span style="text-shadow: white 0 0 10px">${formatWhole(player.study.deep)}</span> bonus levels to every card,<br/>but makes each draw take <span style="text-shadow: white 0 0 10px">${formatWhole(new Decimal(2).pow(player.study.deep))}x</span> longer due to processing time.<br/><br/>You cannot add more bonus levels than your level at this job.`],
+					"blank",
+					["row", [
+						["clickable", "deep0"],
+						"blank",
+						["clickable", "deep-"],
+						"blank",
+						["clickable", "deep+"],
+						"blank",
+						["clickable", "deepMax"]
+					]],
+					"blank"
+				]] : null,
 				["column", Object.keys(cards).filter(card => player.study.cards.includes(card) && card in layers.study.buyables).map(card => ["row", [
 					cardFormat(card),
 					["display-text", "〉〉", { fontSize: "36px", margin: "10px" }],
 					["buyable", card],
 					["display-text", "〉〉", { fontSize: "36px", margin: "10px" }],
-					cardFormat(card, "", "", "", getBuyableAmount("study", card).add(1))
+					cardFormat(card, "", "", "", cardLevel(card).add(1))
 				]])]
 			],
 			unlocked: () => hasMilestone("study", 3)
@@ -236,13 +260,14 @@ addLayer("study", {
 	update(diff) {
 		if (player.tab === this.layer || player[this.layer].timeLoopActive) {
 			player[this.layer].drawProgress += diff;
-			if (player[this.layer].drawProgress > DRAW_PERIOD) {
+			// TODO draws/sec
+			if (player[this.layer].drawProgress > getDrawDuration()) {
 				player[this.layer].drawProgress = 0;
 				const newCard = player[this.layer].cards[Math.floor(Math.random() * player.study.cards.length)];
 				if (player[this.layer].lastCard && player[this.layer].lastCard in cards && cards[player[this.layer].lastCard].modifyNextCard) {
-					cards[player[this.layer].lastCard].modifyNextCard(newCard, getBuyableAmount("study", newCard) || new Decimal(0));
+					cards[player[this.layer].lastCard].modifyNextCard(newCard, cardLevel(newCard));
 				} else if (cards[newCard].onDraw) {
-					cards[newCard].onDraw(getBuyableAmount("study", newCard) || new Decimal(0));
+					cards[newCard].onDraw(cardLevel(newCard));
 				}
 				player[this.layer].lastCard = newCard;
 				const card = document.getElementById("mainCard");
@@ -316,9 +341,7 @@ addLayer("study", {
 		}
 	},
 	clickables: {
-		rows: 1,
-		cols: 1,
-		11: {
+		sell: {
 			title: "They obstinately persisted in their absence.<br/>",
 			style: {
 				width: "200px",
@@ -329,7 +352,7 @@ addLayer("study", {
 			},
 			cost(x) {
 				let cost = new Decimal(1e3).times(new Decimal(100).pow(player[this.layer].cardsSold));
-				cost = cost.times(new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100).times((getBuyableAmount("study", "multiplyPointsGain") || new Decimal(0)).div(4).add(1)), .5)));
+				cost = cost.times(new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100).times(cardLevel("multiplyPointsGain").div(4).add(1)), .5)));
 				return cost;
 			},
 			canClick() {
@@ -347,7 +370,52 @@ addLayer("study", {
 				player[this.layer].cards.splice(player[this.layer].selected, 1);
 				player[this.layer].selected = -1;
 			},
-			unlocked: () => hasMilestone("study", 1)
+			unlocked: () => hasMilestone("study", 1),
+			layer: "study"
+		},
+		"deep0": {
+			title: "0",
+			style: {
+				width: "100px",
+				height: "100px"
+			},
+			canClick: () => player.study.deep.neq(0),
+			onClick: () => {
+				player.study.deep = new Decimal(0);
+			}
+		},
+		"deep-": {
+			title: "- 1",
+			style: {
+				width: "100px",
+				height: "100px"
+			},
+			canClick: () => player.study.deep.gt(0),
+			onClick: () => {
+				player.study.deep = player.study.deep.sub(1);
+			}
+		},
+		"deep+": {
+			title: "+ 1",
+			style: {
+				width: "100px",
+				height: "100px"
+			},
+			canClick: () => player.study.deep.lt(getJobLevel("study")),
+			onClick: () => {
+				player.study.deep = player.study.deep.add(1);
+			}
+		},
+		"deepMax": {
+			title: () => formatWhole(getJobLevel("study")),
+			style: {
+				width: "100px",
+				height: "100px"
+			},
+			canClick: () => player.study.deep.neq(getJobLevel("study")),
+			onClick: () => {
+				player.study.deep = getJobLevel("study");
+			}
 		}
 	},
 	buyables: {
