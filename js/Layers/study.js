@@ -12,14 +12,21 @@ const cards = {
 	gainBigPoints: createCard("In his experience the Universe simply didn't work like that.", level => `Successfully study ${format(getResetGain("study").times(level.add(1)).pow(1.2))} properties. Destroy this card.`, (level, canDestroy = true) => {
 		addPoints("study", getResetGain("study").times(level.add(1)).pow(1.2));
 		if (canDestroy) {
-			const index = player.study.cards.findIndex(el => el[0] === "gainBigPoints");
+			const index = player.study.cards.indexOf("gainBigPoints");
 			if (index >= 0) {
 				player.study.cards.splice(index, 1);
 			}
 		}
 	}),
-	gainInsight: createCard("And it shall be called... the Earth.", level => level == 0 ? "Gain a key insight." : `Gain ${formatWhole(level.add(1))} key insights.`, level => player.study.insights = player.study.insights.add(level).add(1)),
-	gainBigInsight: createCard("Yes! I shall design this computer for you.", level => `Gain ${new Decimal(player.study.cards.length).times(level.add(1)).sqrt().floor()} key insights.<br/>(based on number of cards in the deck)`, level => player.study.insights = player.study.insights.add(new Decimal(player.study.cards.length).times(level.add(1)).sqrt().floor())),
+	gainInsight: createCard("And it shall be called... the Earth.", level => level == 0 ? "Gain a key insight." : `Gain ${formatWhole(level.add(1))} key insights.`, level => {
+		player.study.insights = player.study.insights.add(level).add(1);
+		player.study.xp = player.study.xp.add(level.add(1).times(10));
+	}),
+	gainBigInsight: createCard("Yes! I shall design this computer for you.", level => `Gain ${new Decimal(player.study.cards.length).times(level.add(1)).sqrt().floor()} key insights.<br/>(based on number of cards in the deck)`, level => {
+		const amount = new Decimal(player.study.cards.length).times(level.add(1)).sqrt().floor();
+		player.study.insights = player.study.insights.add(amount);
+		player.study.xp = player.study.xp.add(amount.times(10));
+	}),
 	playTwice: createCard("Oh no, not again.", level => level == 0 ? "Play the next card twice." : `Play the next card twice, with the effect boosted by ${level.div(4)} levels.`, null, (nextCard, level) => {
 		if (nextCard in cards && cards[nextCard].onDraw) {
 			cards[nextCard].onDraw(cardLevel(nextCard).add(level.div(4)));
@@ -27,7 +34,7 @@ const cards = {
 		}
 	}),
 	increasePointsGain: createCard("Have another drink, enjoy yourself.", level => {
-		const effect = softcap(player.study.increasePointsGain, new Decimal(100).times(level.add(1)), .25).times(10);
+		const effect = softcap(player.study.increasePointsGain, new Decimal(100).times(level.add(1))).times(10);
 		let text = `Permanently increase studied properties gain by 10%.<br/><br/>Currently: +${formatWhole(effect)}%`;
 		if (player.study.increasePointsGain.gt(new Decimal(100).times(level.add(1)))) {
 			text = text + "<br/>(softcapped)";
@@ -50,18 +57,20 @@ const cards = {
 		}
 		return text;
 	}, () => player.study.sellDiscount = player.study.sellDiscount.add(1)),
-	soldOut: createCard("Out of Stock!")
+	soldOut: createCard("Out of Stock!"),
+	gainXp: createCard("A billion times over ... and no one learns anything.", level => `Gain xp equal to ${level == 0 ? "" : `${format(level.div(4).add(1))}x times `}your number of properties.`, level => player.study.xp = player.study.xp.add(player.study.points.times(level.div(4).add(1))))
 };
 
 const shopCards = [
-	{ card: "gainPoints", price: 3 },
-	{ card: "gainInsight", price: 5 },
-	{ card: "gainBigPoints", price: 23 },
-	{ card: "gainBigInsight", price: 42 },
-	{ card: "playTwice", price: 50 },
-	{ card: "increasePointsGain", price: 10 },
-	{ card: "multiplyPointsGain", price: 25 },
-	{ card: "sellDiscount", price: 80 },
+	{ card: "gainPoints", price: 1 },
+	{ card: "gainInsight", price: 2 },
+	{ card: "gainBigPoints", price: 8 },
+	{ card: "gainBigInsight", price: 13 },
+	{ card: "playTwice", price: 16 },
+	{ card: "increasePointsGain", price: 6 },
+	{ card: "multiplyPointsGain", price: 18 },
+	{ card: "sellDiscount", price: 14 },
+	{ card: "gainXp", price: 25 },
 ];
 
 const baseCards = () => {
@@ -87,7 +96,7 @@ const cardFormat = (card, id = "", className = "", onclick = "", overrideLevel =
 function getCardUpgradeBuyable(id) {
 	const cost = x => {
 		const amount = x || getBuyableAmount("study", id);
-		return new Decimal(100).pow(amount.add(1)).times(10);
+		return new Decimal(100).pow(amount.add(1));
 	};
 	return {
 		title: "Upgrade card<br/>",
@@ -130,10 +139,19 @@ function getDrawDuration() {
 	let drawSpeed = new Decimal(10);
 	drawSpeed = drawSpeed.div(new Decimal(1.1).pow(getJobLevel("study")));
 	drawSpeed = drawSpeed.times(new Decimal(2).pow(player.study.deep));
+	if (player.generators.studyActive) {
+		drawSpeed = drawSpeed.times(10);
+	}
 	return drawSpeed;
 }
 
-const REFRESH_PERIOD = 300;
+function getRefreshPeriod() {
+	let refreshPeriod = new Decimal(120);
+	if (player.generators.studyActive) {
+		refreshPeriod = refreshPeriod.times(10);
+	}
+	return refreshPeriod;
+}
 
 addLayer("study", {
 	name: "study",
@@ -141,8 +159,8 @@ addLayer("study", {
 	image: "images/orchid_sketch.jpg",
 	color: studyColor,
 	jobName: "Study flowers",
-	showJobDelay: 0.25,
-	layerShown: () => player.chapter > 1 && hasMilestone("flowers", 4),
+	showJobDelay: 0.5,
+	layerShown: () => hasMilestone("distill", 2),
 	startData() {
 		return {
 			unlocked: true,
@@ -170,8 +188,11 @@ addLayer("study", {
 			return new Decimal(0);
 		}
 		let gain = new Decimal(10);
-		gain = gain.times(softcap(player.study.increasePointsGain, new Decimal(100).times(cardLevel("increasePointsGain").add(1)), .25).times(0.1).add(1));
+		gain = gain.times(softcap(player.study.increasePointsGain, new Decimal(100).times(cardLevel("increasePointsGain").add(1))).times(0.1).add(1));
 		gain = gain.times(new Decimal(1.02).pow(softcap(player.study.multiplyPointsGain, new Decimal(100).times(cardLevel("multiplyPointsGain").div(4).add(1)), .2)));
+		if (player.generators.studyActive) {
+			gain = gain.sqrt().div(10);
+		}
 		return gain;
 	},
 	tabFormat: {
@@ -181,16 +202,16 @@ addLayer("study", {
 				"blank",
 				["display-text", (() => {
 					if (!hasMilestone("study", 0)) {
-						return "Discover new ways to study at level 2";
+						return "Discover new ways to harness the power of the cards at level 2";
 					}
 					if (!hasMilestone("study", 1)) {
-						return "Discover new ways to study at level 4";
+						return "Discover new ways to harness the power of the cards at level 4";
 					}
 					if (!hasMilestone("study", 3)) {
-						return "Discover new ways to study at level 6";
+						return "Discover new ways to harness the power of the cards at level 6";
 					}
 					if (!hasMilestone("study", 4)) {
-						return "Discover new ways to study at level 8";
+						return "Discover new ways to harness the power of the cards at level 8";
 					}
 					return "";
 				})()],
@@ -209,7 +230,7 @@ addLayer("study", {
 			content: () => [
 				["display-text", `<span>You have <h2 style="color: darkcyan; text-shadow: darkcyan 0 0 10px">${formatWhole(player.study.insights)}</h2> key insights</span>`],
 				"blank",
-				["display-text", `Cards refresh in ${new Decimal(REFRESH_PERIOD - player.study.refreshProgress).clampMax(REFRESH_PERIOD - 0.01).toFixed(2)} seconds`],
+				["display-text", `Cards refresh in ${new Decimal(getRefreshPeriod() - player.study.refreshProgress).clampMax(getRefreshPeriod() - 0.01).toFixed(2)} seconds`],
 				"blank",
 				["row", player.study.shop.map(({ card, price }, i) =>
 					["column", [
@@ -280,7 +301,7 @@ addLayer("study", {
 			if (hasMilestone("study", 0)) {
 				player[this.layer].refreshProgress += diff;
 			}
-			if (player[this.layer].refreshProgress > REFRESH_PERIOD) {
+			if (player[this.layer].refreshProgress > getRefreshPeriod()) {
 				player[this.layer].refreshProgress = 0;
 				player[this.layer].shop = getShop();
 				for (let card of document.getElementsByClassName("shopCard")) {
@@ -314,8 +335,11 @@ addLayer("study", {
 		2: {
 			title: "And all dared to brave unknown terrors, to do mighty deeds,",
 			requirementDescription: "Level 5",
-			"effectDescription": "Unlock time experiments job",
-			done: () => player.study.xp.gte(1e4)
+			"effectDescription": "Unlock a time loop",
+			done: () => player.study.xp.gte(1e4),
+			onComplete: () => {
+				player.timeSlots = player.timeSlots.add(1);
+			}
 		},
 		3: {
 			requirementDescription: "Level 6",
@@ -328,7 +352,7 @@ addLayer("study", {
 		5: {
 			title: "to boldly split infinitives that no man had split before—",
 			requirementDescription: "Level 10",
-			"effectDescription": "Unlock ??? job",
+			"effectDescription": "Unlock generators job",
 			done: () => player.study.xp.gte(1e9),
 			unlocked: () => hasMilestone("study", 2)
 		},
@@ -336,7 +360,7 @@ addLayer("study", {
 			title: "and thus was the Empire forged.",
 			requirementDescription: "Level 25",
 			"effectDescription": "Unlock ???",
-			done: () => player.study.xp.gte(1e24),
+			done: () => player.study.xp.gte(1e24) && player.chapter > 2,
 			unlocked: () => hasMilestone("study", 5) && player.chapter > 2
 		}
 	},
@@ -351,7 +375,7 @@ addLayer("study", {
 				return `Remove a card from your deck. Cost multiplies by 100 for each card destroyed.<br/><br/>Cost: ${formatWhole(this.cost())} properties studied`;
 			},
 			cost(x) {
-				let cost = new Decimal(1e3).times(new Decimal(100).pow(player[this.layer].cardsSold));
+				let cost = new Decimal(500).times(new Decimal(10).pow(player[this.layer].cardsSold));
 				cost = cost.times(new Decimal(0.98).pow(softcap(player.study.sellDiscount, new Decimal(100).times(cardLevel("multiplyPointsGain").div(4).add(1)), .5)));
 				return cost;
 			},
@@ -426,7 +450,8 @@ addLayer("study", {
 		playTwice: getCardUpgradeBuyable("playTwice"),
 		increasePointsGain: getCardUpgradeBuyable("increasePointsGain"),
 		multiplyPointsGain: getCardUpgradeBuyable("multiplyPointsGain"),
-		sellDiscount: getCardUpgradeBuyable("sellDiscount")
+		sellDiscount: getCardUpgradeBuyable("sellDiscount"),
+		gainXp: getCardUpgradeBuyable("gainXp")
 	}
 });
 

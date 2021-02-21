@@ -918,3 +918,65 @@ button > * {
 b, h3 {
 	text-shadow: 0 0 black;
 }
+
+.gradient-border {
+	--border-width: 4px;
+	position: relative;
+    background-clip: content-box;
+}
+.gradient-border::before {
+    position: absolute;
+    content: "";
+    background: inherit;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25%;
+}
+.gradient-border::after {
+	position: absolute;
+	content: "";
+	top: calc(-1 * var(--border-width));
+	left: calc(-1 * var(--border-width));
+	z-index: -2;
+	width: calc(100% + var(--border-width) * 2);
+	height: calc(100% + var(--border-width) * 2);
+	background: linear-gradient(60deg, rgba(14,0,255,1) 0%, rgba(4,194,118,1) 16%, rgba(9,9,121,1) 35%, rgba(6,139,170,1) 59%, rgba(113,3,216,1) 81%, rgba(0,212,255,1) 100%);
+	background-size: 300% 300%;
+	background-position: 0 50%;
+	border-radius: 25%;
+	animation: moveGradient 8s alternate infinite;
+}
+@keyframes moveGradient {
+	50% {
+		background-position: 100% 50%;
+	}
+}
+
+.instrument {
+	width: 400px;
+	padding: 10px;
+	border-radius: 10px;
+    border: 2px solid rgb(138, 255, 193);
+    position: relative;
+    overflow: hidden;
+}
+
+.instrument::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: var(--instrument-progress);
+	background: rgb(138, 255, 193);
+	z-index: -1;
+	opacity: 0.5;
+	border-radius: 10px;
+}
+
+.instrumentLogo {
+	font-size: xxx-large;
+}

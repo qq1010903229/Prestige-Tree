@@ -25,7 +25,7 @@ function getJobLevel(job) {
 	if (player[job].xp.eq(0)) {
 		return new Decimal(0);
 	}
-	return player[job].xp.clampMin(1).log10().floor().add(1);
+	return softcap(player[job].xp.clampMin(1).log10().floor().add(1), new Decimal(25)).floor();
 }
 
 function getJobProgressBar(job) {
@@ -38,8 +38,12 @@ function getJobProgressBar(job) {
 			if (level.eq(0)) {
 				return 0;
 			}
-			let previousLevelRequirement = level.sub(1).pow10();
-			let progress = player[job].xp.clampMin(1).sub(previousLevelRequirement).div(level.pow10().sub(previousLevelRequirement));
+			let previousLevelRequirement = level.lt(25) ? level.sub(1).pow10() :
+				level.div(new Decimal(25).sqrt()).pow(2).floor();
+			let nextLevelRequirement = level.lt(25) ? level.pow10() :
+				level.add(1).div(new Decimal(25).sqrt()).pow(2).floor();
+			let currentXp = level.lt(25) ? player[job].xp.clampMin() : player[job].xp.log10();
+			let progress = currentXp.sub(previousLevelRequirement).div(nextLevelRequirement.sub(previousLevelRequirement));
 			return progress;
 		},
 		fillStyle: { backgroundColor: layers[job].color },
@@ -60,8 +64,10 @@ function toggleTimeLoop(layer) {
 addLayer("tree-tab", {
 	bars: {
 		flowers: getJobProgressBar("flowers"),
+		distill: getJobProgressBar("distill"),
 		study: getJobProgressBar("study"),
-		sands: getJobProgressBar("sands")
+		sands: getJobProgressBar("sands"),
+		generators: getJobProgressBar("generators")
 	},
 	tabFormat: () => player.chapter < 3 ?
 		[
@@ -73,8 +79,10 @@ addLayer("tree-tab", {
 			player.chapter === 2 ? ["display-text", `You have <span style="color: white; text-shadow: white 0 0 10px">${formatWhole(player.timeSlots.sub(player.usedTimeSlots))}</span> free time slots`] : null,
 			player.chapter === 2 ? "blank" : null,
 			["job", "flowers"],
+			["job", "distill"],
 			["job", "study"],
-			["job", "sands"]
+			["job", "sands"],
+			["job", "generators"]
 		] :
 		{
 			"Main": {
@@ -85,8 +93,10 @@ addLayer("tree-tab", {
 					"blank",
 					"blank",
 					["job", "flowers"],
+					["job", "distill"],
 					["job", "study"],
-					["job", "sands"]
+					["job", "sands"],
+					["job", "generators"]
 				]
 			}
 		},
@@ -97,7 +107,7 @@ addLayer("tree-tab", {
 		},
 		discovery: {
 			title: "Chapter 2: Discovery",
-			body: `[WIP, needs feedback from Hudson]<br/>The field is completely barren... Fortunately, I've collected enough <span style="color: ${flowersColor}">flowers</span> that I can finally create a time loop. Not only will this allow me to revert the field whenever it empties, it'll now open me up to close myself in the loop, effectively allowing it to run while the real me continues with my next task: <span style="color: ${studyColor}">Studying</span> the <span style="color: ${flowersColor}">flowers</span>, and eventually experimenting with how to further take advantage of the time altering properties of these <span style="color: ${flowersColor}">flowers</span>.<br/><br/>It'll be prudent of me not to forget about collecting <span style="color: ${flowersColor}">flowers</span>, as I'll still need them as I move forward.`
+			body: `[WIP, needs feedback from Hudson]<br/>The field is completely barren... Fortunately, I've collected enough <span style="color: ${flowersColor}">flowers</span> that I can finally create a time loop. Not only will this allow me to revert the field whenever it empties, it'll now open me up to close myself in the loop, effectively allowing it to run while the real me continues with my next task: <span style="color: ${distillColor}">Distilling</span> the <span style="color: ${flowersColor}">flowers</span>, and eventually experimenting with how to further take advantage of the time altering properties of them.<br/><br/>It'll be prudent of me not to forget about collecting <span style="color: ${flowersColor}">flowers</span>, as I'll still need them as I move forward, and in general should balance the time I spend on every job I can do.`
 		}
 	}
 });

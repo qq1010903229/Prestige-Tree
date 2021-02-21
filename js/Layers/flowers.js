@@ -36,6 +36,9 @@ addLayer("flowers", {
 		}
 		gain = gain.times(buyableEffect("flowers", 11));
 		gain = gain.pow(buyableEffect("flowers", 13));
+		if (player.generators.flowerActive) {
+			gain = gain.sqrt().div(10);
+		}
 		return gain;
 	},
 	passiveGeneration: new Decimal(1),
@@ -96,6 +99,9 @@ addLayer("flowers", {
 	],
 	update(diff) {
 		if (player.tab === this.layer || player[this.layer].timeLoopActive) {
+			if (player.generators.flowerActive) {
+				diff = diff / 10;
+			}
 			player[this.layer].realTime += diff;
 		}
 		let jobLevel = new Decimal(getJobLevel(this.layer));
@@ -140,7 +146,7 @@ addLayer("flowers", {
 			title: "the telling so credible and sober",
 			requirementDescription: "Level 25",
 			"effectDescription": "Unlock ???",
-			done: () => player.flowers.xp.gte(1e24),
+			done: () => player.flowers.xp.gte(1e24) && player.chapter > 2,
 			unlocked: () => player.chapter > 2
 		}
 	},
@@ -198,7 +204,8 @@ addLayer("flowers", {
 				return `Each casting of this spell increases its cost, and raises flower collection rate to an additive +.05 power (softcapped immediately).<br/><br/>Currently: ^${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} flowers`;
 			},
 			cost(x) {
-				return new Decimal(250000).times(new Decimal(10).pow(x || getBuyableAmount(this.layer, this.id)));
+				const amount = x || getBuyableAmount(this.layer, this.id);
+				return new Decimal(250000).times(amount.sub(10).max(0).add(10).pow(amount));
 			},
 			effect() {
 				return new Decimal(.05).times(getBuyableAmount(this.layer, this.id).pow(.6)).add(1);

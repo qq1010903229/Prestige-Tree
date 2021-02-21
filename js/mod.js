@@ -12,11 +12,17 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.15",
-	name: "Chapter 2 (Time Experiments)",
+	num: "0.20",
+	name: "Chapter 2 (Distilling)",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
+	<br><h3>v.0.20</h3><br>
+		- Re-arranged and re-balanced jobs
+		- Added distill job
+		- Added first mechanic of generators job
+		- Reset saves back to start of chapter 2
+		- Several bug fixes
 	<br><h3>v.0.15</h3><br>
 		- Finishing naming time experiments job upgrades<br>
 		- Rebalanced time experiments job<br>
@@ -76,7 +82,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"));
+	return getJobLevel("generators").gte(2) && getJobLevel("sands").gte(10);
 }
 
 
@@ -91,24 +97,16 @@ function maxTickLength() {
 // Use this if you need to undo inflation from an older version. If the version is older than the version that fixed the issue,
 // you can cap their current resources with this.
 function fixOldSave(oldVersion){
-	if (oldVersion === "0.0") {
-		player.chapter = 1;
-		player.flowers.points = player.flowers.points.clampMax(1e9);
-		player.flowers.points = player.flowers.points.clampMax(player.flowers.xp);
-	} else if (oldVersion === "0.1") {
-		player.flowers.xp = player.flowers.xp.clampMax(1e15);
-		player.flowers.points = player.flowers.points.clampMax(player.flowers.xp);
-		player.study.cards = baseCards();
-	} else if (oldVersion === "0.11") {
-		player.study.xp = player.study.xp.clampMax(1e6);
-		player.study.points = player.study.points.clampMax(player.study.xp);
-		player.study.cards = player.study.cards.map(c => c[0]);
-		player.study.lastCard = player.study.lastCard[0];
-	} else if (oldVersion === "0.12") {
-		player.study.cards = player.study.cards.map(c => c[0]);
-		player.study.lastCard = player.study.lastCard[0];
-	} else if (oldVersion === "0.13") {
-		player.study.unlocked = true;
-		player.sands.unlocked = true;
+	if (["0.0", "0.1", "0.11", "0.12", "0.13", "0.14", "0.15"].includes(oldVersion) && player.chapter !== 1) {
+		layerDataReset("study");
+		layerDataReset("sands");
+		player.flowers.timeLoopActive = false;
+		player.usedTimeSlots = new Decimal(0);
+		player.timeSlots = new Decimal(1);
+		player.flowers.xp = player.flowers.xp.clampMax(1e9);
+		player.flowers.points = player.flowers.points.clampMax(1e6);
+		setBuyableAmount("flowers", 11, (getBuyableAmount("flowers", 11) || new Decimal(0)).clampMax(6));
+		setBuyableAmount("flowers", 12, (getBuyableAmount("flowers", 12) || new Decimal(0)).clampMax(3));
+		setBuyableAmount("flowers", 13, (getBuyableAmount("flowers", 13) || new Decimal(0)).clampMax(0));
 	}
 }

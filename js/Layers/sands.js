@@ -13,6 +13,9 @@ function getFallSpeed() {
 			fallSpeed = fallSpeed.times(2);
 		}
 	}
+	if (player.generators.sandsActive) {
+		fallSpeed = fallSpeed.div(10);
+	}
 	return fallSpeed;
 }
 
@@ -20,6 +23,9 @@ function getFlipSpeed() {
 	let flipSpeed = new Decimal(1);
 	flipSpeed = flipSpeed.times(new Decimal(1.1).pow(getJobLevel("sands")));
 	flipSpeed = flipSpeed.times(buyableEffect("sands", 22));
+	if (player.generators.sandsActive) {
+		flipSpeed = flipSpeed.div(10);
+	}
 	return flipSpeed;
 }
 
@@ -49,6 +55,9 @@ function getPotentiaMult() {
 			gain = gain.times(2);
 		}
 	}
+	if (player.generators.sandsActive) {
+		gain = gain.sqrt();
+	}
 	return gain;
 }
 
@@ -58,14 +67,14 @@ addLayer("sands", {
 	image: "images/pexels-photo-1095601.jpeg",
 	color: sandsColor,
 	jobName: "Experiments with time",
-	showJobDelay: 0.5,
-	layerShown: () => player.chapter > 1 && hasMilestone("study", 2),
+	showJobDelay: 0.75,
+	layerShown: () => hasMilestone("distill", 2),
 	startData() {
 		return {
 			unlocked: true,
-			points: new Decimal(1),
-			xp: new Decimal(1),
-			lastLevel: new Decimal(1),
+			points: new Decimal(0),
+			xp: new Decimal(0),
+			lastLevel: new Decimal(0),
 			timeLoopActive: false,
 			grainsFallen: new Decimal(0),
 			shrunkAmount: new Decimal(0),
@@ -82,7 +91,6 @@ addLayer("sands", {
 				const percentChipped = new Decimal(1).sub(player.sands.shrunkAmount.div(nextStoneCost())).times(10000);
 				return [
 					"main-display",
-					"blank",
 					["display-text", (() => {
 						if (!hasMilestone("sands", 0)) {
 							return "Discover new ways to experiment at level 2";
@@ -101,10 +109,10 @@ addLayer("sands", {
 					"blank",
 					["display-text", formatWhole(getTotalGrains().sub(player.sands.grainsFallen))],
 					["display-text", `<div style="
-							--fill-duration: ${player.sands.flipping || player.sands.grainsFallen.eq(getTotalGrains()) ? 1 : getTotalGrains().div(getFallMult()).ceil().times(4).div(player.devSpeed).div(getFallSpeed()).toNumber() + 0.05}s;
-							--fill-delay: -${player.sands.flipping || player.sands.grainsFallen.eq(getTotalGrains()) ? .999 : player.sands.grainsFallen.div(getFallMult()).floor().times(4).div(player.devSpeed).div(getFallSpeed()).toNumber()}s;
+							--fill-duration: ${player.sands.flipping || player.sands.grainsFallen.eq(getTotalGrains()) ? 1 : getTotalGrains().div(getFallMult()).ceil().times(4).div(player.devSpeed || 1).div(getFallSpeed()).toNumber() + 0.05}s;
+							--fill-delay: -${player.sands.flipping || player.sands.grainsFallen.eq(getTotalGrains()) ? .999 : player.sands.grainsFallen.div(getFallMult()).floor().times(4).div(player.devSpeed || 1).div(getFallSpeed()).toNumber()}s;
 							--fill-state: ${player.sands.grainsFallen.eq(getTotalGrains()) || player.sands.flipping ? "paused" : "running"};
-							--flip-duration: ${new Decimal(5).div(player.devSpeed).div(getFlipSpeed()).toNumber() + 0.05}s;
+							--flip-duration: ${new Decimal(5).div(player.devSpeed || 1).div(getFlipSpeed()).toNumber() + 0.05}s;
 							--flip-state: ${player.sands.flipping ? "running" : "paused"};
 						"><div class="hourglass"></div></div>`],
 					["display-text", formatWhole(player.sands.grainsFallen)],
@@ -152,10 +160,10 @@ addLayer("sands", {
 				"blank",
 				["display-text", formatWhole(getTotalGrains().sub(player.sands.grainsFallen))],
 				["display-text", `<div style="
-						--fill-duration: ${player.sands.flipping || player.sands.grainsFallen.eq(getTotalGrains()) ? 1 : getTotalGrains().div(getFallMult()).ceil().times(4).div(player.devSpeed).div(getFallSpeed()).toNumber() + 0.05}s;
-						--fill-delay: -${player.sands.flipping || player.sands.grainsFallen.eq(getTotalGrains()) ? .999 : player.sands.grainsFallen.div(getFallMult()).floor().times(4).div(player.devSpeed).div(getFallSpeed()).toNumber()}s;
+						--fill-duration: ${player.sands.flipping || player.sands.grainsFallen.eq(getTotalGrains()) ? 1 : getTotalGrains().div(getFallMult()).ceil().times(4).div(player.devSpeed || 1).div(getFallSpeed()).toNumber() + 0.05}s;
+						--fill-delay: -${player.sands.flipping || player.sands.grainsFallen.eq(getTotalGrains()) ? .999 : player.sands.grainsFallen.div(getFallMult()).floor().times(4).div(player.devSpeed || 1).div(getFallSpeed()).toNumber()}s;
 						--fill-state: ${player.sands.grainsFallen.eq(getTotalGrains()) || player.sands.flipping ? "paused" : "running"};
-						--flip-duration: ${new Decimal(5).div(player.devSpeed).div(getFlipSpeed()).toNumber() + 0.05}s;
+						--flip-duration: ${new Decimal(5).div(player.devSpeed || 1).div(getFlipSpeed()).toNumber() + 0.05}s;
 						--flip-state: ${player.sands.flipping ? "running" : "paused"};
 					"><div class="hourglass"></div></div>`],
 				["display-text", formatWhole(player.sands.grainsFallen)],
@@ -197,6 +205,9 @@ addLayer("sands", {
 				shrinkGain = shrinkGain.times(new Decimal(1.1).pow(getJobLevel(this.layer)));
 				shrinkGain = shrinkGain.times(buyableEffect("sands", 11));
 				shrinkGain = shrinkGain.times(buyableEffect("sands", 21));
+				if (player.generators.sandsActive) {
+					shrinkGain = shrinkGain.div(10);
+				}
 				player[this.layer].shrunkAmount = player[this.layer].shrunkAmount.add(shrinkGain);
 			}
 
@@ -277,7 +288,7 @@ addLayer("sands", {
 		5: {
 			title: "I mean, this stuff is way too advanced for me.",
 			requirementDescription: "Level 10",
-			"effectDescription": "Unlock ??? job",
+			"effectDescription": "Unlock rituals job",
 			done: () => player.sands.xp.gte(1e9),
 			unlocked: () => hasMilestone("sands", 2)
 		},
@@ -285,7 +296,7 @@ addLayer("sands", {
 			title: "And what if I can't fix this? What are we gonna do?",
 			requirementDescription: "Level 25",
 			"effectDescription": "Unlock ???",
-			done: () => player.sands.xp.gte(1e24),
+			done: () => player.sands.xp.gte(1e24) && player.chapter > 2,
 			unlocked: () => hasMilestone("sands", 5) && player.chapter > 2
 		}
 	},
