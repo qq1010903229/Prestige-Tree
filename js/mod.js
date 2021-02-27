@@ -12,13 +12,13 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Nothing",
+	num: "0.1",
+	name: "Initial Commit",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
-	<br><h3>v0.0</h3><br>
-		- Nothing<br>`;
+	<br><h3>v0.1</h3><br>
+		- Framework and first 5 colors<br>`;
 
 let winText = "Congratulations! You have reached the end and beaten this game, but for now...";
 
