@@ -52,7 +52,7 @@ var systemComponents = {
 	"layer-tab": {
 		props: ["layer", "back", "spacing", "embedded"],
 		template: `<div v-bind:style="[tmp[layer].style ? tmp[layer].style : {}, (tmp[layer].tabFormat && !Array.isArray(tmp[layer].tabFormat)) ? tmp[layer].tabFormat[player.subtabs[layer].mainTabs].style : {}]">
-		<div v-if="back"><button v-bind:class="back == 'big' ? 'other-back' : 'back'" v-on:click="goBack()">←</button></div>
+		<div v-if="back && layer !== 'color'"><button v-bind:class="back == 'big' ? 'other-back' : 'back'" v-on:click="goBack()">←</button></div>
 		<div v-if="!tmp[layer].tabFormat">
 			<div v-if="spacing" v-bind:style="{'height': spacing}" :key="this.$vnode.key + '-spacing'"></div>
 			<info-box v-if="tmp[layer].infoboxes" :layer="layer" :data="Object.keys(tmp[layer].infoboxes)[0]":key="this.$vnode.key + '-info'"></info-box>
@@ -121,7 +121,7 @@ var systemComponents = {
         <br>
         Original idea by papyrus (on discord)
         <br>
-        Hourglass used with modifications from <a v-bind:href="'https://codepen.io/jkantner/pen/wvWXyKG'" target="_blank" class="link" v-bind:style = "{'font-size': '14px', 'display': 'inline'}" >jkantner</a> under MIT license
+        Electricity beam modified from <a href="https://codepen.io/agrimsrud/pen/XBwyOz" target="_blank" class="link" v-bind:style = "{'font-size': '14px', 'display': 'inline'}">code by Anders Grimsrud</a> (under MIT license)
 		<br><br>
 		<div class="link" onclick="showTab('changelog-tab')">Changelog</div><br>
         <span v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink" target="_blank">{{modInfo.discordName}}</a><br></span>

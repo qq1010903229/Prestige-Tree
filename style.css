@@ -101,7 +101,7 @@ h1, h2, h3, b, input {
 
 
 .locked {
-	background-color: #bf8f8f;
+	background-color: #3a3e45;
 	cursor: not-allowed;
 }
 
@@ -197,7 +197,7 @@ h1, h2, h3, b, input {
     position: absolute;
 	overflow: hidden;
 	margin-left: -0.5px;
-	transition-duration: 0s;
+    transition-property: clip-path;
 }
 
 .overlayText {
@@ -233,10 +233,12 @@ h1, h2, h3, b, input {
 .upg {
 	height: 150px;
 	width: 150px;
-	border-radius: 25%;
+	border-radius: 5px;
 	border: 2px solid;
 	border-color: rgba(0, 0, 0, 0.125);
 	font-size: 10px;
+	background: #333c4a;
+    margin: 5px;
 }
 
 .achievement {
@@ -255,12 +257,13 @@ h1, h2, h3, b, input {
 }
 
 .buyable {
-	height: 200px;
-	width: 200px;
-	border-radius: 25%;
+	height: 150px;
+	width: 150px;
+	border-radius: 5px;
 	border: 2px solid;
 	border-color: rgba(0, 0, 0, 0.125);
 	font-size: 10px;
+    margin: 5px;
 }
 
 .upgBig {
@@ -274,11 +277,9 @@ h1, h2, h3, b, input {
 .longUpg {
 	height: 50px;
 	width: 120px;
-	background: var(--points);
-	border-radius: 50%;
-	border: 2px solid;
-	border-color: rgba(0, 0, 0, 0.125);
-	font-size: 10px;
+	background: #333c4a;
+	border-radius: 20px;
+	color: white;
 }
 
 .smallUpg {
@@ -349,7 +350,7 @@ a {
 	padding-left: 5px;
 	padding-right: 5px;
 	height: 75px;
-	background-color: #bf8f8f;
+	background-color: #3a3e45;
 	border: 4px solid;
 	border-radius: 4px;
 	border-color: rgba(0, 0, 0, 0.125);
@@ -444,14 +445,21 @@ ul {
 }
 
 .hChallenge {
-	background-color: #bf8f8f;
+	background-color: #333c4a;
 	border: 4px solid;
 	border-color: rgba(0, 0, 0, 0.125);
-	color: rgba(0, 0, 0, 0.5);
-	width: 300px;
-	height: 300px;
+	color: white;
+	width: 250px;
+	height: 250px;
 	font-size: 15px;
-	border-radius: 33.33%;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+    padding: 8px;
+}
+
+.hChallenge > br {
+    display: contents;
 }
 
 .hChallenge.done {
@@ -459,7 +467,7 @@ ul {
 }
 
 .hChallenge.canComplete {
-	background-color: #ffbf00;
+	background-color: transparent;
 }
 
 .fullWidth {
@@ -539,6 +547,8 @@ ul {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+    background: black;
+    z-index: 100000000000000;
 }
 
 .treeOverlay {
@@ -739,180 +749,8 @@ button > * {
 	}
 }
 
-.card {
-	padding: 10px;
-	background: darkcyan;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	box-shadow: black 4px 4px 8px 0px;
-	border-radius: 10px;
-	position: relative;
-    margin: 10px auto;
-}
-
-.card:hover {
-	transform: scale(1.1);
-}
-
-.card > span {
-	flex-basis: 30%;
-	display: flex;
-	z-index: 1;
-}
-
-.card > img {
-	max-width: 50%;
-	position: absolute;
-	bottom: 10px;
-	left: 50%;
-	transform: translateX(-50%);
-	opacity: .25;
-}
-
-.card h3 {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-height: 100%;
-}
-
-.selectedCard, .selectedCard:hover {
-	transform: scale(1.2);
-	box-shadow: black 0 0 16px 8px;
-	z-index: 2;
-}
-
-.flipCard {
-	animation: flip 1s;
-}
-
-@keyframes flip {
-	0% {
-		transform: rotateY(90deg);
-	}
-
-	100% {
-		transform: rotateY(0deg);
-	}
-}
-
 .cursor {
 	cursor: pointer;
-}
-
-.chipping-container {
-    display: flex;
-    flex-flow: row wrap;
-    width: 400px;
-    justify-content: space-around;
-}
-
-.chipping {
-    width: 30px;
-    height: 30px;
-    background: grey;
-    margin: 4px;
-}
-
-.chipping-fill {
-    background: white;
-}
-
-.hourglass {
-	--polygonH: polygon(0% 0%,100% 0%,100% 5.55%,95% 5.55%,95% 28%,60% 46%,60% 54%,95% 72%,95% 94.45%,100% 94.45%,100% 100%,0% 100%,0% 94.45%,5% 94.45%,5% 72%,40% 54%,40% 46%,5% 28%,5% 5.55%,0% 5.55%);
-	animation-name: flipHourglass;
-	animation-duration: var(--flip-duration);
-	animation-delay: 0;
-	animation-play-state: var(--flip-state);
-	animation-timing-function: ease-in-out;
-	background-image: linear-gradient(#C2B280 0.5em,#737a8c55 0.5em 8.5em,#C2B280 8.5em);
-	clip-path: var(--polygonH);
-	-webkit-clip-path: var(--polygonH);
-	overflow: hidden;
-	position: relative;
-	width: 5em;
-	height: 9em;
-	z-index: 0;
-}
-.hourglass:before, .hourglass:after {
-	animation-timing-function: linear;
-	content: "";
-	display: block;
-	position: absolute;
-}
-.hourglass:before {
-	--polygonB1: polygon(0% 0%,100% 0%,100% 24%,50% 47%,50% 47%,50% 47%,50% 47%,50% 47%,50% 47%,50% 47%,50% 47%,0% 24%);
-	--polygonB2: polygon(0% 4%,100% 4%,100% 24%,55% 45%,55% 100%,55% 100%,55% 100%,45% 100%,45% 100%,45% 100%,45% 45%,0% 24%);
-	--polygonB3: polygon(0% 24%,100% 24%,100% 24%,55% 45%,55% 80%,100% 100%,100% 100%,0% 100%,0% 100%,45% 80%,45% 45%,0% 24%);
-	--polygonB4: polygon(45% 45%,55% 45%,55% 45%,55% 45%,55% 58%,100% 76%,100% 100%,0% 100%,0% 76%,45% 58%,45% 45%,45% 45%);
-	--polygonB5: polygon(50% 53%,50% 53%,50% 53%,50% 53%,50% 53%,100% 76%,100% 100%,0% 100%,0% 76%,50% 53%,50% 53%,50% 53%);
-	animation-name: fill;
-	animation-duration: var(--fill-duration);
-	animation-delay: var(--fill-delay);
-	animation-play-state: var(--fill-state);
-	background-color: white;
-	background-size: 100% 3.6em;
-	clip-path: var(--polygonB1);
-	-webkit-clip-path: var(--polygonB1);
-	top: 0.5em;
-	left: 0.5em;
-	width: 4em;
-	height: 8em;
-	z-index: 1;
-}
-.hourglass:after {
-	animation-name: glare;
-	animation-duration: var(--flip-duration);
-	animation-delay: 0;
-	animation-play-state: var(--flip-state);
-	background:
-		linear-gradient(90deg,#0000 0.5em,#0003 0.5em 1.5em,#0000 1.5em 3.5em,#fff3 3.5em 4.5em,#fff0 4.5em 6.5em,#0003 6.5em 7.5em,#0000 7.5em) 0 0 / 100% 0.5em,
-		linear-gradient(90deg,#0000 0.75em,#0003 0.75em 1.25em,#0000 1.25em 3.75em,#fff3 3.75em 4.25em,#fff0 4.25em 6.75em,#0003 6.75em 7.25em,#0000 7.25em) 0 0.5em / 100% 8em,
-		linear-gradient(90deg,#0000 0.5em,#0003 0.5em 1.5em,#0000 1.5em 3.5em,#fff3 3.5em 4.5em,#fff0 4.5em 6.5em,#0003 6.5em 7.5em,#0000 7.5em) 0 100% / 100% 0.5em;
-	background-repeat: repeat-x;
-	top: 0;
-	left: -3em;
-	width: 200%;
-	height: 100%;
-	z-index: 2;
-}
-@keyframes fill {
-	from {
-		clip-path: var(--polygonB1);
-		-webkit-clip-path: var(--polygonB1);
-	}
-	15% {
-		clip-path: var(--polygonB2);
-		-webkit-clip-path: var(--polygonB2);
-	}
-	55% {
-		clip-path: var(--polygonB3);
-		-webkit-clip-path: var(--polygonB3);
-	}
-	95% {
-		clip-path: var(--polygonB4);
-		-webkit-clip-path: var(--polygonB4);
-	}
-	to {
-		clip-path: var(--polygonB5);
-		-webkit-clip-path: var(--polygonB5);
-	}
-}
-@keyframes glare {
-	from {
-		transform: translateX(0);
-	}
-	to {
-		transform: translateX(3em);
-	}
-}
-@keyframes flipHourglass {
-	from {
-		transform: rotate(0);
-	}
-	to {
-		transform: rotate(180deg);
-	}
 }
 
 b, h3 {
@@ -933,7 +771,7 @@ b, h3 {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 25%;
+    border-radius: 5px;
 }
 .gradient-border::after {
 	position: absolute;
@@ -943,40 +781,98 @@ b, h3 {
 	z-index: -2;
 	width: calc(100% + var(--border-width) * 2);
 	height: calc(100% + var(--border-width) * 2);
-	background: linear-gradient(60deg, rgba(14,0,255,1) 0%, rgba(4,194,118,1) 16%, rgba(9,9,121,1) 35%, rgba(6,139,170,1) 59%, rgba(113,3,216,1) 81%, rgba(0,212,255,1) 100%);
+	background: linear-gradient(60deg, violet, indigo, blue, green, yellow, orange, red);
 	background-size: 300% 300%;
 	background-position: 0 50%;
-	border-radius: 25%;
+	border-radius: 5px;
 	animation: moveGradient 8s alternate infinite;
 }
 @keyframes moveGradient {
 	50% {
-		background-position: 100% 50%;
+		background-position: 100% 0;
 	}
 }
 
-.instrument {
-	width: 400px;
-	padding: 10px;
-	border-radius: 10px;
-    border: 2px solid rgb(138, 255, 193);
-    position: relative;
-    overflow: hidden;
+.lightDisplay {
+	background: linear-gradient(60deg, violet, indigo, blue, green, yellow, orange, red);
+	background-size: 300% 300%;
+	background-position: 0 100%;
+	animation: moveGradient 8s alternate infinite;
+    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: xx-large;
 }
 
-.instrument::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	width: var(--instrument-progress);
-	background: rgb(138, 255, 193);
-	z-index: -1;
-	opacity: 0.5;
-	border-radius: 10px;
+.effectDisplay {
+    height: 436px;
+    width: 524px;
+    overflow-y: auto;
+    margin-left: 8px;
+    margin-right: 16px;
+    margin-bottom: 64px;
 }
 
-.instrumentLogo {
-	font-size: xxx-large;
+.effectDisplay * {
+	text-align: left;
+}
+
+.back > span {
+	font-size: medium;
+    position: absolute;
+    left: 40px;
+    top: 10px;
+    pointer-events: all;
+    transition-duration: 0s;
+}
+
+.battery {
+	height: 400px;
+	width: 100px;
+	border: solid 2px white;
+	border-radius: 20px;
+}
+
+.battery svg {
+  align-self: center;
+  width: 100px;
+  border-bottom: solid 1px;
+  border-radius: 20px;
+  background: rgb(1, 1, 1, .25);
+}
+
+.battery path {
+  stroke: #88f;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.battery #glow feDropShadow {
+  flood-color: #b7daff;
+}
+
+#treeTab {
+	height: calc(100% - 70px);
+	padding-bottom: 20px;
+}
+
+.milestones-container {
+	width: 600px;
+}
+
+.milestones-container .upgRow {
+	flex-wrap: nowrap;
+	width: 100%;
+}
+
+.milestones-container .upgRow > div {
+	width: 100%;
+}
+
+.milestones-container td {
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: column;
+	justify-content: space-around;
 }

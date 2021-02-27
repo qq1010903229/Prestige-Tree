@@ -257,7 +257,13 @@ function showNavTab(name) {
 
 
 function goBack() {
-	if (player.navTab !== "none") {
+	if (inChallenge("tree-tab", 1)) {
+		if (player.tab === "color") {
+			completeChallenge("tree-tab", 1);
+		} else {
+			showTab("color");
+		}
+	} else if (player.navTab !== "none") {
 		showTab("none");
 	} else {
 		showTab(player.lastSafeTab);

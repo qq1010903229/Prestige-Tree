@@ -323,6 +323,9 @@ function startChallenge(layer, x) {
 	doReset(layer, true);
 	if(enter) {
 		player[layer].activeChallenge = x;
+		if (isFunction(layers[layer].challenges[x].onStart)) {
+			layers[layer].challenges[x].onStart();
+		}
 	}
 
 	updateChallengeTemp(layer);
@@ -362,6 +365,9 @@ function completeChallenge(layer, x) {
 	let completions = canCompleteChallenge(layer, x);
 	if (!completions){
 		 player[layer].activeChallenge = null;
+		if (isFunction(layers[layer].challenges[x].onExit)) {
+			layers[layer].challenges[x].onExit();
+		}
 		return;
 	}
 	if (player[layer].challenges[x] < tmp[layer].challenges[x].completionLimit) {

@@ -128,7 +128,6 @@ function getStartChallenges(layer) {
 function fixSave() {
 	defaultData = getStartPlayer();
 	fixData(defaultData, player);
-	setBuyableAmount("distill", "retort", (getBuyableAmount("distill", "retort") || new Decimal(0)).max(5));
 
 	for (layer in layers) {
 		if (player[layer].best !== undefined) {
