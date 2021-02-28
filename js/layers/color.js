@@ -46,6 +46,13 @@ Vue.component("tree-tab-challenge", {
 	template: "<challenge :layer=\"'tree-tab'\" :data=\"data\"/>"
 });
 
+Vue.component("buyMax", {
+	props: ["layer", "data"],
+	template: `<div v-if="tmp[layer].buyables && tmp[layer].buyables[data]!== undefined && tmp[layer].buyables[data].unlocked">
+		<button v-bind:class="{ buyMax: true, can: layers[layer].buyables[data].canAfford(), locked: layers[layer].buyables[data].canAfford() }" v-bind:style="{ background: tmp[layer].buyables[data].color }" v-on:click="layers[layer].buyables[data].buyMax()">Buy Max</button>
+	</div>`
+});
+
 addLayer("color", {
 	name: "color",
 	resource: "color energy",
@@ -67,10 +74,6 @@ addLayer("color", {
 	},
 	getResetGain() {
 		let { base, multi } = getRedColorEffect();
-		if (hasUpgrade("color", 21)) {
-			base = base.times(upgradeEffect("color", 21).add(1));
-			multi = multi.pow(upgradeEffect("color", 21).add(1));
-		}
 		let gain = new Decimal(0.1).add(base);
 		let batteryGain = new Decimal(0);
 		for (const index in player.color.batteries) {
@@ -99,7 +102,7 @@ addLayer("color", {
 				gain = gain.div(10);
 				gain = gain.times(buyableEffect("color", 13));
 				battery.lastActive = 0;
-			} else if (hasCyanEffect(2) && battery.lastActive >= 0 && battery.lastActive < getTotalSecondaryLight()) {
+			} else if (hasCyanEffect(2) && battery.lastActive >= 0 && battery.lastActive < getTotalSecondaryLight().div(4)) {
 				gain = gain.div(10);
 				gain = gain.times(buyableEffect("color", 13));
 				battery.lastActive = battery.lastActive + diff;
@@ -119,7 +122,12 @@ addLayer("color", {
 				}
 			}
 			if (hasCyanEffect(3)) {
-				for (id in tmp[this.layer].buyables) {
+				for (id in layers[this.layer].buyables) {
+					/*
+					if (layers[this.layer].buyables[id].buyMax) {
+						layers[this.layer].buyables[id].buyMax();
+					}
+					*/
 					if (isPlainObject(tmp[this.layer].buyables[id]) && (layers[this.layer].buyables[id].canAfford === undefined || layers[this.layer].buyables[id].canAfford() === true)) {
 						buyBuyable(this.layer, id);
 					}
@@ -139,6 +147,7 @@ addLayer("color", {
 		["row", [["upgrade", 2], ["upgrade", 8], ["upgrade", 34]]],
 		"blank",
 		["row", [["buyable", 3], ["buyable", 13], ["buyable", 55]]],
+		["row", [["buyMax", 3], ["buyMax", 13], ["buyMax", 55]]],
 		"blank",
 		["row", new Array(getNumBatteries().times(2).max(1).sub(1).toNumber()).fill(1).map((_, i) => i % 2 === 0 ? ["column", [
 			["charger", { index: i, color: getCurrentColor(.5) }],
@@ -171,6 +180,15 @@ addLayer("color", {
 			buy() {
 				player[this.layer].points = player[this.layer].points.sub(this.cost());
 				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
+			},
+			buyMax() {
+				const amount = getBuyableAmount(this.layer, this.id);
+				const costExponent = new Decimal(10);
+				const baseCost = new Decimal(100);
+				const amountAffordable = player[this.layer].points.times(costExponent.sub(1)).div(new Decimal(baseCost).times(Decimal.pow(costExponent, amount))).add(1).log(costExponent).floor();
+				const cost = baseCost.times(costExponent.pow(amount).times(costExponent.pow(amountAffordable).sub(1))).div(costExponent.sub(1));
+				player[this.layer].points = player[this.layer].points.sub(cost);
+				setBuyableAmount(this.layer, this.id, amount.add(amountAffordable));
 			},
 			unlocked() {
 				return player.green.gte(this.id);
@@ -208,6 +226,15 @@ addLayer("color", {
 			buy() {
 				player[this.layer].points = player[this.layer].points.sub(this.cost());
 				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
+			},
+			buyMax() {
+				const amount = getBuyableAmount(this.layer, this.id);
+				const costExponent = new Decimal(25);
+				const baseCost = new Decimal(1000);
+				const amountAffordable = player[this.layer].points.times(costExponent.sub(1)).div(new Decimal(baseCost).times(Decimal.pow(costExponent, amount))).add(1).log(costExponent).floor();
+				const cost = baseCost.times(costExponent.pow(amount).times(costExponent.pow(amountAffordable).sub(1))).div(costExponent.sub(1));
+				player[this.layer].points = player[this.layer].points.sub(cost);
+				setBuyableAmount(this.layer, this.id, amount.add(amountAffordable));
 			},
 			unlocked() {
 				return player.green.gte(this.id);
@@ -248,6 +275,15 @@ addLayer("color", {
 			buy() {
 				player[this.layer].points = player[this.layer].points.sub(this.cost());
 				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
+			},
+			buyMax() {
+				const amount = getBuyableAmount(this.layer, this.id);
+				const costExponent = new Decimal(100);
+				const baseCost = new Decimal(1e21);
+				const amountAffordable = player[this.layer].points.times(costExponent.sub(1)).div(new Decimal(baseCost).times(Decimal.pow(costExponent, amount))).add(1).log(costExponent).floor();
+				const cost = baseCost.times(costExponent.pow(amount).times(costExponent.pow(amountAffordable).sub(1))).div(costExponent.sub(1));
+				player[this.layer].points = player[this.layer].points.sub(cost);
+				setBuyableAmount(this.layer, this.id, amount.add(amountAffordable));
 			},
 			unlocked() {
 				return player.green.gte(this.id);
@@ -328,7 +364,7 @@ addLayer("color", {
 		},
 		21: {
 			title: "Quantum theory",
-			description: "<br/>Apply red light effect's an additional sqrt(unspent light + 1) times",
+			description: "<br/>Apply red light effect's additional times based on unspent light",
 			cost: new Decimal(1e12),
 			style: () => ({
 				color: "white"
@@ -338,7 +374,7 @@ addLayer("color", {
 				return player.green.gte(this.id);
 			},
 			effect() {
-				return player.points.sub(player.red).sub(player.green).sub(player.blue).add(1).sqrt();
+				return player.points.sub(player.red).sub(player.green).sub(player.blue).add(1).pow(.1).add(.5);
 			},
 			effectDisplay() {
 				return `+${format(this.effect())} times`;

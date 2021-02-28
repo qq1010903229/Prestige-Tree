@@ -150,7 +150,7 @@ const tauString = `
   19650698085751093746231912572776470757518750391556
   37155610643424536132260038557532223918184328403978`.replace(/\s+/g, "");
 const redEffectCache = {};
-function getRedColorEffect(amount) {
+function getRedColorEffect(amount, applyUpgrades = true) {
 	if (amount == null) {
 		amount = player.red.toNumber();
 	}
@@ -158,10 +158,10 @@ function getRedColorEffect(amount) {
 		return { base: new Decimal(0), multi: new Decimal(1) };
 	}
 
-	const exponent = hasUpgrade("color", 21) ? upgradeEffect("color", 21) : 1;
+	const exponent = hasUpgrade("color", 21) && applyUpgrades ? upgradeEffect("color", 21).add(1) : 1;
 	const digit = parseInt((hasYellowEffect(1) ? tauString : piString).charAt(amount === 1 ? 0 : amount));
 	if (!(amount in redEffectCache)) {
-		const prevEffect = Object.assign({}, getRedColorEffect(amount - 1));
+		const prevEffect = Object.assign({}, getRedColorEffect(amount - 1, false));
 		if (digit === 0) {
 			prevEffect.multi = prevEffect.multi.times(10);
 		} else if (digit === 1) {
@@ -193,6 +193,9 @@ function getBlueColorEffect(amount, applyUpgrades = true) {
 		amount = player.blue;
 	}
 	amount = new Decimal(amount);
+	if (amount.eq(0)) {
+		return new Decimal(0);
+	}
 	amount = amount.times(Decimal.pow(2, amount)).sub(1);
 	if (hasUpgrade("color", 8) && applyUpgrades) {
 		amount = amount.times(upgradeEffect("color", 8));
@@ -247,7 +250,7 @@ function getColorEffectDisplay(color, amount = player[color]) {
 	if (amount.neq(effectDisplayCache[color].amount) || player.points.neq(effectDisplayCache[color].points)) {
 		let getEffectDisplay;
 		if (color === "red") {
-			getEffectDisplay = i => getRedColorEffect(i).display;
+			getEffectDisplay = i => getRedColorEffect(i, false).display;
 		} else if (color === "green") {
 			getEffectDisplay = i => i in layers.color.upgrades ? `Unlocks <b>"${layers.color.upgrades[i].title}"</b> upgrade.` : i in layers.color.buyables ? `Unlocks <b>"${layers.color.buyables[i].title}"</b> buyable.` : Decimal.lt(i, 13) ? "Add a free level to <b>\"Alhazen\"</b>." : Decimal.lt(i, 55) ? "Add a free level to <b>\"Newton\"</b>." : "Add a free level to <b>\"Einstein\".</b>";
 		} else if (color === "blue") {
@@ -263,18 +266,18 @@ function getColorEffectDisplay(color, amount = player[color]) {
 		} else if (color === "cyan") {
 			getEffectDisplay = i => ({
 				1: "Automatically purchase upgrades",
-				2: "Batteries act as if they're being charged for an extra second for each secondary colored light",
+				2: "Batteries act as if they're being charged for an extra quarter second for each secondary colored light",
 				3: "Automatically purchase buyables",
 				4: "Even batteries charge themselves",
 				5: "Odd batteries charge themselves"
 			}[i]);
 		} else if (color === "magenta") {
 			getEffectDisplay = i => ({
-				1: "???",
-				2: "???",
-				3: "???",
-				4: "???",
-				5: "???"
+				1: "Lower goal by 1 level for each magenta light",
+				2: "Divide goal by amount of secondary light",
+				3: "Allow bulk completion of up to 10 light at once",
+				4: "Lower goal by 1 level for each upgrade purchased",
+				5: "Lower goal by 1 level for each battery"
 			}[i]);
 		}
 		let numEffects = player.points;
@@ -284,7 +287,7 @@ function getColorEffectDisplay(color, amount = player[color]) {
 		effectDisplayCache[color] = {
 			amount: amount,
 			points: player.points,
-			display: `<div class="effectDisplay">
+			display: `<div class="effectDisplay ${color}">
 				${new Array(numEffects.toNumber()).fill(0).reduce((acc,curr,i) => acc + `<div style="color: ${amount.gt(i) ? "white" : "grey"};">
 					<span style="width: 40px; display: inline-block;">${i + 1}</span><span>${getEffectDisplay(i + 1)}</span>
 				</div>`, "")}
@@ -326,7 +329,7 @@ function getSecondaryColor(color, component1, component2, requiredLevel, descrip
 	const nextAt = secondaryColor.add(1).pow(2);
 	return ["row", [
 		["bar", color],
-		inChallenge("tree-tab", 1) ? null : ["blank", ["40px", "40px"]],
+		inChallenge("tree-tab", 1) ? "blank" : ["blank", ["40px", "40px"]],
 		["column", [
 			"blank",
 			["display-text", `<div style="text-align: left"><h2 style="color: ${colors[color]};">${color.charAt(0).toUpperCase() + color.slice(1)}</h2><span style="color: grey; margin-left: 8px;">${description}</span></div>`],
@@ -379,16 +382,17 @@ function getSecondaryColorBar(color, component1, component2) {
 addLayer("tree-tab", {
 	tabFormat: () => [
 		["display-text", `You have <h2 class="lightDisplay">${player.points}</h2> light`],
+		player.points.gt(0) ? ["display-text", `You have <h3 class="lightDisplay">${player.points.sub(player.red).sub(player.green).sub(player.blue)}</h2> unspent light<br/>`] : null,
 		"blank",
 		inChallenge("tree-tab", 1) ? null : ["challenge", 1],
 		"blank",
 		/*player.points.eq(0) ? ["blank", [0, "550px"]] : */["row", [
 			getPrimaryColor("red", 1, "improves color energy gain directly"),
 			getPrimaryColor("green", 3, "unlocks various useful upgrades"),
-			getPrimaryColor("blue", 5, "unlocks boosts that require active play"),
+			getPrimaryColor("blue", 5, "unlocks batteries that actively increase base gain"),
 			getSecondaryColor("yellow", "red", "green", 10, "passively increases color gain"),
 			getSecondaryColor("cyan", "green", "blue", 15, "automates mechanics"),
-			getSecondaryColor("magenta", "blue", "red", 20, "???")
+			getSecondaryColor("magenta", "blue", "red", 20, "lowers goal requirements")
 		].filter(x => x !== undefined)],
 		"blank",
 		["milestones-container", [
@@ -401,18 +405,46 @@ addLayer("tree-tab", {
 		1: {
 			name: "Get more color",
 			unlocked: true,
+			completionLimit: 10,
 			fullDisplay() {
+				if (hasMagentaEffect(3) && inChallenge(this.layer, this.id) && this.canComplete()) {
+					const completions = this.canComplete();
+					return `Start gathering color energy to produce a new light<br/><br/>Exit now to get <span style="text-shadow: 0 0 10px white;">${completions}</span> light${completions === 10 ? "" : `<br/>Next at: ${formatWhole(this.goal(player.points.add(completions)))} color energy`}`;
+				}
 				return `Start gathering color energy to produce a new light<br/><br/>Goal: ${formatWhole(this.goal())} color energy`;
 			},
-			goal() {
-				let goal = player.points.add(1).factorial();
+			goal(level) {
+				if (level == null) {
+					level = player.points;
+				}
+				level = level.add(1);
+				if (hasMagentaEffect(1)) {
+					level = level.sub(player.blue.min(player.red).sqrt().floor());
+				}
+				if (hasMagentaEffect(4)) {
+					level = level.sub(player.color.upgrades.length);
+				}
+				if (hasMagentaEffect(5)) {
+					level = level.sub(getNumBatteries());
+				}
+				let goal = softcap(level.max(1), new Decimal(50), new Decimal(2)).factorial();
 				if (hasUpgrade("color", 2)) {
 					goal = goal.div(upgradeEffect("color", 2));
+				}
+				if (hasMagentaEffect(2)) {
+					goal = goal.div(getTotalSecondaryLight());
 				}
 				return goal;
 			},
 			canComplete() {
-				return player.color.points.gte(this.goal());
+				let completions = 0;
+				if (!hasMagentaEffect(3)) {
+					return player.color.points.gte(this.goal());
+				}
+				while (player.color.points.gte(this.goal(player.points.add(completions))) && completions < 10) {
+					completions++;
+				}
+				return completions;
 			},
 			onStart() {
 				layerDataReset("color");
@@ -432,7 +464,7 @@ addLayer("tree-tab", {
 			onComplete() {
 				layerDataReset("color");
 				showTab("none");
-				player.points = player.points.add(1);
+				player.points = player.points.add(player[this.layer].challenges[this.id]);
 				player[this.layer].challenges[this.id] = 0;
 			}
 		}

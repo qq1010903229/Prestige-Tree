@@ -12,15 +12,17 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1",
-	name: "Initial Commit",
+	num: "1.0",
+	name: "Finished Game Jam",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
 	<br><h3>v0.1</h3><br>
-		- Framework and first 5 colors<br>`;
+		- Framework and first 5 colors<br>
+	<br><h3>v1.0</h3><br>
+		- Finished rest of game.<br>`;
 
-let winText = "Congratulations! You have reached the end and beaten this game, but for now...";
+let winText = "Congratulations! You've beaten the game! This was made in a 7 day game jam called IGJ 2021, and has no plans for further content. That said, feel free to see how much light you can get!";
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
