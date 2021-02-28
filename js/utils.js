@@ -374,7 +374,7 @@ function updateMilestones(layer) {
 				layers[layer].milestones[id].onComplete();
 			}
 			if (tmp[layer].milestonePopups || tmp[layer].milestonePopups === undefined) {
-				doPopup("milestone", tmp[layer].milestones[id].requirementDescription, "Milestone Gotten!", 3, tmp[layer].color);
+				doPopup("milestone", tmp[layer].milestones[id].requirementDescription, "Milestone Gotten!", 5, tmp[layer].color);
 			}
 		}
 	}
@@ -388,7 +388,7 @@ function updateAchievements(layer) {
 				layers[layer].achievements[id].onComplete();
 			}
 			if (tmp[layer].achievementPopups || tmp[layer].achievementPopups === undefined) {
-				doPopup("achievement", tmp[layer].achievements[id].name, "Achievement Gotten!", 3, tmp[layer].color);
+				doPopup("achievement", tmp[layer].achievements[id].name, "Achievement Gotten!", 5, tmp[layer].color);
 			}
 		}
 	}
