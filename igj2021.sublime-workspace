@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"getba",
+				"getNumBatteries()\tfn "
+			],
+			[
+				"getSeco",
+				"getTotalSecondaryLight()\tfn "
+			],
+			[
+				"has",
+				"hasMagentaEffect(amount)\tfn "
+			],
+			[
+				"compon",
+				"component2\t? "
+			],
+			[
+				"requ",
+				"requirementDescription"
+			],
+			[
+				"comp",
+				"component2"
+			],
+			[
+				"bat",
+				"batteryGain"
+			],
+			[
+				"re",
+				"redEffectCache\t{} "
+			],
+			[
+				"lastFi",
+				"lastFibResponse\t? "
+			],
+			[
 				"buyabl",
 				"buyableEffect"
 			],
@@ -130,10 +166,6 @@
 			[
 				"de",
 				"decrypt"
-			],
-			[
-				"requ",
-				"requirement"
 			],
 			[
 				"skill",
@@ -482,43 +514,93 @@
 			[
 				"global",
 				"globalSpeedRow"
-			],
-			[
-				"ce",
-				"centerY"
-			],
-			[
-				"cet",
-				"centerX"
-			],
-			[
-				"just",
-				"justSelectedSuggestion"
-			],
-			[
-				"in",
-				"inputField"
-			],
-			[
-				"mess",
-				"messageHeight"
-			],
-			[
-				"end",
-				"endID"
-			],
-			[
-				"mes",
-				"messageHeight"
-			],
-			[
-				"attrib",
-				"attributeId"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "js/mod.js",
+			"settings":
+			{
+				"buffer_size": 2232,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/colors.js",
+			"settings":
+			{
+				"buffer_size": 379,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/tree.js",
+			"settings":
+			{
+				"buffer_size": 18487,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "js/layers/color.js",
+			"settings":
+			{
+				"buffer_size": 14916,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 23 files for \"buymax\"\n\nD:\\projects\\The-Modding-Tree\\js\\Demo\\demoLayers.js:\n   28          softcap: new Decimal(1e100), \n   29          softcapPower: new Decimal(0.5), \n   30:         canBuyMax() {}, // Only needed for static layers with buy max\n   31          gainMult() { // Calculate the multiplier for main currency from bonuses\n   32              mult = new Decimal(1)\n   ..\n  189                      player[this.layer].spentOnBuyables = player[this.layer].spentOnBuyables.add(cost) // This is a built-in system that you can use for respeccing but it only works with a single Decimal value\n  190                  },\n  191:                 buyMax() {}, // You'll have to handle this yourself if you want\n  192                  style: {'height':'222px'},\n  193                  sellOne() {\n  ...\n  386      base: 3,\n  387      roundUpCost: true,\n  388:     canBuyMax() {return hasAchievement('a', 13)},\n  389  \n  390      row: 1,\n  ...\n  401      // The following are only currently used for \"custom\" Prestige type:\n  402      prestigeButtonText() { //Is secretly HTML\n  403:         if (!this.canBuyMax()) return \"Hi! I'm a <u>weird dinosaur</u> and I'll give you a Farm Point in exchange for all of your points and lollipops! (At least \" + formatWhole(tmp[this.layer].nextAt) + \" points)\"\n  404:         if (this.canBuyMax()) return \"Hi! I'm a <u>weird dinosaur</u> and I'll give you <b>\" + formatWhole(tmp[this.layer].resetGain) + \"</b> Farm Points in exchange for all of your points and lollipops! (You'll get another one at \" + formatWhole(tmp[layer].nextAtDisp) + \" points)\"\n  405      },\n  406      getResetGain() {\n\nD:\\projects\\The-Modding-Tree\\js\\game.js:\n   25  \t}\n   26  \tif (type==\"static\") {\n   27: \t\tif ((!tmp[layer].canBuyMax) || tmp[layer].baseAmount.lt(tmp[layer].requires)) {\n   28  \t\t\treturn new Decimal(1);\n   29  \t\t}\n   ..\n   67  \n   68  \tif (type==\"static\") {\n   69: \t\tif (!tmp[layer].canBuyMax) {\n   70  \t\t\tcanMax = false;\n   71  \t\t}\n   ..\n  231  \t\t\t\treturn;\n  232  \t\t\t}\n  233: \t\t\tgain =(tmp[layer].canBuyMax ? gain : 1);\n  234  \t\t}\n  235  \t\tif (tmp[layer].type==\"custom\") {\n\nD:\\projects\\The-Modding-Tree\\js\\Layers\\distill.js:\n    6  \t\t[\"column\", [\n    7  \t\t\t[\"buyable\", instrument],\n    8: \t\t\t[\"display-text\", `<button class=\"smallUpg${layers.distill.buyables[instrument].canAfford() ? \" can\" : \" locked\"}\" style=\"width: 175px; background: ${layers.distill.buyables[instrument].canAfford() ? distillColor : \"#bf8f8f\"}; border-radius: 20px; color: black;\" onClick=\"layers.distill.buyables.${instrument}.buyMax()\">Buy Max</button>`]\n    9  \t\t]],\n   10  \t\t\"blank\",\n   ..\n   31  \t\t\treturn new Decimal(baseCost).times(new Decimal(costExponent).pow(amount));\n   32  \t\t},\n   33: \t\tbuyMax() {\n   34  \t\t\tconst amount = getBuyableAmount(\"distill\", id);\n   35  \t\t\tconst amountAffordable = player.distill.points.times(costExponent.sub(1)).div(new Decimal(baseCost).times(Decimal.pow(costExponent, amount))).add(1).log(costExponent).floor().clamp(0, Decimal.sub(100, amount));\n\nD:\\projects\\The-Modding-Tree\\js\\technical\\temp.js:\n    7  var activeFunctions = [\n    8  \t\"startData\", \"onPrestige\", \"doReset\", \"update\", \"automate\",\n    9: \t\"buy\", \"buyMax\", \"respec\", \"onComplete\", \"onPurchase\", \"onPress\", \"onClick\", \"masterButtonPress\",\n   10  \t\"sellOne\", \"sellAll\", \"pay\",\n   11  ]\n\nD:\\projects\\The-Modding-Tree\\js\\utils.js:\n  161  }\n  162  \n  163: function buyMaxBuyable(layer, id) {\n  164  \tif (!player[layer].unlocked) {\n  165  \t\treturn;\n  ...\n  171  \t\treturn;\n  172  \t}\n  173: \tif (!layers[layer].buyables[id].buyMax) {\n  174  \t\treturn;\n  175  \t}\n  176  \n  177: \trun(layers[layer].buyables[id].buyMax, layers[layer].buyables[id]);\n  178  \tupdateBuyableTemp(layer);\n  179  }\n  ...\n  455  \t\treturn `${player[layer].points.lt(1e3) ? (tmp[layer].resetDescription !== undefined ? tmp[layer].resetDescription : \"Reset for \") : \"\"}+<b>${formatWhole(tmp[layer].resetGain)}</b> ${tmp[layer].resource} ${tmp[layer].resetGain.lt(100) && player[layer].points.lt(1e3) ? `<br><br>Next at ${(tmp[layer].roundUpCost ? formatWhole(tmp[layer].nextAt) : format(tmp[layer].nextAt))} ${tmp[layer].baseResource}` : \"\"}`;\n  456  \t} else if (tmp[layer].type == \"static\") {\n  457: \t\treturn `${tmp[layer].resetDescription !== undefined ? tmp[layer].resetDescription : \"Reset for \"}+<b>${formatWhole(tmp[layer].resetGain)}</b> ${tmp[layer].resource}<br><br>${player[layer].points.lt(30) ? (tmp[layer].baseAmount.gte(tmp[layer].nextAt) && (tmp[layer].canBuyMax !== undefined) && tmp[layer].canBuyMax ? \"Next:\" : \"Req:\") : \"\"} ${formatWhole(tmp[layer].baseAmount)} / ${(tmp[layer].roundUpCost ? formatWhole(tmp[layer].nextAtDisp) : format(tmp[layer].nextAtDisp))} ${tmp[layer].baseResource}\n  458  \t\t`;\n  459  \t} else if (tmp[layer].type == \"none\") {\n\n16 matches across 5 files\n",
+			"settings":
+			{
+				"buffer_size": 4775,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "js/utils.js",
+			"settings":
+			{
+				"buffer_size": 13229,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/game.js",
+			"settings":
+			{
+				"buffer_size": 13912,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 6693,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "style.css",
+			"settings":
+			{
+				"buffer_size": 14797,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -714,30 +796,42 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/D/projects/The-Modding-Tree",
+		"/D/projects/The-Modding-Tree/js",
+		"/D/projects/The-Modding-Tree/js/layers",
+		"/D/projects/The-Modding-Tree/js/technical",
+		"/D/projects/The-Modding-Tree/js/utils"
+	],
 	"file_history":
 	[
-		"/D/projects/The-Modding-Tree/style.css",
 		"/D/projects/The-Modding-Tree/js/components.js",
-		"/D/projects/The-Modding-Tree/js/layers/color.js",
-		"/D/projects/The-Modding-Tree/js/tree.js",
-		"/D/projects/The-Modding-Tree/js/game.js",
-		"/D/projects/The-Modding-Tree/js/utils.js",
 		"/D/projects/The-Modding-Tree/js/technical/systemComponents.js",
+		"/D/projects/The-Modding-Tree/js/Layers/distill.js",
+		"/D/projects/The-Modding-Tree/style.css",
+		"/D/projects/The-Modding-Tree/js/utils.js",
+		"/D/projects/The-Modding-Tree/js/layers/color.js",
+		"/D/projects/The-Modding-Tree/js/game.js",
+		"/D/projects/The-Modding-Tree/index.html",
+		"/D/ownCloud/archive/school/S17/CS 4337/Chapter 3.md",
+		"/D/ownCloud/archive/school/S17/CS 4337/Exam 1.md",
+		"/D/projects/The-Modding-Tree/js/technical/canvas.js",
+		"/D/projects/The-Modding-Tree/js/colors.js",
+		"/D/projects/The-Modding-Tree/js/utils/themes.js",
+		"/D/projects/The-Modding-Tree/igj2021.sublime-project",
+		"/D/projects/The-Modding-Tree/js/tree.js",
 		"/D/projects/The-Modding-Tree/js/mod.js",
 		"/D/projects/The-Modding-Tree/kronos.sublime-project",
 		"/D/projects/The-Modding-Tree/js/Layers/study.js",
 		"/D/projects/The-Modding-Tree/js/Layers/sands.js",
 		"/D/projects/The-Modding-Tree/.git/COMMIT_EDITMSG",
 		"/D/projects/The-Modding-Tree/js/Layers/flowers.js",
-		"/D/projects/The-Modding-Tree/js/colors.js",
-		"/D/projects/The-Modding-Tree/index.html",
-		"/D/projects/The-Modding-Tree/js/utils/themes.js",
 		"/D/projects/The-Modding-Tree/js/utils/NumberFormating.js",
 		"/D/projects/OptiSpeech 2/.git/COMMIT_EDITMSG",
 		"/D/projects/thepaperpilot.github.io/.git/COMMIT_EDITMSG",
 		"/D/projects/The-Modding-Tree/README.md",
 		"/C/Users/thepa/Downloads/SandsOfTime/resources/manifest.lua",
-		"/D/projects/The-Modding-Tree/js/technical/canvas.js",
 		"/D/projects/The-Modding-Tree/.tern-project.",
 		"/D/projects/The-Modding-Tree/js/../package.json",
 		"/D/projects/The-Modding-Tree/js/../.eslintrc.js",
@@ -839,15 +933,11 @@
 		"/C/Users/thepa/Documents/My Games/CORE/Saved/Maps/Testing/Data/Scripts/OpenSkillTreeAbility.lua",
 		"/D/projects/Babble-Buds/client/src/components/panels/BrokenPanel.jsx",
 		"/D/projects/Babble-Buds/client/src/components/stage/Stage.jsx",
-		"/D/projects/Babble-Buds/client/node_modules/babble.js/lib/core/stage.js",
-		"/D/projects/Babble-Buds/client/node_modules/babble.js/lib/core/puppet.js",
-		"/D/projects/Babble-Buds/client/package.json",
-		"/C/Users/thepa/AppData/Local/Temp/Temp1_MyProject1.zip/MyProject1/characters/2.json",
-		"/D/projects/Babble-Buds/client/src/components/editor/Selector.jsx"
+		"/D/projects/Babble-Buds/client/node_modules/babble.js/lib/core/stage.js"
 	],
 	"find":
 	{
-		"height": 30.0
+		"height": 43.0
 	},
 	"find_in_files":
 	{
@@ -865,6 +955,41 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"canAfford",
+			"while",
+			"buyMax",
+			"while",
+			"buymax",
+			"while",
+			"getRedColorEffect",
+			"hasUpgrade(\"color\", 21)",
+			"hasUpgrade(\"color\", 34",
+			"hascyaneffect(2)",
+			"oncompl",
+			"end",
+			"h3",
+			"active: false",
+			"column",
+			"autobuyUpgrades",
+			"autoUpgrade",
+			"hasYellowEffect",
+			"div(5)",
+			"start",
+			"milestone",
+			"getBuyableAmount",
+			"total",
+			"load",
+			"goback",
+			"colors",
+			"{color}",
+			"0",
+			"oncomplete",
+			"hou",
+			"oncomplete",
+			"info-tab",
+			"back",
+			"\"back\"",
+			"startchallenge",
 			"addpoints",
 			"grainsRemaining",
 			"amount",
@@ -930,8 +1055,355 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "js/mod.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2232,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								545,
+								545
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/colors.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 379,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								45,
+								45
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/tree.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18487,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16028,
+								16028
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 7708.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/layers/color.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14916,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4404,
+								4404
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2741.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4775,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										196,
+										202
+									],
+									[
+										654,
+										660
+									],
+									[
+										873,
+										879
+									],
+									[
+										1110,
+										1116
+									],
+									[
+										1331,
+										1337
+									],
+									[
+										1747,
+										1753
+									],
+									[
+										1923,
+										1929
+									],
+									[
+										2038,
+										2044
+									],
+									[
+										2539,
+										2545
+									],
+									[
+										2711,
+										2717
+									],
+									[
+										3168,
+										3174
+									],
+									[
+										3380,
+										3386
+									],
+									[
+										3536,
+										3542
+									],
+									[
+										3620,
+										3626
+									],
+									[
+										4452,
+										4458
+									],
+									[
+										4491,
+										4497
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								2715,
+								2715
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"git_gutter_is_enabled": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 63.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "js/utils.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13229,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3992,
+								4005
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 79.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "js/game.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13912,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10057,
+								10064
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6693,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1938,
+								1941
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 16.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14797,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14594,
+								14594
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 17769.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -995,6 +1467,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"game",
+				"js\\game.js"
+			]
 		],
 		"width": 0.0
 	},

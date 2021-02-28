@@ -60,6 +60,9 @@ function maxColor(color) {
 }
 
 function addColor(color) {
+	if (player.points.sub(player.red).sub(player.green).sub(player.blue).lte(0)) {
+		return;
+	}
 	const newValue = player[color].add(1);
 	if (color === "blue") {
 		new Array(newValue.div(5).ceil().toNumber()).fill(1).forEach((_,i) => {
@@ -74,7 +77,7 @@ function addColor(color) {
 }
 
 function subColor(color) {
-	player[color] = player[color].sub(1);
+	player[color] = player[color].sub(1).max(0);
 }
 
 function minColor(color) {
@@ -401,6 +404,13 @@ addLayer("tree-tab", {
 			["milestone", 6]
 		]]
 	],
+	update() {
+		if (player.points.sub(player.red).sub(player.green).sub(player.blue).lt(0)) {
+			player.red = new Decimal(0);
+			player.green = new Decimal(0);
+			player.blue = new Decimal(0);
+		}
+	},
 	challenges: {
 		1: {
 			name: "Get more color",
