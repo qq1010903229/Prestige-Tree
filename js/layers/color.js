@@ -277,6 +277,7 @@ addLayer("color", {
 				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
 			},
 			buyMax() {
+				/* TODO how to buy max a tetration formula
 				const amount = getBuyableAmount(this.layer, this.id);
 				const costExponent = new Decimal(100);
 				const baseCost = new Decimal(1e21);
@@ -284,6 +285,11 @@ addLayer("color", {
 				const cost = baseCost.times(costExponent.pow(amount).times(costExponent.pow(amountAffordable).sub(1))).div(costExponent.sub(1));
 				player[this.layer].points = player[this.layer].points.sub(cost);
 				setBuyableAmount(this.layer, this.id, amount.add(amountAffordable));
+				*/
+				// Since it tetrates this will hopefully be fine
+				while (this.canAfford()) {
+					this.buy();
+				}
 			},
 			unlocked() {
 				return player.green.gte(this.id);
