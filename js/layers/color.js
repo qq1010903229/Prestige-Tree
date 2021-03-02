@@ -5,7 +5,7 @@ Vue.component("charger", {
 		v-bind:class="{ upg: true, can: true }"
 		v-bind:style="{'background-color': data.color, color: 'white', width: '100px', height: '100px'}"
 		v-on="handlers">
-		<span><h2>Charge Battery</h2><br></span>
+		<span><h2>Hover to Charge Battery</h2><br></span>
 	</button>
 	`,
 	data() {
@@ -17,9 +17,8 @@ Vue.component("charger", {
 			player.color.batteries[index].active = false;
 		};
 		const handlers = {
-			mousedown: touchstart,
+			mouseenter: touchstart,
 			touchstart: touchstart,
-			mouseup: touchend,
 			touchend: touchend,
 			mouseleave: touchend
 		};
