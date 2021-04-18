@@ -264,7 +264,12 @@ function getColorEffectDisplay(color, amount = player[color]) {
 				2: "Battery cap is multiplied by number of <b>\"Alhazen\"</b> levels",
 				3: "Get sqrt(red light) more batteries",
 				4: "Each point of secondary colored light gives a free <b>\"Newton\"</b> level",
-				5: "Color gain effect is multiplied by battery cap"
+				5: "Color gain effect is multiplied by battery cap",
+				6: "Effect of <b>\"Alhazen\"</b> is 2.2x",
+				7: "Double the level of <b>\"Einstein\"</b>",
+				8: "Softcap of <b>\"Alhazen\"</b> starts at Infinity^1.5",
+				9: "No Effect",
+				10: "No Effect"
 			}[i]);
 		} else if (color === "cyan") {
 			getEffectDisplay = i => ({
@@ -272,7 +277,12 @@ function getColorEffectDisplay(color, amount = player[color]) {
 				2: "Batteries act as if they're being charged for an extra quarter second for each secondary colored light",
 				3: "Automatically purchase buyables",
 				4: "Even batteries charge themselves",
-				5: "Odd batteries charge themselves"
+				5: "Odd batteries charge themselves",
+				6: "No Effect",
+				7: "No Effect",
+				8: "No Effect",
+				9: "No Effect",
+				10: "No Effect"
 			}[i]);
 		} else if (color === "magenta") {
 			getEffectDisplay = i => ({
@@ -280,12 +290,17 @@ function getColorEffectDisplay(color, amount = player[color]) {
 				2: "Divide goal by amount of secondary light",
 				3: "Allow bulk completion of up to 10 light at once",
 				4: "Lower goal by 1 level for each upgrade purchased",
-				5: "Lower goal by 1 level for each battery"
+				5: "Lower goal by 1 level for each battery",
+				6: "Lower goal by 3 levels",
+				7: "Allow bulk completion of up to 20 light at once",
+				8: "Allow bulk completion of up to 30 light at once",
+				9: "Allow bulk completion of up to 40 light at once",
+				10: "Allow bulk completion of up to 50 light at once"
 			}[i]);
 		}
 		let numEffects = player.points;
 		if (!(color in player)) {
-			numEffects = numEffects.min(player.points.div(2).sqrt().floor()).min(5);
+			numEffects = numEffects.min(player.points.div(2).sqrt().floor()).min(10);
 		}
 		effectDisplayCache[color] = {
 			amount: amount,
@@ -336,7 +351,7 @@ function getSecondaryColor(color, component1, component2, requiredLevel, descrip
 		["column", [
 			"blank",
 			["display-text", `<div style="text-align: left"><h2 style="color: ${colors[color]};">${color.charAt(0).toUpperCase() + color.slice(1)}</h2><span style="color: grey; margin-left: 8px;">${description}</span></div>`],
-			nextAt.gt(50) ? null : ["display-text", `<div style="text-align: left; color: grey">Next at ${formatWhole(nextAt)} each of ${component1} and ${component2} light</div>`],
+			nextAt.gt(9999) ? null : ["display-text", `<div style="text-align: left; color: grey">Next at ${formatWhole(nextAt)} each of ${component1} and ${component2} light</div>`],
 			"blank",
 			["display-text", getColorEffectDisplay(color, secondaryColor)]
 		]]
@@ -372,7 +387,7 @@ function getSecondaryColorBar(color, component1, component2) {
 			if (amount.eq(0)) {
 				return 0;
 			}
-			return amount.div(player.points.div(2).sqrt().floor().min(5));
+			return amount.div(player.points.div(2).sqrt().floor().min(10));
 		},
 		style: {
 			marginBottom: "16px"
@@ -419,7 +434,7 @@ addLayer("tree-tab", {
 			fullDisplay() {
 				if (hasMagentaEffect(3) && inChallenge(this.layer, this.id) && this.canComplete()) {
 					const completions = this.canComplete();
-					return `Start gathering color energy to produce a new light<br/><br/>Exit now to get <span style="text-shadow: 0 0 10px white;">${completions}</span> light${completions === 10 ? "" : `<br/>Next at: ${formatWhole(this.goal(player.points.add(completions)))} color energy`}`;
+					return `Start gathering color energy to produce a new light<br/><br/>Exit now to get <span style="text-shadow: 0 0 10px white;">${completions}</span> light${`<br/>Next at: ${formatWhole(this.goal(player.points.add(completions)))} color energy`}`;
 				}
 				return `Start gathering color energy to produce a new light<br/><br/>Goal: ${formatWhole(this.goal())} color energy`;
 			},
@@ -437,6 +452,9 @@ addLayer("tree-tab", {
 				if (hasMagentaEffect(5)) {
 					level = level.sub(getNumBatteries());
 				}
+				if (hasMagentaEffect(6)) {
+					level = level.sub(3);
+				}
 				let goal = softcap(level.max(1), new Decimal(50), new Decimal(2)).factorial();
 				if (hasUpgrade("color", 2)) {
 					goal = goal.div(upgradeEffect("color", 2));
@@ -451,7 +469,12 @@ addLayer("tree-tab", {
 				if (!hasMagentaEffect(3)) {
 					return player.color.points.gte(this.goal());
 				}
-				while (player.color.points.gte(this.goal(player.points.add(completions))) && completions < 10) {
+				let maxCompletions = 10;
+				if (hasMagentaEffect(7)) maxCompletions += 10;
+				if (hasMagentaEffect(8)) maxCompletions += 10;
+				if (hasMagentaEffect(9)) maxCompletions += 10;
+				if (hasMagentaEffect(10)) maxCompletions += 10;
+				while (player.color.points.gte(this.goal(player.points.add(completions))) && completions < maxCompletions) {
 					completions++;
 				}
 				return completions;
@@ -525,8 +548,8 @@ addLayer("tree-tab", {
 		},
 		6: {
 			title: "Win the game!",
-			requirementDescription: "69 light",
-			done: () => player.points.gte(69),
+			requirementDescription: "200 light",
+			done: () => player.points.gte(200),
 			unlocked: () => hasMilestone("tree-tab", 5)
 		}
 	}

@@ -1,7 +1,7 @@
 let modInfo = {
-	name: "Lit",
+	name: "Lit+",
 	id: "lit",
-	author: "thepaperpilot",
+	author: "thepaperpilot, qq1010903229",
 	pointsName: "light",
 	discordName: "The Paper Pilot Community Server",
 	discordLink: "https://discord.gg/WzejVAx",
@@ -12,8 +12,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.0",
-	name: "Finished Game Jam",
+	num: "1.1",
+	name: "",
 };
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -22,7 +22,7 @@ let changelog = `<h1>Changelog:</h1><br>
 	<br><h3>v1.0</h3><br>
 		- Finished rest of game.<br>`;
 
-let winText = "Congratulations! You've beaten the game! This was made in a 7 day game jam called IGJ 2021, and has no plans for further content. That said, feel free to see how much light you can get!";
+let winText = "Congratulations! You've beaten the game!";
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -63,7 +63,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(69);
+	return player.points.gte(200);
 }
 
 

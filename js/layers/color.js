@@ -142,7 +142,7 @@ addLayer("color", {
 		"blank",
 		["display-text", `You are collecting <span style="color: ${getCurrentColor()}; text-shadow: ${getCurrentColor()} 0 0 10px">${format(tmp.color.getResetGain)}</span> color energy per second`],
 		"blank",
-		["row", [["upgrade", 1], ["upgrade", 5], ["upgrade", 21]]],
+		["row", [["upgrade", 1], ["upgrade", 5], ["upgrade", 21], ["upgrade", 89]]],
 		["row", [["upgrade", 2], ["upgrade", 8], ["upgrade", 34]]],
 		"blank",
 		["row", [["buyable", 3], ["buyable", 13], ["buyable", 55]]],
@@ -160,7 +160,7 @@ addLayer("color", {
 		3: {
 			title: "Alhazen",
 			display() {
-				return `<br/>Rebuyable. Double color energy gain.<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} color energy`;
+				return `<br/>Rebuyable. Double color energy gain. (softcapped after ${hasYellowEffect(8)?format("2^1536"):format("2^1024")})<br/><br/>Currently: x${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} color energy`;
 			},
 			style: () => ({
 				color: "white"
@@ -171,7 +171,18 @@ addLayer("color", {
 				return new Decimal(100).times(new Decimal(10).pow(amount));
 			},
 			effect() {
-				return new Decimal(2).pow(this.getLevel());
+				effect = new Decimal(2).pow(this.getLevel());
+				if (hasYellowEffect(6)) {
+					effect = new Decimal(2.2).pow(this.getLevel());
+				}
+				if(hasYellowEffect(8)){
+					if(effect.gte("2^1536")){
+						effect = Decimal.pow("2^1536",effect.log("2^1536").sqrt());
+					}
+				}else if(effect.gte("2^1024")){
+					effect = Decimal.pow("2^1024",effect.log("2^1024").sqrt());
+				}
+				return effect;
 			},
 			canAfford() {
 				return player[this.layer].points.gte(this.cost());
@@ -255,7 +266,7 @@ addLayer("color", {
 		55: {
 			title: "Einstein",
 			display() {
-				return `<br/>Rebuyable. Add 0.01 to the color gain exponent.<br/><br/>Currently: ^${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} color energy`;
+				return `<br/>Rebuyable. Add 0.01 to the color gain exponent. (softcapped after ${format(hasUpgrade("color", 89)?1.49:1.36)})<br/><br/>Currently: ^${format(this.effect())}<br/><br/>Cost: ${format(this.cost())} color energy`;
 			},
 			style: () => ({
 				color: "white"
@@ -266,7 +277,23 @@ addLayer("color", {
 				return new Decimal(1e21).tetrate(amount.div(100).add(1));
 			},
 			effect() {
-				return this.getLevel().times(0.01).add(1);
+				let effect=this.getLevel();
+				if (hasUpgrade("color", 89)){
+					if(effect.gte(49))effect=effect.pow(0.5).times(7);
+				} else {
+					if(effect.gte(36))effect=effect.pow(0.5).times(6);
+				}
+				if (hasUpgrade("color", 89)){
+					if(effect.gte(49*1.5))effect=effect.pow(0.5).times(7*Math.sqrt(1.5));
+				} else {
+					if(effect.gte(36*1.5))effect=effect.pow(0.5).times(6*Math.sqrt(1.5));
+				}
+				if (hasUpgrade("color", 89)){
+					if(effect.gte(49*2))effect=effect.pow(0.5).times(7*Math.sqrt(2));
+				} else {
+					if(effect.gte(36*2))effect=effect.pow(0.5).times(6*Math.sqrt(2));
+				}
+				return effect.mul(0.01).add(1);
 			},
 			canAfford() {
 				return player[this.layer].points.gte(this.cost());
@@ -295,7 +322,11 @@ addLayer("color", {
 			},
 			getLevel() {
 				let amount = getBuyableAmount(this.layer, this.id);
-				amount = amount.add(Decimal.max(player.green.sub(55), 0));
+				amount = amount.add(Decimal.clamp(player.green.sub(55), 0, 33));
+				amount = amount.add(Decimal.max(player.green.sub(89), 0));
+				if (hasYellowEffect(7)) {
+					amount = amount.mul(2);
+				}
 				return amount;
 			}
 		},
@@ -389,6 +420,18 @@ addLayer("color", {
 			title: "Special Relativity",
 			description: "<br/>Each buyable gives free levels to the previous buyable.",
 			cost: new Decimal(1e18),
+			style: () => ({
+				color: "white"
+			}),
+			color: () => getCurrentColor(.5),
+			unlocked() {
+				return player.green.gte(this.id);
+			}
+		},
+		89: {
+			title: "Softcap theory",
+			description: "<br/>\"Einstein\"'s softcap starts later (1.36 -> 1.49)",
+			cost: new Decimal("1e600"),
 			style: () => ({
 				color: "white"
 			}),
