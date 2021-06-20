@@ -120,13 +120,17 @@ addLayer("color", {
 					buyUpg(this.layer, id);
 				}
 			}
-			if (hasCyanEffect(3)) {
+			if (hasCyanEffect(8)) {
 				for (id in layers[this.layer].buyables) {
-					/*
 					if (layers[this.layer].buyables[id].buyMax) {
 						layers[this.layer].buyables[id].buyMax();
 					}
-					*/
+					if (isPlainObject(tmp[this.layer].buyables[id]) && (layers[this.layer].buyables[id].canAfford === undefined || layers[this.layer].buyables[id].canAfford() === true)) {
+						buyBuyable(this.layer, id);
+					}
+				}
+			}else if (hasCyanEffect(3)) {
+				for (id in layers[this.layer].buyables) {
 					if (isPlainObject(tmp[this.layer].buyables[id]) && (layers[this.layer].buyables[id].canAfford === undefined || layers[this.layer].buyables[id].canAfford() === true)) {
 						buyBuyable(this.layer, id);
 					}
@@ -143,7 +147,7 @@ addLayer("color", {
 		["display-text", `You are collecting <span style="color: ${getCurrentColor()}; text-shadow: ${getCurrentColor()} 0 0 10px">${format(tmp.color.getResetGain)}</span> color energy per second`],
 		"blank",
 		["row", [["upgrade", 1], ["upgrade", 5], ["upgrade", 21], ["upgrade", 89]]],
-		["row", [["upgrade", 2], ["upgrade", 8], ["upgrade", 34]]],
+		["row", [["upgrade", 2], ["upgrade", 8], ["upgrade", 34], ["upgrade", 144]]],
 		"blank",
 		["row", [["buyable", 3], ["buyable", 13], ["buyable", 55]]],
 		["row", [["buyMax", 3], ["buyMax", 13], ["buyMax", 55]]],
@@ -188,7 +192,7 @@ addLayer("color", {
 				return player[this.layer].points.gte(this.cost());
 			},
 			buy() {
-				player[this.layer].points = player[this.layer].points.sub(this.cost());
+				if (!hasCyanEffect(6))player[this.layer].points = player[this.layer].points.sub(this.cost());
 				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
 			},
 			buyMax() {
@@ -197,7 +201,7 @@ addLayer("color", {
 				const baseCost = new Decimal(100);
 				const amountAffordable = player[this.layer].points.times(costExponent.sub(1)).div(new Decimal(baseCost).times(Decimal.pow(costExponent, amount))).add(1).log(costExponent).floor();
 				const cost = baseCost.times(costExponent.pow(amount).times(costExponent.pow(amountAffordable).sub(1))).div(costExponent.sub(1));
-				player[this.layer].points = player[this.layer].points.sub(cost);
+				if (!hasCyanEffect(6))player[this.layer].points = player[this.layer].points.sub(cost);
 				setBuyableAmount(this.layer, this.id, amount.add(amountAffordable));
 			},
 			unlocked() {
@@ -234,7 +238,7 @@ addLayer("color", {
 				return player[this.layer].points.gte(this.cost());
 			},
 			buy() {
-				player[this.layer].points = player[this.layer].points.sub(this.cost());
+				if (!hasCyanEffect(6))player[this.layer].points = player[this.layer].points.sub(this.cost());
 				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
 			},
 			buyMax() {
@@ -243,7 +247,7 @@ addLayer("color", {
 				const baseCost = new Decimal(1000);
 				const amountAffordable = player[this.layer].points.times(costExponent.sub(1)).div(new Decimal(baseCost).times(Decimal.pow(costExponent, amount))).add(1).log(costExponent).floor();
 				const cost = baseCost.times(costExponent.pow(amount).times(costExponent.pow(amountAffordable).sub(1))).div(costExponent.sub(1));
-				player[this.layer].points = player[this.layer].points.sub(cost);
+				if (!hasCyanEffect(6))player[this.layer].points = player[this.layer].points.sub(cost);
 				setBuyableAmount(this.layer, this.id, amount.add(amountAffordable));
 			},
 			unlocked() {
@@ -299,7 +303,7 @@ addLayer("color", {
 				return player[this.layer].points.gte(this.cost());
 			},
 			buy() {
-				player[this.layer].points = player[this.layer].points.sub(this.cost());
+				if (!hasCyanEffect(6))player[this.layer].points = player[this.layer].points.sub(this.cost());
 				setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1));
 			},
 			buyMax() {
@@ -323,9 +327,13 @@ addLayer("color", {
 			getLevel() {
 				let amount = getBuyableAmount(this.layer, this.id);
 				amount = amount.add(Decimal.clamp(player.green.sub(55), 0, 33));
-				amount = amount.add(Decimal.max(player.green.sub(89), 0));
+				amount = amount.add(Decimal.clamp(player.green.sub(89), 0, 54));
+				amount = amount.add(Decimal.max(player.green.sub(144), 0));
 				if (hasYellowEffect(7)) {
 					amount = amount.mul(2);
+				}
+				if (hasUpgrade("color", 144)) {
+					amount = amount.mul(upgradeEffect("color", 144));
 				}
 				return amount;
 			}
@@ -364,7 +372,12 @@ addLayer("color", {
 		},
 		5: {
 			title: "Wave Theory",
-			description: "<br/>Color energy gain is multiplied by 5 raised to the amount of unspent light + 1",
+			description(){ 
+				if(hasYellowEffect(10)){
+					return "<br/>Color energy gain is multiplied by "+format(Decimal.pow(player.color.resetTime,10).add(5))+" raised to the amount of unspent light + 1";
+				}
+				return "<br/>Color energy gain is multiplied by 5 raised to the amount of unspent light + 1";
+			},
 			cost: new Decimal(1e6),
 			style: () => ({
 				color: "white"
@@ -374,6 +387,9 @@ addLayer("color", {
 				return player.green.gte(this.id);
 			},
 			effect() {
+				if(hasYellowEffect(10)){
+					return Decimal.pow(Decimal.pow(player.color.resetTime,10).add(5), player.points.sub(player.red).sub(player.green).sub(player.blue).add(1));
+				}
 				return Decimal.pow(5, player.points.sub(player.red).sub(player.green).sub(player.blue).add(1));
 			},
 			effectDisplay() {
@@ -392,6 +408,9 @@ addLayer("color", {
 				return player.green.gte(this.id);
 			},
 			effect() {
+				if(hasYellowEffect(9)){
+					return new Decimal(player.color.resetTime).max(1).pow(Decimal.pow(player.color.resetTime,0.75));
+				}
 				return new Decimal(player.color.resetTime).max(1);
 			},
 			effectDisplay() {
@@ -438,6 +457,24 @@ addLayer("color", {
 			color: () => getCurrentColor(.5),
 			unlocked() {
 				return player.green.gte(this.id);
+			}
+		},
+		144: {
+			title: "E=m*c^2",
+			description: "<br/>\"Einstein\"'s level is boosted by its bought level.",
+			cost: new Decimal("1e1000"),
+			style: () => ({
+				color: "white"
+			}),
+			color: () => getCurrentColor(.5),
+			unlocked() {
+				return player.green.gte(this.id);
+			},
+			effect() {
+				return getBuyableAmount("color", 55).add(1);
+			},
+			effectDisplay() {
+				return `x${format(this.effect())}`;
 			}
 		}
 	}

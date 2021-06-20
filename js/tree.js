@@ -265,11 +265,11 @@ function getColorEffectDisplay(color, amount = player[color]) {
 				3: "Get sqrt(red light) more batteries",
 				4: "Each point of secondary colored light gives a free <b>\"Newton\"</b> level",
 				5: "Color gain effect is multiplied by battery cap",
-				6: "Effect of <b>\"Alhazen\"</b> is 2.2x",
+				6: "Base effect of <b>\"Alhazen\"</b> is 2.2, instead of 2",
 				7: "Double the level of <b>\"Einstein\"</b>",
 				8: "Softcap of <b>\"Alhazen\"</b> starts at Infinity^1.5",
-				9: "No Effect",
-				10: "No Effect"
+				9: "\"Emission theory\"'s effect is powered by itself^0.75",
+				10: "\"Wave Theory\"'s base is increased based on time spent in challenge"
 			}[i]);
 		} else if (color === "cyan") {
 			getEffectDisplay = i => ({
@@ -278,11 +278,11 @@ function getColorEffectDisplay(color, amount = player[color]) {
 				3: "Automatically purchase buyables",
 				4: "Even batteries charge themselves",
 				5: "Odd batteries charge themselves",
-				6: "No Effect",
+				6: "Purchasing buyables doesn't cost any color energy",
 				7: "No Effect",
-				8: "No Effect",
+				8: "Automatically purchase max buyables",
 				9: "No Effect",
-				10: "No Effect"
+				10: "Automatically get light"
 			}[i]);
 		} else if (color === "magenta") {
 			getEffectDisplay = i => ({
@@ -300,7 +300,9 @@ function getColorEffectDisplay(color, amount = player[color]) {
 		}
 		let numEffects = player.points;
 		if (!(color in player)) {
-			numEffects = numEffects.min(player.points.div(2).sqrt().floor()).min(10);
+			numEffects = numEffects.min(player.points.div(2).sqrt().floor());
+			if (color !== "yellow")numEffects = numEffects.min(10);
+			else numEffects = numEffects.min(10);
 		}
 		effectDisplayCache[color] = {
 			amount: amount,
@@ -387,7 +389,7 @@ function getSecondaryColorBar(color, component1, component2) {
 			if (amount.eq(0)) {
 				return 0;
 			}
-			return amount.div(player.points.div(2).sqrt().floor().min(10));
+			return amount.div(player.points.div(2).sqrt().floor());
 		},
 		style: {
 			marginBottom: "16px"
@@ -430,7 +432,7 @@ addLayer("tree-tab", {
 		1: {
 			name: "Get more color",
 			unlocked: true,
-			completionLimit: 10,
+			completionLimit: 50,
 			fullDisplay() {
 				if (hasMagentaEffect(3) && inChallenge(this.layer, this.id) && this.canComplete()) {
 					const completions = this.canComplete();
@@ -455,7 +457,12 @@ addLayer("tree-tab", {
 				if (hasMagentaEffect(6)) {
 					level = level.sub(3);
 				}
-				let goal = softcap(level.max(1), new Decimal(50), new Decimal(2)).factorial();
+				level = softcap(level.max(1), new Decimal(50), new Decimal(2));
+				level = softcap(level.max(1), new Decimal(800), new Decimal(2));
+				level = softcap(level.max(1), new Decimal(4000), new Decimal(2));
+				level = softcap(level.max(1), new Decimal(40000), new Decimal(2));
+				level = softcap(level.max(1), new Decimal(1500000), new Decimal(2));
+				let goal = level.factorial();
 				if (hasUpgrade("color", 2)) {
 					goal = goal.div(upgradeEffect("color", 2));
 				}
@@ -465,6 +472,9 @@ addLayer("tree-tab", {
 				return goal;
 			},
 			canComplete() {
+				if (hasCyanEffect(10)){
+					if (player.color.points.gte(this.goal()))player.points = player.points.add(1);
+				}
 				let completions = 0;
 				if (!hasMagentaEffect(3)) {
 					return player.color.points.gte(this.goal());
@@ -548,8 +558,8 @@ addLayer("tree-tab", {
 		},
 		6: {
 			title: "Win the game!",
-			requirementDescription: "200 light",
-			done: () => player.points.gte(200),
+			requirementDescription: "300 light",
+			done: () => player.points.gte(300),
 			unlocked: () => hasMilestone("tree-tab", 5)
 		}
 	}
